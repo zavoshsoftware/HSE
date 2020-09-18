@@ -79,5 +79,6 @@ namespace Models
         public DbSet<AccidentTypeRelAccident> AccidentTypeRelAccidents { get; set; }
         public DbSet<AccidentReport> AccidentReports { get; set; }
         public DbSet<AccidentReportRelAccident> AccidentReportRelAccidents { get; set; }
+        public DbSet<HsePlan> HsePlans { get; set; }
     }
 }

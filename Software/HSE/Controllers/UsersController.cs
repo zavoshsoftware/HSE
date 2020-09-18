@@ -18,10 +18,35 @@ namespace HSE.Controllers
         private DatabaseContext db = new DatabaseContext();
 
         // GET: Users
-        public ActionResult Index()
+       // public ActionResult Index(Guid id)
+        //{
+            //List<User> user = db.HsePlans.Include(h => h.Company)
+            //    .Where(h => h.CompanyId == id && h.IsDeleted == false)
+            //    .OrderByDescending(h => h.CreationDate).Include(h => h.User).ToList();
+
+            //return View(hsePlans.ToList());
+        //}
+
+
+        public ActionResult List()
         {
-            var users = db.Users.Include(u => u.Role).Where(u=>u.IsDeleted==false).OrderByDescending(u=>u.CreationDate);
-            return View(users.ToList());
+            List<Company> companies = db.Companies.Where(c => c.IsDeleted == false && c.IsActive == true).ToList();
+
+            return View(companies);
+        }
+
+        public ActionResult ListSupervisor()
+        {
+            var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
+            string id = identity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
+
+
+            Guid userId = new Guid(id);
+
+            List<Company> companies = db.Companies
+                .Where(c => c.SupervisorUserId == userId && c.IsDeleted == false && c.IsActive).ToList();
+
+            return View(companies);
         }
 
         // GET: Users/Details/5
@@ -138,6 +163,26 @@ namespace HSE.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+
+        public string UpdateCompanyUsers()
+        {
+            List<CompanyUser> companyUsers = db.CompanyUsers.ToList();
+
+            foreach (CompanyUser companyUser in companyUsers)
+            {
+                User user = db.Users.Find(companyUser.UserId);
+
+                if (user != null)
+                {
+                    user.CompanyId = companyUser.CompanyId;
+                    user.LastModifiedDate = DateTime.Now;
+                }
+            }
+
+            db.SaveChanges();
+            return String.Empty;
         }
     }
 }

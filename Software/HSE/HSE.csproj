@@ -839,10 +839,6 @@
     <Content Include="Views\Companies\Details.cshtml" />
     <Content Include="Views\Companies\Edit.cshtml" />
     <Content Include="Views\Companies\Index.cshtml" />
-    <Content Include="Views\CompanyUsers\Create.cshtml" />
-    <Content Include="Views\CompanyUsers\Delete.cshtml" />
-    <Content Include="Views\CompanyUsers\Edit.cshtml" />
-    <Content Include="Views\CompanyUsers\Index.cshtml" />
     <Content Include="Views\Anomalies\Create.cshtml" />
     <Content Include="Views\Anomalies\Delete.cshtml" />
     <Content Include="Views\Anomalies\Details.cshtml" />
@@ -900,10 +896,10 @@
     <Compile Include="Controllers\AnomalyResultsController.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
     <Compile Include="Controllers\CompanyStatusReportsController.cs" />
-    <Compile Include="Controllers\CompanyUsersController.cs" />
     <Compile Include="Controllers\ContractRquirmentsController.cs" />
     <Compile Include="Controllers\ConvertorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HsePlansController.cs" />
     <Compile Include="Controllers\OperationsController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
@@ -1059,6 +1055,18 @@
     <Compile Include="Migrations\202008261117027_V32.designer.cs">
       <DependentUpon>202008261117027_V32.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202009181427455_V33.cs" />
+    <Compile Include="Migrations\202009181427455_V33.designer.cs">
+      <DependentUpon>202009181427455_V33.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202009181514331_V34.cs" />
+    <Compile Include="Migrations\202009181514331_V34.designer.cs">
+      <DependentUpon>202009181514331_V34.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202009181538155_V35.cs" />
+    <Compile Include="Migrations\202009181538155_V35.designer.cs">
+      <DependentUpon>202009181538155_V35.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DatabaseContext.cs" />
     <Compile Include="Models\DatabaseContextInitializer.cs" />
@@ -1080,10 +1088,13 @@
     <Compile Include="Models\Entities\AccidentReasonAction.cs" />
     <Compile Include="Models\Entities\AccidentEmployeeType.cs" />
     <Compile Include="Models\Entities\CompanyStatusReport.cs" />
+    <Compile Include="Models\Entities\CompanyUser.cs" />
+    <Compile Include="Models\Entities\HsePlan.cs" />
     <Compile Include="Models\Entities\RiskControlingWork.cs" />
     <Compile Include="Models\Entities\RiskMatris.cs" />
     <Compile Include="Models\Entities\RiskStatus.cs" />
     <Compile Include="Models\Entities\TempTable.cs" />
+    <Compile Include="Models\Entities\UserJobRate.cs" />
     <Compile Include="Models\Entities\UserStage.cs" />
     <Compile Include="Models\Entities\UserRisk.cs" />
     <Compile Include="Models\Entities\RiskCalculator.cs" />
@@ -1097,7 +1108,6 @@
     <Compile Include="Models\Entities\Anomaly.cs" />
     <Compile Include="Models\Entities\BaseEntity.cs" />
     <Compile Include="Models\Entities\Company.cs" />
-    <Compile Include="Models\Entities\CompanyUser.cs" />
     <Compile Include="Models\Entities\ContractRquirment.cs" />
     <Compile Include="Models\Entities\Act.cs" />
     <Compile Include="Models\Entities\Operation.cs" />
@@ -1389,6 +1399,17 @@
     <Content Include="Views\AccidentReports\Details.cshtml" />
     <Content Include="Views\AccidentReports\Edit.cshtml" />
     <Content Include="Views\AccidentReports\Index.cshtml" />
+    <Content Include="Views\HsePlans\Create.cshtml" />
+    <Content Include="Views\HsePlans\Delete.cshtml" />
+    <Content Include="Views\HsePlans\Details.cshtml" />
+    <Content Include="Views\HsePlans\Edit.cshtml" />
+    <Content Include="Views\HsePlans\Index.cshtml" />
+    <Content Include="Views\HsePlans\IndexCompany.cshtml" />
+    <Content Include="Views\HsePlans\List.cshtml" />
+    <Content Include="Views\HsePlans\ListSupervisor.cshtml" />
+    <Content Include="Views\HsePlans\SupervisorComment.cshtml" />
+    <Content Include="Views\Users\List.cshtml" />
+    <Content Include="Views\Users\ListSupervisor.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1401,6 +1422,7 @@
     <Folder Include="Uploads\anomaly\" />
     <Folder Include="Uploads\companyContract\" />
     <Folder Include="Uploads\companyStatusReport\" />
+    <Folder Include="Uploads\hsePlans\" />
     <Folder Include="Uploads\reports\" />
     <Folder Include="Views\Convertor\" />
     <Folder Include="Views\Home\" />
@@ -1507,6 +1529,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008261117027_V32.resx">
       <DependentUpon>202008261117027_V32.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009181427455_V33.resx">
+      <DependentUpon>202009181427455_V33.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009181514331_V34.resx">
+      <DependentUpon>202009181514331_V34.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009181538155_V35.resx">
+      <DependentUpon>202009181538155_V35.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

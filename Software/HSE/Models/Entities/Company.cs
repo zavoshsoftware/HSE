@@ -16,6 +16,7 @@ namespace Models
             Reports=new List<Report>();
             ContractRquirments=new List<ContractRquirment>();
             CompanyStatusReports=new List<CompanyStatusReport>();
+            Users=new List<User>();
         }
         [Display(Name="نام شرکت پیمانکار")]
         public string Title { get; set; }
@@ -35,6 +36,7 @@ namespace Models
         public virtual ICollection<Report> Reports { get; set; }
         public virtual ICollection<ContractRquirment> ContractRquirments { get; set; }
         public virtual ICollection<CompanyStatusReport> CompanyStatusReports { get; set; }
+        public virtual ICollection<User> Users { get; set; }
 
         [Display(Name = "فایل مفاد پیمان")]
         public string ContractItemFileUrl { get; set; }

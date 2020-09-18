@@ -53,13 +53,28 @@ namespace Models
         public virtual ICollection<UserStage> UserStages { get; set; }
         public virtual ICollection<Accident> Accidents { get; set; }
 
+        [Display(Name="رده شغلی")]
+        public Guid? UserJobRateId { get; set; }
+        public virtual UserJobRate UserJobRate { get; set; }
+
+        [Display(Name="مدرک تحصیلی")]
+        public string Degree { get; set; }
+
+        [Display(Name="رزومه")]
+        public string ResumeFileUrl { get; set; }
+
         internal class configuration : EntityTypeConfiguration<User>
         {
             public configuration()
             {
                 HasRequired(p => p.Role).WithMany(j => j.Users).HasForeignKey(p => p.RoleId);
+                HasOptional(p => p.UserJobRate).WithMany(j => j.Users).HasForeignKey(p => p.UserJobRateId);
+                HasOptional(p => p.Company).WithMany(j => j.Users).HasForeignKey(p => p.CompanyId);
             }
         }
+
+        public Guid? CompanyId { get; set; }
+        public virtual Company Company { get; set; }
     }
 }
 
