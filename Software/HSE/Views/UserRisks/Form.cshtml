@@ -1,0 +1,116 @@
+﻿@model ViewModels.UserRiskFormViewModel
+@{
+		ViewBag.Title = "Form";
+}
+
+<div class="panel panel-primary">
+	<div class="panel-heading">ارزیابی ریسک</div>
+	<div class="panel-body">
+		<div class="form-horizontal">
+			@Html.ValidationSummary(true)
+			
+			
+			
+			<div class="panel panel-default">	
+				<div class="panel panel-heading">ثبت شدت و احتمال وقوع ریسک</div>
+				<div class="panel panel-body">	
+			<div class="form-group">
+				<div class="form-group">
+					<label class="control-label col-md-2">پروژه</label>
+					<div class="col-md-10">
+						<select id="ddlProjects" class="form-control">
+							<option value="0">انتخاب پروژه</option>
+
+							@foreach (var project in Model.Projects)
+							{
+								<option value="@project.Id">@project.Title</option>
+
+							}
+						</select>
+					</div>
+				</div>
+
+
+
+				<div class="form-group">
+					<label class="control-label col-md-2">عملیات</label>
+					<div class="col-md-10">
+						<select id="ddlOperation" class="form-control">
+							<option value="0">انتخاب عملیات</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-md-2">فعالیت</label>
+					<div class="col-md-10">
+						<select id="ddlAct" class="form-control">
+							<option value="0">انتخاب فعالیت</option>
+						</select>
+						
+						@*<div class="alert alert-info" Id="actinfoDetail">
+							<label>وسایل حفاظت فردی:</label> <label id="equi"></label>
+							<label>دوره های آموزشی:</label> <label id="course"></label>
+						</div>*@
+					</div>
+				</div>
+
+
+
+				<div class="form-group">
+					<label class="control-label col-md-2">مرحله انجام کار</label>
+					<div class="col-md-10">
+						<select id="ddlStage" class="form-control">
+							<option value="0">انتخاب انجام کار</option>
+						</select>
+					</div>
+				</div>
+
+			
+			</div>
+			</div>
+			</div>
+			
+			<div class="panel panel-default" id="rsik-panel">	
+				<div class="panel panel-heading">ثبت شدت و احتمال وقوع ریسک</div>
+				<div class="panel panel-body">	
+					<div class="alert alert-danger" id="errorDiv"></div>
+					<div class="alert alert-success" id="successDiv">اطلاعات با موفقیت ثبت گردید.</div>
+					<table class="table table-bordered table-responsive">
+						<thead>
+						<tr>
+							<th>ردیف</th>
+							<th>کد ریسک</th>
+							<th>ریسک</th>
+							<th>احتمال وقوع   <i class="fa fa-question-circle"  data-toggle="tooltip" data-html="true" title="@Model.ProbDesc"></i> </th>
+							<th>شدت وقوع  <i class="fa fa-question-circle" data-toggle="tooltip" data-html="true" title="@Model.IntenDesc"></i></th>
+							<th>عدد ریسک</th>
+						</tr>
+						</thead>
+						<tbody id="risk-table" >
+					 
+						</tbody>
+					</table>
+					
+					<button class="btn btn-success" id="btn-calculate" onclick="CalculateRisk();">محاسبه ریسک</button>
+					<button class="btn btn-success" id="btn-submit" onclick="SubmitRisk();">ثبت ریسک</button>
+
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+
+
+
+
+@section scripts{
+	<script>
+		$(document).ready(function(){
+			$('[data-toggle="tooltip"]').tooltip();   
+		});
+
+	
+
+	</script>
+}

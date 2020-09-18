@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Models.Company>
+
+@{
+ViewBag.Title = "فهرست شرکت های پیمانکار";
+    
+}
+
+<h2>@ViewBag.Title</h2>
+
+        @(Html.Kendo().Grid(Model)
+									.Name("Grid")
+									.Columns(columns =>
+									{
+									columns.Bound(model => model.Title);
+									columns.Bound(model => model.SupervisorUser.FullName).Title("نام ناظر");
+									columns.Bound(model => model.IsActive);
+									columns.Bound(model => model.CreationDate);
+									columns.Bound(item => @item.Id).Title("دستورات").Filterable(false).Groupable(false)
+									.Template(@<text>
+									@Html.ActionLink("ویرایش", "Edit", new {id = @item.Id}, new {@class = "k-button"})
+									@Html.ActionLink("حذف", "Delete", new {id = @item.Id}, new {@class = "k-button"})
+									@Html.ActionLink("مدیریت کاربران شرکت پیمانکار", "index","CompanyUsers", new {id = @item.Id}, new {@class = "k-button"})
+									@Html.ActionLink("مدیریت صورت وضعیت های HSE پیمانکار", "index","CompanyStatusReports", new {id = @item.Id}, new {@class = "k-button"})
+									</text>).Width(200);  
+		})
+		.ToolBar(toolbar =>
+					{				
+						toolbar.Custom().Action("Create","Companies").Text("افزودن");                          
+					}
+		)         
+		.DataSource(dataSource => dataSource
+									.Server()
+							
+									.Model(model => model.Id(item => item.Id))
+					)              
+	)

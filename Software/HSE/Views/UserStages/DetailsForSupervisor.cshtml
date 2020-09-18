@@ -1,0 +1,113 @@
+﻿@model ViewModels.UserStageDetailsViewModel
+
+@{
+		ViewBag.Title = "Details";
+}
+
+
+<div class="panel panel-primary">
+	<div class="panel-heading">مشخصات پروژه</div>
+	<div class="panel-body">
+
+
+		<div class="row">
+			<div class="col-md-6 riskDetail">
+				<div class="row">
+					<div class="col-md-4">عنوان پروژه</div>
+					<div class="col-md-8">@Model.UserStageListViewModel.ProjectTitle</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4">عنوان عملیات</div>
+					<div class="col-md-8">@Model.UserStageListViewModel.OperationTitle</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4">عنوان فعالیت</div>
+					<div class="col-md-8">@Model.UserStageListViewModel.ActTitle</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4">عنوان مرحله</div>
+					<div class="col-md-8">@Model.UserStageListViewModel.StageTitle</div>
+				</div>
+			</div>
+			<div class="col-md-6 riskDetail">
+
+
+				<div class="row">
+					<div class="col-md-4">وضعیت</div>
+					<div class="col-md-8">@Model.UserStageListViewModel.StatusTitle</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4">زمان ثبت اطلاعات</div>
+					<div class="col-md-8">@Model.SubmitDate</div>
+				</div>
+
+			</div>
+		</div>
+
+
+
+
+
+		<div class="panel panel-primary">
+			<div class="panel-heading">ریسک های ارزیابی شده</div>
+			<div class="panel-body">
+
+				<table class="table table-bordered table-responsive">
+					<thead>
+						<tr>
+							<th>ردیف</th>
+							<th>کد ریسک</th>
+							<th>ریسک</th>
+							<th>احتمال وقوع   <i class="fa fa-question-circle" data-toggle="tooltip" data-html="true" title="@Model.ProbDesc"></i> </th>
+							<th>شدت وقوع  <i class="fa fa-question-circle" data-toggle="tooltip" data-html="true" title="@Model.IntenDesc"></i></th>
+							<th>عدد ریسک</th>
+						</tr>
+					</thead>
+					<tbody id="risk-table">
+						@{
+								int j = 1;
+								foreach (var risk in Model.UserRisks)
+								{
+										<tr>
+											<td>@j</td>
+											<td>@risk.Risk.Code</td>
+											<td>@risk.Risk.Title</td>
+											<td>@risk.RiskProbability.Title</td>
+											<td>@risk.RiskIntensity.Title</td>
+											<td>@risk.RiskNumber - @risk.RiskDescription</td>
+										</tr>
+
+									j++;
+								}
+						}
+					</tbody>
+				</table>
+
+
+
+
+
+			 
+								 @using (Html.BeginForm())
+								{
+										@Html.AntiForgeryToken()
+
+										<div class="form-group" id="buttons">
+											<div class="col-md-offset-2 col-md-10">
+												
+												<button name="submitButton" class="mb-2 mr-2 btn btn-primary" value="accept" type="submit">تایید ریسک های وراد شده</button>
+												<button name="submitButton" class="mb-2 mr-2 btn btn-danger" value="reject">رد ریسک های وراد شده</button>
+
+											</div>
+										</div>
+								}
+			 
+
+			</div>
+		</div>
+	</div>
+</div>

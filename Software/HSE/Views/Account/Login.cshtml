@@ -1,0 +1,68 @@
+﻿
+@model ViewModels.LoginViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="en" class="bg-dark">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ورود</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<link href="~/Content/Admin/app.v2.css" rel="stylesheet" />
+	<link href="~/Content/Admin/Style-RTL.css" rel="stylesheet" />
+</head>
+<body>
+    <section id="content" class="m-t-lg wrapper-md animated fadeInUp">
+	    <div class="container aside-xxl">
+
+		    <a class="navbar-brand block" href="/" style="direction: rtl">نرم افزار HSE شرکت مهندسی و توسعه نفت ایران</a>
+		    <section class="panel panel-default bg-white m-t-lg login">
+			    <header class="panel-heading text-center">
+				    <strong>ورود</strong>
+			    </header>
+
+			    @if (TempData["WrongPass"] != null)
+			    {
+				    <p class="alert alert-danger" id="wrongEmail">@TempData["WrongPass"]</p>
+			    }
+
+			    @using (Html.BeginForm("Login", "Account", new {ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new {@class = "panel-body wrapper-lg", role = "form"}))
+			    {
+				    <img src="~/Content/profile.jpeg" class="img-responsive" />
+
+				    @Html.AntiForgeryToken()
+				    @Html.ValidationSummary(false, "", new {@class = "alert-danger"})
+                    @*@Html.ValidationMessage("invalid", new { @class = "alert-danger" })*@
+				    <div class="form-group">
+					    @*<label class="control-label">تلفن همراه</label>*@
+					    @Html.LabelFor(model => model.Username, new {@class = "control-label"})
+					    @Html.TextBoxFor(m => m.Username, new {@class = "form-control input-lg", @placeholder = Html.DisplayNameFor(model => model.Username)})
+
+				    </div>
+				    <div class="form-group">
+					    @Html.LabelFor(model => model.Password, new {@class = "control-label"})
+					    @Html.PasswordFor(m => m.Password, new {@class = "form-control input-lg", @placeholder = Html.DisplayNameFor(model => model.Password)})
+				    </div>
+
+				    <div class="form-group">
+					    <button type="submit" class="btn btn-primary ">ورود</button>
+				    </div>
+
+			    }
+		    </section>
+	    </div>
+    </section> <!-- footer -->
+    <footer id="footer">
+        <div class="text-center padder">
+            <p>
+            </p>
+        </div>
+    </footer> <!-- / footer -->
+    <script src="~/Scripts/Admin/app.v2.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,261 @@
+﻿@model Models.Accident
+
+@{
+    ViewBag.Title = "حذف " + Server.HtmlDecode(Html.DisplayNameFor(model => model).ToString());
+    Layout = "~/Views/Shared/BackEndLayout/_BackEndLayout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h3>آیا از حذف این مورد اطمینان دارید؟</h3>
+<div>    
+    <hr />
+    <div class="form-horizontal">        
+    
+         <div class="form-group">
+            @Html.LabelFor(model => model.AccidentEmployeeType.Title, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.AccidentEmployeeType.Title)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.FirstName, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.FirstName)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.LastName, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.LastName)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.PersonalNumber, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.PersonalNumber)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.Unit, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Unit)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.Education, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Education)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.Age, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Age)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.Experience, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Experience)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.AccidentDate, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.AccidentDate)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.AccidentTime, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.AccidentTime)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.IsMaried, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.IsMaried)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.WeekDay, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.WeekDay)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.Place, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Place)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.Phone, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Phone)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.Company, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Company)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.Job, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Job)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.ManageName, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.ManageName)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.HospitalTime, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.HospitalTime)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.HospitalName, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.HospitalName)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.NationalCode, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.NationalCode)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.CellNumber, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.CellNumber)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.Address, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Address)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.AccidentDesc, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.AccidentDesc)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.IsAcceptable, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.IsAcceptable)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.UserFullName, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.UserFullName)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.AccidentReasonConditionOther, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.AccidentReasonConditionOther)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.AccidentReasonActionOther, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.AccidentReasonActionOther)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.AccidentPartOther, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.AccidentPartOther)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.AccidentInjuryOther, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.AccidentInjuryOther)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.AccidentTypeOther, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.AccidentTypeOther)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.AccidentAmount, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.AccidentAmount)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.AccidentComplication, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.AccidentComplication)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.AccidentInitialComplication, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.AccidentInitialComplication)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.Actions, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Actions)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.ReapeatAction, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.ReapeatAction)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.IsActive, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.IsActive)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.CreationDate, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.CreationDate)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.LastModifiedDate, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.LastModifiedDate)
+      </div></div>
+
+         <div class="form-group">
+            @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Description)
+      </div></div>
+
+  </div>  
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+       <div class="form-group" id="buttons">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="تایید حذف" class="btn btn-primary" />
+				@Html.ActionLink("بازگشت به فهرست", "Index")
+            </div>
+        </div>
+    }
+</div>

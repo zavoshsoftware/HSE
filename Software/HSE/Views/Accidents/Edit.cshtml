@@ -1,0 +1,680 @@
+﻿@model ViewModels.AccidentViewModel
+
+@{
+		ViewBag.Title = "ویرایش " + Server.HtmlDecode(Html.DisplayNameFor(model => model).ToString());
+		Layout = "~/Views/Shared/BackEndLayout/_BackEndLayout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Edit", "Accidents", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+		@Html.AntiForgeryToken()
+
+		<div class="form-horizontal">
+			<hr />
+			@Html.ValidationSummary(true)
+			@Html.HiddenFor(model => model.Id)
+
+
+
+			<div class="form-group">
+
+				<div class="row">
+					<div class="col-md-6">
+						@Html.LabelFor(model => model.FirstName, new { @class = "control-label col-md-4" })
+						<div class="col-md-8">
+							@Html.EditorFor(model => model.FirstName)
+
+							@Html.ValidationMessageFor(model => model.FirstName)
+						</div>
+					</div>
+					<div class="col-md-6">
+
+						@Html.LabelFor(model => model.LastName, new { @class = "control-label col-md-4" })
+						<div class="col-md-8">
+							@Html.EditorFor(model => model.LastName)
+
+							@Html.ValidationMessageFor(model => model.LastName)
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-6">
+						@Html.LabelFor(model => model.PersonalNumber, new { @class = "control-label col-md-4" })
+						<div class="col-md-8">
+							@Html.EditorFor(model => model.PersonalNumber)
+
+							@Html.ValidationMessageFor(model => model.PersonalNumber)
+						</div>
+					</div>
+
+
+					<div class="col-md-6">
+						@Html.LabelFor(model => model.Unit, new { @class = "control-label col-md-4" })
+						<div class="col-md-8">
+							@Html.EditorFor(model => model.Unit)
+
+							@Html.ValidationMessageFor(model => model.Unit)
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-6">
+						@Html.LabelFor(model => model.Education, new { @class = "control-label col-md-4" })
+						<div class="col-md-8">
+							@Html.EditorFor(model => model.Education)
+
+							@Html.ValidationMessageFor(model => model.Education)
+						</div>
+					</div>
+					<div class="col-md-6">
+						@Html.LabelFor(model => model.Age, new { @class = "control-label col-md-4" })
+						<div class="col-md-8">
+							@Html.EditorFor(model => model.Age)
+
+							@Html.ValidationMessageFor(model => model.Age)
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-6">
+						@Html.LabelFor(model => model.Experience, new { @class = "control-label col-md-4" })
+						<div class="col-md-8">
+							@Html.EditorFor(model => model.Experience)
+
+							@Html.ValidationMessageFor(model => model.Experience)
+						</div>
+					</div>
+					<div class="col-md-6">
+						@Html.LabelFor(model => model.AccidentDate, new { @class = "control-label col-md-4" })
+						<div class="col-md-8">
+							@Html.EditorFor(model => model.AccidentDate)
+
+							@Html.ValidationMessageFor(model => model.AccidentDate)
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-6">
+						@Html.LabelFor(model => model.AccidentTime, new { @class = "control-label col-md-4" })
+						<div class="col-md-8">
+							@Html.EditorFor(model => model.AccidentTime)
+
+							@Html.ValidationMessageFor(model => model.AccidentTime)
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							@Html.LabelFor(model => model.MarriageStatusId, new { @class = "control-label col-md-4" })
+							<div class="col-md-8">
+								@Html.DropDownList("MarriageStatusId", String.Empty)
+								@Html.ValidationMessageFor(model => model.MarriageStatusId)
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-6">
+						@Html.LabelFor(model => model.WeekDay, new { @class = "control-label col-md-4" })
+						<div class="col-md-8">
+							@Html.EditorFor(model => model.WeekDay)
+
+							@Html.ValidationMessageFor(model => model.WeekDay)
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						@Html.LabelFor(model => model.Place, new { @class = "control-label col-md-4" })
+						<div class="col-md-8">
+							@Html.EditorFor(model => model.Place)
+
+							@Html.ValidationMessageFor(model => model.Place)
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-6">
+						@Html.LabelFor(model => model.AccidentEmployeeTypeId, new { @class = "control-label col-md-4" })
+						<div class="col-md-8">
+							@Html.DropDownList("AccidentEmployeeTypeId", String.Empty)
+							@Html.ValidationMessageFor(model => model.AccidentEmployeeTypeId)
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						@Html.LabelFor(model => model.Phone, new { @class = "control-label col-md-4" })
+						<div class="col-md-8">
+							@Html.EditorFor(model => model.Phone)
+
+							@Html.ValidationMessageFor(model => model.Phone)
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+
+				<div class="row">
+					<div class="col-md-6">
+						@Html.LabelFor(model => model.Company, new { @class = "control-label col-md-4" })
+						<div class="col-md-8">
+							@Html.EditorFor(model => model.Company)
+
+							@Html.ValidationMessageFor(model => model.Company)
+						</div>
+					</div>
+					<div class="col-md-6">
+						@Html.LabelFor(model => model.Job, new { @class = "control-label col-md-4" })
+						<div class="col-md-8">
+							@Html.EditorFor(model => model.Job)
+
+							@Html.ValidationMessageFor(model => model.Job)
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-6">
+						@Html.LabelFor(model => model.ManageName, new { @class = "control-label col-md-4" })
+						<div class="col-md-8">
+							@Html.EditorFor(model => model.ManageName)
+
+							@Html.ValidationMessageFor(model => model.ManageName)
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						@Html.LabelFor(model => model.HospitalTime, new { @class = "control-label col-md-4" })
+						<div class="col-md-8">
+							@Html.EditorFor(model => model.HospitalTime)
+
+							@Html.ValidationMessageFor(model => model.HospitalTime)
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-6">
+						@Html.LabelFor(model => model.HospitalName, new { @class = "control-label col-md-4" })
+						<div class="col-md-8">
+							@Html.EditorFor(model => model.HospitalName)
+
+							@Html.ValidationMessageFor(model => model.HospitalName)
+						</div>
+					</div>
+					<div class="col-md-6">
+						@Html.LabelFor(model => model.NationalCode, new { @class = "control-label col-md-4" })
+						<div class="col-md-8">
+							@Html.EditorFor(model => model.NationalCode)
+
+							@Html.ValidationMessageFor(model => model.NationalCode)
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-6">
+						@Html.LabelFor(model => model.CellNumber, new { @class = "control-label col-md-4" })
+						<div class="col-md-8">
+							@Html.EditorFor(model => model.CellNumber)
+
+							@Html.ValidationMessageFor(model => model.CellNumber)
+						</div>
+					</div>
+					<div class="col-md-6">
+						@Html.LabelFor(model => model.Address, new { @class = "control-label col-md-4" })
+						<div class="col-md-8">
+							@Html.EditorFor(model => model.Address)
+
+							@Html.ValidationMessageFor(model => model.Address)
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-12">
+						@Html.LabelFor(model => model.AccidentDesc, new { @class = "control-label col-md-2" })
+						<div class="col-md-10">
+							@Html.EditorFor(model => model.AccidentDesc)
+
+							@Html.ValidationMessageFor(model => model.AccidentDesc)
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							@Html.LabelFor(model => model.UserFullName, new { @class = "control-label col-md-4" })
+							<div class="col-md-8">
+								@Html.EditorFor(model => model.UserFullName)
+
+								@Html.ValidationMessageFor(model => model.UserFullName)
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="col-md-2">
+
+
+						</div>
+						<div class="col-md-8">
+							@Html.EditorFor(model => model.IsAcceptable)
+
+							@Html.ValidationMessageFor(model => model.IsAcceptable)
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					علت وقوع حادثه - اعمال ناایمن
+				</div>
+				<div class="panel-body">
+
+					<div class="form-group">
+						<label class="col-md-2">علت وقوع حادثه - اعمال ناایمن</label>
+						<div class="col-md-10">
+
+							<div class="row">
+
+								@for (int idx = 0; idx < Model.AccidentReasonActions.Count; idx++)
+								{
+										<div class="col-md-3">
+											@Html.HiddenFor(x => Model.AccidentReasonActions[idx].Id)
+											@Html.CheckBoxFor(x => Model.AccidentReasonActions[idx].IsSelected)
+											@Html.DisplayFor(x => Model.AccidentReasonActions[idx].Title)
+											@Html.HiddenFor(x => Model.AccidentReasonActions[idx].Title)
+										</div>
+								}
+
+							</div>
+
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<div class="col-md-2"></div>
+						<div class="col-md-10">
+							@Html.LabelFor(model => model.AccidentReasonActionOther, new { @class = "control-label" })
+
+
+							@Html.EditorFor(model => model.AccidentReasonActionOther)
+
+							@Html.ValidationMessageFor(model => model.AccidentReasonActionOther)
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					علت وقوع حادثه - شرایط ناایمن
+				</div>
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-md-2">علت وقوع حادثه - شرایط ناایمن</label>
+						<div class="col-md-10">
+
+							<div class="row">
+
+								@for (int idx = 0; idx < Model.AccidentReasonConditions.Count; idx++)
+								{
+										<div class="col-md-3">
+											@Html.HiddenFor(x => Model.AccidentReasonConditions[idx].Id)
+											@Html.CheckBoxFor(x => Model.AccidentReasonConditions[idx].IsSelected)
+											@Html.DisplayFor(x => Model.AccidentReasonConditions[idx].Title)
+											@Html.HiddenFor(x => Model.AccidentReasonConditions[idx].Title)
+										</div>
+								}
+
+							</div>
+
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<div class="col-md-2"></div>
+						<div class="col-md-10">
+							@Html.LabelFor(model => model.AccidentReasonConditionOther, new { @class = "control-label" })
+
+
+							@Html.EditorFor(model => model.AccidentReasonConditionOther)
+
+							@Html.ValidationMessageFor(model => model.AccidentReasonConditionOther)
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					عضو حادثه دیده
+				</div>
+				<div class="panel-body">
+
+					<div class="form-group">
+						<label class="col-md-2">عضو حادثه دیده</label>
+						<div class="col-md-10">
+
+							<div class="row">
+
+								@for (int idx = 0; idx < Model.AccidentParts.Count; idx++)
+								{
+										<div class="col-md-3">
+											@Html.HiddenFor(x => Model.AccidentParts[idx].Id)
+											@Html.CheckBoxFor(x => Model.AccidentParts[idx].IsSelected)
+											@Html.DisplayFor(x => Model.AccidentParts[idx].Title)
+											@Html.HiddenFor(x => Model.AccidentParts[idx].Title)
+										</div>
+								}
+
+							</div>
+
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<div class="col-md-2"></div>
+						<div class="col-md-10">
+							@Html.LabelFor(model => model.AccidentPartOther, new { @class = "control-label" })
+
+
+							@Html.EditorFor(model => model.AccidentPartOther)
+
+							@Html.ValidationMessageFor(model => model.AccidentPartOther)
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					نوع صدمه
+				</div>
+				<div class="panel-body">
+
+					<div class="form-group">
+						<label class="col-md-2">نوع صدمه</label>
+						<div class="col-md-10">
+
+							<div class="row">
+
+								@for (int idx = 0; idx < Model.AccidentInjuries.Count; idx++)
+								{
+										<div class="col-md-3">
+											@Html.HiddenFor(x => Model.AccidentInjuries[idx].Id)
+											@Html.CheckBoxFor(x => Model.AccidentInjuries[idx].IsSelected)
+											@Html.DisplayFor(x => Model.AccidentInjuries[idx].Title)
+											@Html.HiddenFor(x => Model.AccidentInjuries[idx].Title)
+										</div>
+								}
+
+							</div>
+
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<div class="col-md-2"></div>
+						<div class="col-md-10">
+							@Html.LabelFor(model => model.AccidentInjuryOther, new { @class = "control-label" })
+
+
+							@Html.EditorFor(model => model.AccidentInjuryOther)
+
+							@Html.ValidationMessageFor(model => model.AccidentInjuryOther)
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					نوع حادثه
+				</div>
+				<div class="panel-body">
+
+					<div class="form-group">
+						<label class="col-md-2">نوع حادثه</label>
+						<div class="col-md-10">
+
+							<div class="row">
+
+								@for (int idx = 0; idx < Model.AccidentTypes.Count; idx++)
+								{
+										<div class="col-md-3">
+											@Html.HiddenFor(x => Model.AccidentTypes[idx].Id)
+											@Html.CheckBoxFor(x => Model.AccidentTypes[idx].IsSelected)
+											@Html.DisplayFor(x => Model.AccidentTypes[idx].Title)
+											@Html.HiddenFor(x => Model.AccidentTypes[idx].Title)
+										</div>
+								}
+
+							</div>
+
+						</div>
+					</div>
+
+
+
+					<div class="form-group">
+						<div class="col-md-2"></div>
+						<div class="col-md-10">
+							@Html.LabelFor(model => model.AccidentTypeOther, new { @class = "control-label" })
+
+
+							@Html.EditorFor(model => model.AccidentTypeOther)
+
+							@Html.ValidationMessageFor(model => model.AccidentTypeOther)
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				نتیجه حادثه
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-md-2">نتیجه حادثه</label>
+					<div class="col-md-10">
+
+						<div class="row">
+
+							@for (int idx = 0; idx < Model.AccidentResults.Count; idx++)
+							{
+								<div class="col-md-3">
+									@Html.HiddenFor(x => Model.AccidentResults[idx].Id)
+									@Html.CheckBoxFor(x => Model.AccidentResults[idx].IsSelected)
+									@Html.DisplayFor(x => Model.AccidentResults[idx].Title)
+									@Html.HiddenFor(x => Model.AccidentResults[idx].Title)
+								</div>
+							}
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+			
+					
+		<div class="panel panel-primary">
+			<div class="panel-heading">عوارض</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-6">
+							@Html.LabelFor(model => model.AccidentComplication, new { @class = "control-label col-md-4" })
+							<div class="col-md-8">
+								<div class="row">
+
+									@for (int idx = 0; idx < Model.Complication.Count; idx++)
+									{
+										<div class="col-md-4">
+											@Html.HiddenFor(x => Model.Complication[idx].Id)
+											@Html.CheckBoxFor(x => Model.Complication[idx].IsSelected)
+											@Html.DisplayFor(x => Model.Complication[idx].Title)
+											@Html.HiddenFor(x => Model.Complication[idx].Title)
+										</div>
+									}
+
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							@Html.LabelFor(model => model.AccidentInitialComplication, new { @class = "control-label col-md-4" })
+							<div class="col-md-8">
+								<div class="row">
+
+									@for (int idx = 0; idx < Model.InitialComplication.Count; idx++)
+									{
+										<div class="col-md-4">
+											@Html.HiddenFor(x => Model.InitialComplication[idx].Id)
+											@Html.CheckBoxFor(x => Model.InitialComplication[idx].IsSelected)
+											@Html.DisplayFor(x => Model.InitialComplication[idx].Title)
+											@Html.HiddenFor(x => Model.InitialComplication[idx].Title)
+										</div>
+									}
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+			
+
+
+		<div class="form-group">
+				<div class="row">
+					<div class="col-md-12">
+						@Html.LabelFor(model => model.AccidentAmount, new { @class = "control-label col-md-2" })
+						<div class="col-md-10">
+							@Html.EditorFor(model => model.AccidentAmount)
+
+							@Html.ValidationMessageFor(model => model.AccidentAmount)
+						</div>
+					</div>
+
+				</div>
+			</div>
+ 
+
+			<div class="form-group">
+				@Html.LabelFor(model => model.Actions, new { @class = "control-label col-md-2" })
+				<div class="col-md-10">
+					@Html.EditorFor(model => model.Actions)
+
+					@Html.ValidationMessageFor(model => model.Actions)
+				</div>
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(model => model.ReapeatAction, new { @class = "control-label col-md-2" })
+				<div class="col-md-10">
+					@Html.EditorFor(model => model.ReapeatAction)
+
+					@Html.ValidationMessageFor(model => model.ReapeatAction)
+				</div>
+			</div>
+
+
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					سایر گزارشات حوادث
+				</div>
+				<div class="panel-body">
+					<table>
+						<tr>
+							@*<td>شماره گزارش</td>*@
+							<td>نوع گزارش</td>
+							<td>آخرین مهلت</td>
+							<td>فرمت ارسالی</td>
+							@*<td>مسئول گزارش دهی</td>*@
+							<td>محل ارسال</td>
+							<td>گزارش خام</td>
+							<td>بارگزاری</td>
+						</tr>
+
+						@{
+								int i = 1;
+								foreach (var report in Model.AccidentReports)
+								{
+										<tr>
+											@*<td>@report.No</td>*@
+											<td>@report.Title</td>
+											<td>@report.Deadline</td>
+											<td>@report.DeliveryFormat</td>
+											@*<td>@report.ResponsibleReporter</td>*@
+											@*<td>@report.ResponsibleReporter</td>*@
+											<td>@report.SendPlace</td>
+											<td><a href="@report.BaseFileUrl" class="btn btn-primary">دانلود گزارش خام</a></td>
+
+											<td>
+												@Html.Kendo().Upload().Name("fileUpload" + i).Multiple(false)
+											</td>
+										</tr>
+									i = i + 1;
+								}
+						}
+					</table>
+				</div>
+
+			</div>
+
+			<div class="form-group" id="buttons">
+				<div class="col-md-offset-2 col-md-10">
+					<input type="submit" value="ثبت" class="btn btn-primary" />
+					@Html.ActionLink("بازگشت به فهرست", "Index")
+				</div>
+			</div>
+		</div>
+}
+

@@ -1,0 +1,192 @@
+﻿@model Models.Anomaly
+
+@{
+    ViewBag.Title = "افزودن " + Server.HtmlDecode(Html.DisplayNameFor(model => model).ToString());
+}
+
+<h2>افزودن @Html.DisplayNameFor(model => model)</h2>
+
+@using (Html.BeginForm("Create", "Anomalies", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">        
+        @Html.ValidationSummary(true)
+
+	    <div class="form-group">
+		    
+				
+		    <div class="form-group">
+			    @Html.LabelFor(model => model.CompanyId, new { @class = "control-label col-md-2" })
+			    <div class="col-md-10">
+				    @Html.DropDownList("CompanyId", String.Empty)
+
+				    @Html.ValidationMessageFor(model => model.CompanyId)
+			    </div>
+		    </div>
+				
+		    <div class="form-group">
+			    @Html.LabelFor(model => model.ResponseUserId, new { @class = "control-label col-md-2" })
+			    <div class="col-md-10">
+				    <select id="ResponseUserId" name="ResponseUserId" class="form-control"></select>
+
+				    @Html.ValidationMessageFor(model => model.ResponseUserId)
+			    </div>
+		    </div>
+
+		    <div class="form-group">
+			    @Html.LabelFor(model => model.EventDate, new {@class = "control-label col-md-2"})
+			    <div class="col-md-10">
+				    @Html.EditorFor(model => model.EventDate)
+
+				    @Html.ValidationMessageFor(model => model.EventDate)
+			    </div>
+		    </div>
+
+		    <div class="form-group">
+			    @Html.LabelFor(model => model.Code, new {@class = "control-label col-md-2"})
+			    <div class="col-md-10">
+				    @Html.EditorFor(model => model.Code)
+
+				    @Html.ValidationMessageFor(model => model.Code)
+			    </div>
+		    </div>
+
+		    <div class="form-group">
+			    @Html.LabelFor(model => model.Summery, new {@class = "control-label col-md-2"})
+			    <div class="col-md-10">
+				    @Html.EditorFor(model => model.Summery)
+
+				    @Html.ValidationMessageFor(model => model.Summery)
+			    </div>
+		    </div>
+
+		    <div class="form-group">
+			    @Html.LabelFor(model => model.Place, new {@class = "control-label col-md-2"})
+			    <div class="col-md-10">
+				    @Html.EditorFor(model => model.Place)
+
+				    @Html.ValidationMessageFor(model => model.Place)
+			    </div>
+		    </div>
+
+		   
+		    @*<div class="form-group">
+			    @Html.LabelFor(model => model.ResponseUserId, new {@class = "control-label col-md-2"})
+			    <div class="col-md-10">
+				    @Html.EditorFor(model => model.ResponseUserId)
+
+				    @Html.ValidationMessageFor(model => model.ResponseUserId)
+			    </div>
+		    </div>*@
+
+		    <div class="form-group">
+			    @Html.LabelFor(model => model.AnomalyHseId, new {@class = "control-label col-md-2"})
+			    <div class="col-md-10">
+				    @Html.DropDownList("AnomalyHseId", String.Empty)
+				    @Html.ValidationMessageFor(model => model.AnomalyHseId)
+			    </div>
+		    </div>
+
+		    <div class="form-group">
+			    @Html.LabelFor(model => model.AnomalyLevelId, new {@class = "control-label col-md-2"})
+			    <div class="col-md-10">
+				    @Html.DropDownList("AnomalyLevelId", String.Empty)
+
+				    @Html.ValidationMessageFor(model => model.AnomalyLevelId)
+			    </div>
+		    </div>
+
+		    <div class="form-group">
+			    @Html.LabelFor(model => model.Deadline, new {@class = "control-label col-md-2"})
+			    <div class="col-md-10">
+				    @Html.EditorFor(model => model.Deadline)
+
+				    @Html.ValidationMessageFor(model => model.Deadline)
+			    </div>
+		    </div>
+
+		    @*<div class="form-group">
+            @Html.LabelFor(model => model.Conclusion, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                    @Html.EditorFor(model => model.Conclusion)
+
+                @Html.ValidationMessageFor(model => model.Conclusion)
+            </div>
+        </div>*@
+
+		    @*<div class="form-group">
+			    @Html.LabelFor(model => model.EffectivnessDate, new {@class = "control-label col-md-2"})
+			    <div class="col-md-10">
+				    @Html.EditorFor(model => model.EffectivnessDate)
+
+				    @Html.ValidationMessageFor(model => model.EffectivnessDate)
+			    </div>
+		    </div>*@
+
+		    <div class="form-group">
+			    @Html.LabelFor(model => model.ImageUrl, new {@class = "control-label col-md-2"})
+			    <div class="col-md-10">
+				    @Html.Kendo().Upload().Name("fileUpload").Multiple(false)
+				    @Html.ValidationMessageFor(model => model.ImageUrl)
+			    </div>
+		    </div>
+
+		    <div class="form-group">
+			    @Html.LabelFor(model => model.Notes, new {@class = "control-label col-md-2"})
+			    <div class="col-md-10">
+				    @Html.EditorFor(model => model.Notes)
+
+				    @Html.ValidationMessageFor(model => model.Notes)
+			    </div>
+		    </div>
+
+
+
+
+		   
+
+		    <div class="form-group" id="buttons">
+			    <div class="col-md-offset-2 col-md-10">
+				    <input type="submit" value="ایجاد" class="btn btn-primary"/>
+				    @Html.ActionLink("بازگشت به فهرست", "Index")
+			    </div>
+		    </div>
+	    </div>
+</div>
+}
+
+
+
+
+@section scripts{
+	<script>
+
+
+		$('#CompanyId').on('change',
+			function() {
+				var SelectedValue = $(this).val();
+				if (SelectedValue !== "") {
+					var procemessage = "<option value='0'> صبرکنید...</option>";
+					$("#ResponseUserId").html(procemessage).show();
+					$.ajax(
+						{
+							url: "/anomalies/FillResponseUser",
+							data: { id: SelectedValue },
+							cache: false,
+							type: "POST",
+							success: function(data) {
+								var markup = "<option value='0'>انتخاب کاربر</option>";
+								for (var x = 0; x < data.length; x++) {
+									markup += "<option value=" + data[x].Value + ">" + data[x].Title + "</option>";
+								}
+								$("#ResponseUserId").html(markup).show();
+							},
+							error: function(reponse) {
+								alert("error : " + reponse);
+							}
+						});
+				}
+			});
+	</script>
+}

@@ -1,0 +1,113 @@
+﻿@model ICollection<Models.WbsRequirment>
+
+@{
+		ViewBag.Title = "الزامات پشتیبان WBS HSE & PD";
+}
+
+<h2>@ViewBag.Title </h2>
+
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+	@{
+			int i = 1;
+			foreach (var requirment in Model)
+			{
+
+				<div class="panel panel-default">
+
+
+					@if (i == 1)
+					{
+						<div class="panel-heading" role="tab" id="headingOne">
+							<h4 class="panel-title">
+								<a role="button" data-toggle="collapse" data-parent="#accordion" href="#@requirment.Id" aria-expanded="true" aria-controls="@requirment.Id">
+									@requirment.Title
+								</a>
+							</h4>
+						</div>
+						<div id="@requirment.Id" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+							<div class="panel-body">
+								<table class="table table-bordered">
+									<tr>
+										<th>ردیف</th>
+										<th>ساختار شکست</th>
+										<th>مدارک مورد نیاز</th>
+									</tr>
+									@{
+										int j = 1;
+										foreach (var userType in requirment.WbsUserTypes.OrderBy(c => c.CreationDate))
+										{
+											<tr>
+												<td>@j</td>
+												<td>@userType.Title</td>
+												<td>
+													@foreach (var document in userType.WbsDocuments.OrderBy(c => c.CreationDate))
+													{
+														<text>
+															@document.Title
+															<br/>
+														</text>
+													}
+												</td>
+											</tr>
+											j = j + 1;
+										}
+
+									}
+								</table>
+							</div>
+						</div>
+					}
+					else
+					{
+						<div class="panel-heading" role="tab" id="headingOne">
+							<h4 class="panel-title">
+								<a role="button" data-toggle="collapse" data-parent="#accordion" href="#@requirment.Id" aria-expanded="false" aria-controls="@requirment.Id">
+									@requirment.Title
+								</a>
+							</h4>
+						</div>
+						<div id="@requirment.Id" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+							<div class="panel-body">
+								<table class="table table-bordered">
+									<tr>
+										<th>ردیف</th>
+										<th>ساختار شکست</th>
+										<th>مدارک مورد نیاز</th>
+									</tr>
+									@{
+										int j = 1;
+										foreach (var userType in requirment.WbsUserTypes.OrderBy(c => c.CreationDate))
+										{
+											<tr>
+												<td>@j</td>
+												<td>@userType.Title</td>
+												<td>
+													@foreach (var document in userType.WbsDocuments.OrderBy(c => c.CreationDate))
+													{
+														<text>
+															@document.Title
+															<br/>
+														</text>
+													}
+												</td>
+											</tr>
+											j = j + 1;
+										}
+									}
+								</table>
+							</div>
+						</div>
+											}
+
+
+
+				</div>
+				i++;
+			}
+	}
+
+</div>
+<p>
+
+	@Html.ActionLink("بازگشت", "Index")
+</p>

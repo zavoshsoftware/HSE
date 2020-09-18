@@ -1,0 +1,18 @@
+﻿namespace Models.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class V11 : DbMigration
+    {
+        public override void Up()
+        {
+            AddColumn("dbo.Anomalies", "CompanyNotes", c => c.String());
+        }
+        
+        public override void Down()
+        {
+            DropColumn("dbo.Anomalies", "CompanyNotes");
+        }
+    }
+}
