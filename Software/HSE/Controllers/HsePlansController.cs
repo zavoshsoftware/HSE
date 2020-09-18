@@ -40,15 +40,18 @@ namespace HSE.Controllers
             string roleName = identity.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
 
             Guid userId = new Guid(id);
-            CompanyUser companyUser = db.CompanyUsers.FirstOrDefault(c => c.UserId == userId);
+
+            User user = db.Users.FirstOrDefault(c => c.Id == userId);
+
+            //CompanyUser companyUser = db.CompanyUsers.FirstOrDefault(c => c.UserId == userId);
 
 
             List<HsePlan> hsePlans = new List<HsePlan>();
 
-            if (companyUser != null)
+            if (user != null)
             {
                 hsePlans = db.HsePlans.Include(h => h.Company)
-                    .Where(h => h.CompanyId == companyUser.CompanyId && h.IsDeleted == false)
+                    .Where(h => h.CompanyId == user.CompanyId && h.IsDeleted == false)
                     .OrderByDescending(h => h.CreationDate).Include(h => h.User).ToList();
 
             }

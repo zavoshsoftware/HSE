@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Models.CompanyHumanResource>
+
+@{
+ViewBag.Title = "فهرست منابع انسانی " ;
+    
+    Layout = "~/Views/Shared/BackEndLayout/_BackEndLayout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+        @(Html.Kendo().Grid(Model)
+									.Name("Grid")
+									.Columns(columns =>
+									{
+									columns.Bound(model => model.Company.Title);
+									columns.Bound(model => model.FirstName);
+									columns.Bound(model => model.LastName);
+									columns.Bound(model => model.UserJobRate.Title);
+									columns.Bound(model => model.Degree);
+									columns.Bound(item => @item.Id).Title("دستورات").Filterable(false).Groupable(false)
+									.Template(@<text>
+									@Html.ActionLink("ویرایش", "Edit", new {id = @item.Id}, new {@class = "k-button"})
+									@Html.ActionLink("حذف", "Delete", new {id = @item.Id}, new {@class = "k-button"})
+									</text>).Width(200);  
+		})
+		.ToolBar(toolbar =>
+					{				
+						toolbar.Custom().Action("Create","CompanyHumanResources").Text("افزودن");                          
+					}
+		)         
+		.DataSource(dataSource => dataSource
+									.Server()
+							
+									.Model(model => model.Id(item => item.Id))
+					)              
+	)

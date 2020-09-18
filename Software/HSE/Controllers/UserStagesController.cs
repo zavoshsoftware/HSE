@@ -150,13 +150,16 @@ namespace HSE.Controllers
 
             foreach (UserStage userStage in userStages)
             {
-                CompanyUser companyUser = db.CompanyUsers.FirstOrDefault(c =>
-                    c.CompanyId == companyId && c.UserId == userStage.UserId && c.IsDeleted == false);
+                User user = db.Users.FirstOrDefault(c => c.Id == userStage.UserId);
 
 
-                if (companyUser != null)
+                //CompanyUser companyUser = db.CompanyUsers.FirstOrDefault(c =>
+                //    c.CompanyId == companyId && c.UserId == userStage.UserId && c.IsDeleted == false);
+
+
+                if (user != null)
                 {
-                    ViewBag.CompanyTitle = companyUser.Company.Title;
+                    ViewBag.CompanyTitle = user.Company.Title;
                     stages.Add(new UserStageListViewModel()
                     {
                         StageTitle = userStage.Stage.Title,

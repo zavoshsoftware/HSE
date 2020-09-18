@@ -77,9 +77,9 @@ namespace HSE.Controllers
 
             Guid userId = new Guid(id);
 
-            CompanyUser companyUser = db.CompanyUsers.FirstOrDefault(c => c.UserId == userId);
+            User user = db.Users.FirstOrDefault(c => c.Id == userId);
 
-            return companyUser.CompanyId;
+            return user.CompanyId.Value;
         }
 
         [Route("create/{id:Guid}/{coId:Guid}")]

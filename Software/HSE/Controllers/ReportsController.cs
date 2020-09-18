@@ -81,9 +81,10 @@ namespace HSE.Controllers
             var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
             Guid userId = new Guid(identity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value);
 
-            CompanyUser companyUser = db.CompanyUsers.FirstOrDefault(c => c.UserId == userId);
+           // CompanyUser companyUser = db.CompanyUsers.FirstOrDefault(c => c.UserId == userId);
+            User user = db.Users.FirstOrDefault(c => c.Id == userId);
 
-            return companyUser.CompanyId;
+            return user.CompanyId.Value;
         }
 
         public ActionResult Details(Guid? id)

@@ -52,7 +52,22 @@ namespace HSE.Controllers
             }
             return View(anomalies);
         }
+        public ActionResult IndexAdmin(Guid id)
+        {
+            List<Anomaly> anomalies = new List<Anomaly>();
+            
+            anomalies = db.Anomalies.Where(a =>a.CompanyId==id&& a.IsDeleted == false)
+                .OrderByDescending(a => a.CreationDate).ToList();
 
+            return View(anomalies);
+        }
+
+        public ActionResult List()
+        {
+            List<Company> companies = db.Companies.Where(c => c.IsDeleted == false && c.IsActive == true).ToList();
+
+            return View(companies);
+        }
         public ActionResult Details(Guid? id)
         {
             if (id == null)
@@ -107,7 +122,7 @@ namespace HSE.Controllers
             string roleName = identity.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
             if (roleName == "supervisor")
             {
-                ViewBag.StatusId = new SelectList(db.Status.Where(c=>c.Order==3||c.Order==4), "Id", "Title", anomaly.AnomalyResultId);
+                ViewBag.StatusId = new SelectList(db.Status.Where(c => c.Order == 3 || c.Order == 4), "Id", "Title", anomaly.AnomalyResultId);
             }
             return View(anomaly);
         }
@@ -267,19 +282,19 @@ namespace HSE.Controllers
         public ActionResult FillResponseUser(string id)
         {
             Guid companyId = new Guid(id);
-            //   ViewBag.cityId = ReturnCities(provinceId);
-            var companyUser = db.CompanyUsers.Where(c => c.CompanyId == companyId).ToList();
 
             List<ResponseUserViewModel> companyItems = new List<ResponseUserViewModel>();
 
-            foreach (CompanyUser company in companyUser)
+            List<User> users = db.Users.Where(c => c.CompanyId == companyId && c.IsDeleted == false).ToList();
+            foreach (User user in users)
             {
                 companyItems.Add(new ResponseUserViewModel()
                 {
-                    Title = company.User.FullName,
-                    Value = company.UserId.ToString()
+                    Title = user.FullName,
+                    Value = user.Id.ToString()
                 });
             }
+
             return Json(companyItems, JsonRequestBehavior.AllowGet);
         }
 

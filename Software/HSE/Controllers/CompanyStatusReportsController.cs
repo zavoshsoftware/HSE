@@ -159,11 +159,13 @@ namespace HSE.Controllers
 
                 Guid id = new Guid(name);
 
-                CompanyUser companyUser = db.CompanyUsers.FirstOrDefault(c => c.UserId == id);
+                User user = db.Users.FirstOrDefault(c => c.Id == id);
 
-                if (companyUser != null)
+          
+
+                if (user != null)
                 {
-                    Guid companyId = companyUser.CompanyId;
+                    Guid? companyId = user.CompanyId;
 
                     reports = db.CompanyStatusReports.Include(c => c.Company)
                         .Where(c => c.CompanyId == companyId && c.IsDeleted == false).OrderByDescending(c => c.CreationDate)

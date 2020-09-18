@@ -129,8 +129,7 @@ namespace Models
         public string Actions { get; set; }
         [Display(Name = "اقدامات اصلاحي جهت جلوگيري از تكرار حادثه")]
         public string ReapeatAction { get; set; }
-        [Display(Name = "اقدامات اصلاحي جهت جلوگيري از تكرار حادثه")]
-        public string WasteDays { get; set; }
+        
         [Display(Name = "كارشناس مسئول ايمني شركت")]
         public string CompanyUser { get; set; }
 
@@ -139,5 +138,8 @@ namespace Models
         [Display(Name = "کاربر")]
         public Guid UserId { get; set; }
         public virtual User User { get; set; }
+
+        [Display(Name = "تخمین روزهای از دست رفته")]
+        public string WasteDays { get; set; }
     }
 }

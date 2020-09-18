@@ -12,12 +12,12 @@ namespace Models
     {
         public UserJobRate()
         {
-            Users=new List<User>();
+            CompanyHumanResources = new List<CompanyHumanResource>();
         }
 
         [Display(Name="رده شغلی")]
         public string Title { get; set; }
 
-        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<CompanyHumanResource> CompanyHumanResources { get; set; }
     }
 }

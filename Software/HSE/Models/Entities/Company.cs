@@ -7,36 +7,41 @@ using System.Web;
 
 namespace Models
 {
-    public class Company:BaseEntity
+    public class Company : BaseEntity
     {
         public Company()
         {
-            CompanyUsers=new List<CompanyUser>();
-            Anomalies=new List<Anomaly>();
-            Reports=new List<Report>();
-            ContractRquirments=new List<ContractRquirment>();
-            CompanyStatusReports=new List<CompanyStatusReport>();
-            Users=new List<User>();
+            Anomalies = new List<Anomaly>();
+            Reports = new List<Report>();
+            ContractRquirments = new List<ContractRquirment>();
+            CompanyStatusReports = new List<CompanyStatusReport>();
+            Users = new List<User>();
+            Equipments = new List<Equipment>();
+            CompanyHumanResources = new List<CompanyHumanResource>();
+            Permits = new List<Permit>();
         }
-        [Display(Name="نام شرکت پیمانکار")]
+        [Display(Name = "نام شرکت پیمانکار")]
         public string Title { get; set; }
 
-        [Display(Name="تعداد پرسونل رسمی")]
+        [Display(Name = "تعداد پرسونل رسمی")]
         public int? OfficialEmployee { get; set; }
-        [Display(Name="تعداد پرسونل قراردادی")]
+        [Display(Name = "تعداد پرسونل قراردادی")]
         public int? ContractEmployee { get; set; }
 
 
-        [Display(Name="نام ناظر")]
+        [Display(Name = "نام ناظر")]
         public Guid? SupervisorUserId { get; set; }
         public virtual User SupervisorUser { get; set; }
 
-        public virtual ICollection<CompanyUser> CompanyUsers { get; set; }
+        //  public virtual ICollection<CompanyUser> CompanyUsers { get; set; }
         public virtual ICollection<Anomaly> Anomalies { get; set; }
         public virtual ICollection<Report> Reports { get; set; }
         public virtual ICollection<ContractRquirment> ContractRquirments { get; set; }
         public virtual ICollection<CompanyStatusReport> CompanyStatusReports { get; set; }
         public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<CompanyHumanResource> CompanyHumanResources { get; set; }
+        public virtual ICollection<Equipment> Equipments { get; set; }
+        public virtual ICollection<Permit> Permits { get; set; }
 
         [Display(Name = "فایل مفاد پیمان")]
         public string ContractItemFileUrl { get; set; }

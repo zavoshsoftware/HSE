@@ -186,11 +186,12 @@ namespace HSE.Controllers
 
                 Guid id = new Guid(name);
 
-                CompanyUser companyUser = db.CompanyUsers.FirstOrDefault(c => c.UserId == id);
 
-                if (companyUser != null)
+                User user = db.Users.FirstOrDefault(c => c.Id == id);
+
+                if (user != null)
                 {
-                    Guid companyId = companyUser.CompanyId;
+                    Guid? companyId = user.CompanyId;
 
                     Company company = db.Companies.Find(companyId);
 

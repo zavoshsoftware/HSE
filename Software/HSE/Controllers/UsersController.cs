@@ -17,37 +17,17 @@ namespace HSE.Controllers
     {
         private DatabaseContext db = new DatabaseContext();
 
-        // GET: Users
-       // public ActionResult Index(Guid id)
-        //{
-            //List<User> user = db.HsePlans.Include(h => h.Company)
-            //    .Where(h => h.CompanyId == id && h.IsDeleted == false)
-            //    .OrderByDescending(h => h.CreationDate).Include(h => h.User).ToList();
-
-            //return View(hsePlans.ToList());
-        //}
-
-
-        public ActionResult List()
+        public ActionResult Index()
         {
-            List<Company> companies = db.Companies.Where(c => c.IsDeleted == false && c.IsActive == true).ToList();
+            List<User> user = db.Users.Include(h => h.Company)
+                .Where(h=> h.IsDeleted == false)
+                .OrderByDescending(h => h.CreationDate).ToList();
 
-            return View(companies);
+            return View(user);
         }
 
-        public ActionResult ListSupervisor()
-        {
-            var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
-            string id = identity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
 
-
-            Guid userId = new Guid(id);
-
-            List<Company> companies = db.Companies
-                .Where(c => c.SupervisorUserId == userId && c.IsDeleted == false && c.IsActive).ToList();
-
-            return View(companies);
-        }
+     
 
         // GET: Users/Details/5
         public ActionResult Details(Guid? id)
@@ -68,6 +48,7 @@ namespace HSE.Controllers
         public ActionResult Create()
         {
             ViewBag.RoleId = new SelectList(db.Roles, "Id", "Title");
+            ViewBag.CompanyId = new SelectList(db.Companies.Where(c=>c.IsDeleted==false), "Id", "Title");
             return View();
         }
 
@@ -92,6 +73,7 @@ namespace HSE.Controllers
             }
 
             ViewBag.RoleId = new SelectList(db.Roles, "Id", "Title", user.RoleId);
+            ViewBag.CompanyId = new SelectList(db.Companies.Where(c=>c.IsDeleted==false), "Id", "Title");
             return View(user);
         }
 
@@ -109,6 +91,7 @@ namespace HSE.Controllers
                 return HttpNotFound();
             }
             ViewBag.RoleId = new SelectList(db.Roles, "Id", "Title", user.RoleId);
+            ViewBag.CompanyId = new SelectList(db.Companies.Where(c=>c.IsDeleted==false), "Id", "Title",user.CompanyId);
             return View(user);
         }
 
@@ -125,6 +108,7 @@ namespace HSE.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.RoleId = new SelectList(db.Roles, "Id", "Title", user.RoleId);
+            ViewBag.CompanyId = new SelectList(db.Companies.Where(c=>c.IsDeleted==false), "Id", "Title",user.CompanyId);
             return View(user);
         }
 
@@ -166,23 +150,23 @@ namespace HSE.Controllers
         }
 
 
-        public string UpdateCompanyUsers()
-        {
-            List<CompanyUser> companyUsers = db.CompanyUsers.ToList();
+        //public string UpdateCompanyUsers()
+        //{
+        //    List<CompanyUser> companyUsers = db.CompanyUsers.ToList();
 
-            foreach (CompanyUser companyUser in companyUsers)
-            {
-                User user = db.Users.Find(companyUser.UserId);
+        //    foreach (CompanyUser companyUser in companyUsers)
+        //    {
+        //        User user = db.Users.Find(companyUser.UserId);
 
-                if (user != null)
-                {
-                    user.CompanyId = companyUser.CompanyId;
-                    user.LastModifiedDate = DateTime.Now;
-                }
-            }
+        //        if (user != null)
+        //        {
+        //            user.CompanyId = companyUser.CompanyId;
+        //            user.LastModifiedDate = DateTime.Now;
+        //        }
+        //    }
 
-            db.SaveChanges();
-            return String.Empty;
-        }
+        //    db.SaveChanges();
+        //    return String.Empty;
+        //}
     }
 }

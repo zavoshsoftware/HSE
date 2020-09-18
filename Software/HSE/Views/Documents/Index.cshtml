@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Models.Document>
+
+@{
+ViewBag.Title = "فهرست مستندات";
+    
+    Layout = "~/Views/Shared/BackEndLayout/_BackEndLayout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+        @(Html.Kendo().Grid(Model)
+              .Name("Grid")
+              .Columns(columns =>
+                  {
+        columns.Bound(model => model.DocumentType.Title);
+        columns.Bound(model => model.Title);
+					columns.Bound(item => @item.Id).Title("دستورات").Filterable(false).Groupable(false)
+							.Template(@<text>
+								
+@{
+	var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
+	string roleName = identity.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
+	if (roleName == "Administrator")
+	{
+		@Html.ActionLink("ویرایش", "Edit", new {id = @item.Id}, new {@class = "k-button"})
+		@Html.ActionLink("حذف", "Delete", new {id = @item.Id}, new {@class = "k-button"})
+	}
+}
+								          <a href="@item.FileUrl" target="_blank">دانلود</a>
+									</text>).Width(200);
+							})
+		.ToolBar(toolbar =>
+		{
+
+			var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
+			string roleName = identity.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
+			if (roleName == "Administrator")
+			{
+
+
+
+
+				toolbar.Custom().Action("Create","Documents").Text("افزودن");
+			}
+		}
+				)
+		.DataSource(dataSource => dataSource
+									.Server()
+
+									.Model(model => model.Id(item => item.Id))
+					)
+	)

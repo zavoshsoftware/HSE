@@ -13,7 +13,7 @@ namespace Models
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Company> Companies { get; set; }
-        public DbSet<CompanyUser> CompanyUsers { get; set; }
+    //    public DbSet<CompanyUser> CompanyUsers { get; set; }
         public DbSet<Anomaly> Anomalies { get; set; }
 
         public System.Data.Entity.DbSet<Models.Status> Status { get; set; }
@@ -80,5 +80,15 @@ namespace Models
         public DbSet<AccidentReport> AccidentReports { get; set; }
         public DbSet<AccidentReportRelAccident> AccidentReportRelAccidents { get; set; }
         public DbSet<HsePlan> HsePlans { get; set; }
+        public DbSet<CompanyHumanResource> CompanyHumanResources { get; set; }
+        public DbSet<Equipment> Equipments { get; set; }
+        public DbSet<EquipmentType> EquipmentTypes { get; set; }
+        public DbSet<Document> Documents { get; set; }
+        public DbSet<DocumentType> DocumentTypes { get; set; }
+        public DbSet<Permit> Permits { get; set; }
+        public DbSet<PermitType> PermitTypes { get; set; }
+        public DbSet<PermitStatus> PermitStatuses { get; set; }
+
+        public System.Data.Entity.DbSet<Models.UserJobRate> UserJobRates { get; set; }
     }
 }

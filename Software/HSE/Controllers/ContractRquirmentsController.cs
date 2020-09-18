@@ -38,10 +38,10 @@ namespace HSE.Controllers
 
             if (roleName == "company")
             {
-                CompanyUser companyUser = db.CompanyUsers.FirstOrDefault(c => c.UserId == userId);
+                User user = db.Users.FirstOrDefault(c => c.Id == userId);
 
                 contractRquirments = db.ContractRquirments.Include(c => c.Company)
-                    .Where(c => c.IsDeleted == false && c.CompanyId == companyUser.CompanyId)
+                    .Where(c => c.IsDeleted == false && c.CompanyId == user.CompanyId)
                     .OrderByDescending(c => c.CreationDate).ToList();
             }
 
