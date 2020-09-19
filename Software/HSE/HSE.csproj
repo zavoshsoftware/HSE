@@ -899,17 +899,23 @@
     <Compile Include="Controllers\CompanyStatusReportsController.cs" />
     <Compile Include="Controllers\ContractRquirmentsController.cs" />
     <Compile Include="Controllers\ConvertorController.cs" />
+    <Compile Include="Controllers\CrisisTypesController.cs" />
     <Compile Include="Controllers\DocumentsController.cs" />
     <Compile Include="Controllers\DocumentTypesController.cs" />
+    <Compile Include="Controllers\EnviromentTypesController.cs" />
     <Compile Include="Controllers\EquipmentsController.cs" />
     <Compile Include="Controllers\EquipmentTypesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HsePlansController.cs" />
+    <Compile Include="Controllers\ImageBrowserController.cs" />
     <Compile Include="Controllers\OperationsController.cs" />
+    <Compile Include="Controllers\EnviromentsController.cs" />
     <Compile Include="Controllers\PermitsController.cs" />
     <Compile Include="Controllers\PermitStatusesController.cs" />
     <Compile Include="Controllers\PermitTypesController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
+    <Compile Include="Controllers\RelationsController.cs" />
+    <Compile Include="Controllers\RelationTypesController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\ReportTypesController.cs" />
     <Compile Include="Controllers\RequirmentDetailsController.cs" />
@@ -1096,12 +1102,30 @@
     <Compile Include="Migrations\202009182051306_V40.designer.cs">
       <DependentUpon>202009182051306_V40.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202009190321195_V41.cs" />
+    <Compile Include="Migrations\202009190321195_V41.designer.cs">
+      <DependentUpon>202009190321195_V41.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202009190345553_V42.cs" />
+    <Compile Include="Migrations\202009190345553_V42.designer.cs">
+      <DependentUpon>202009190345553_V42.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202009190354202_V43.cs" />
+    <Compile Include="Migrations\202009190354202_V43.designer.cs">
+      <DependentUpon>202009190354202_V43.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DatabaseContext.cs" />
     <Compile Include="Models\DatabaseContextInitializer.cs" />
     <Compile Include="Models\DatabaseContextInitializerBeforeTheFirstRelease.cs" />
+    <Compile Include="Models\Entities\Crisis.cs" />
+    <Compile Include="Models\Entities\Relation.cs" />
+    <Compile Include="Models\Entities\RelationType.cs" />
+    <Compile Include="Models\Entities\Enviroment.cs" />
+    <Compile Include="Models\Entities\CrisisType.cs" />
     <Compile Include="Models\Entities\PermitStatus.cs" />
     <Compile Include="Models\Entities\Permit.cs" />
+    <Compile Include="Models\Entities\EnviromentType.cs" />
     <Compile Include="Models\Entities\PermitType.cs" />
     <Compile Include="Models\Entities\DocumentType.cs" />
     <Compile Include="Models\Entities\Document.cs" />
@@ -1496,6 +1520,30 @@
     <Content Include="Views\Permits\Index.cshtml" />
     <Content Include="Views\Permits\List.cshtml" />
     <Content Include="Views\Permits\SuperVisorConfirmation.cshtml" />
+    <Content Include="Views\EnviromentTypes\Create.cshtml" />
+    <Content Include="Views\EnviromentTypes\Delete.cshtml" />
+    <Content Include="Views\EnviromentTypes\Details.cshtml" />
+    <Content Include="Views\EnviromentTypes\Edit.cshtml" />
+    <Content Include="Views\EnviromentTypes\Index.cshtml" />
+    <Content Include="Views\Enviroments\Index.cshtml" />
+    <Content Include="Views\Enviroments\List.cshtml" />
+    <Content Include="Views\Enviroments\SuperVisorConfirmation.cshtml" />
+    <Content Include="Views\Enviroments\UploadFile.cshtml" />
+    <Content Include="Views\CrisisTypes\Create.cshtml" />
+    <Content Include="Views\CrisisTypes\Delete.cshtml" />
+    <Content Include="Views\CrisisTypes\Details.cshtml" />
+    <Content Include="Views\CrisisTypes\Edit.cshtml" />
+    <Content Include="Views\CrisisTypes\Index.cshtml" />
+    <Content Include="Views\RelationTypes\Create.cshtml" />
+    <Content Include="Views\RelationTypes\Delete.cshtml" />
+    <Content Include="Views\RelationTypes\Details.cshtml" />
+    <Content Include="Views\RelationTypes\Edit.cshtml" />
+    <Content Include="Views\RelationTypes\Index.cshtml" />
+    <Content Include="Views\Relations\Create.cshtml" />
+    <Content Include="Views\Relations\Delete.cshtml" />
+    <Content Include="Views\Relations\Edit.cshtml" />
+    <Content Include="Views\Relations\Index.cshtml" />
+    <Content Include="Views\Relations\Details.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1510,6 +1558,7 @@
     <Folder Include="Uploads\companyHumanResource\" />
     <Folder Include="Uploads\companyStatusReport\" />
     <Folder Include="Uploads\doc\" />
+    <Folder Include="Uploads\Editor\" />
     <Folder Include="Uploads\equipment\" />
     <Folder Include="Uploads\hsePlans\" />
     <Folder Include="Uploads\permit\" />
@@ -1643,6 +1692,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202009182051306_V40.resx">
       <DependentUpon>202009182051306_V40.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009190321195_V41.resx">
+      <DependentUpon>202009190321195_V41.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009190345553_V42.resx">
+      <DependentUpon>202009190345553_V42.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009190354202_V43.resx">
+      <DependentUpon>202009190354202_V43.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

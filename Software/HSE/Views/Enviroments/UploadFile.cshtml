@@ -1,0 +1,51 @@
+﻿
+@model Models.Enviroment
+
+@{
+    ViewBag.Title = "بارگزاری محیط زیست و سلامت " ;
+    Layout = "~/Views/Shared/BackEndLayout/_BackEndLayout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("UploadFile", "Enviroments", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">        
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.CompanyId)
+        @Html.HiddenFor(model => model.EnviromentTypeId)
+        @Html.HiddenFor(model => model.PermitStatusId)
+        @Html.HiddenFor(model => model.IsActive)
+        @Html.HiddenFor(model => model.SuperVisorComment)
+			@Html.HiddenFor(model => model.FileUrl)
+
+	    <div class="form-group">
+		    @Html.LabelFor(model => model.FileUrl, new { @class = "control-label col-md-2" })
+		    <div class="col-md-10">
+			    @Html.Kendo().Upload().Name("fileUpload").Multiple(false)
+			    @Html.ValidationMessageFor(model => model.FileUrl)
+		    </div>
+	    </div>
+			  
+	 @Html.HiddenFor(model => model.CreationDate)
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                                  @Html.EditorFor(model => model.Description)
+                @Html.ValidationMessageFor(model => model.Description)
+            </div>
+        </div>
+
+        <div class="form-group" id="buttons">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="ثبت" class="btn btn-primary" />
+				@Html.ActionLink("بازگشت به فهرست", "Index")
+            </div>
+        </div>
+    </div>
+}
+

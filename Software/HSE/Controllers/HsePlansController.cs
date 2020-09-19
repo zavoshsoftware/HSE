@@ -11,6 +11,7 @@ using Models;
 
 namespace HSE.Controllers
 {
+    [Authorize(Roles = "Administrator,company,supervisor")]
     public class HsePlansController : Controller
     {
         private DatabaseContext db = new DatabaseContext();

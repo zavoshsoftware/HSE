@@ -87,8 +87,13 @@ namespace Models
         public DbSet<DocumentType> DocumentTypes { get; set; }
         public DbSet<Permit> Permits { get; set; }
         public DbSet<PermitType> PermitTypes { get; set; }
+        public DbSet<Enviroment> Enviroments { get; set; }
+        public DbSet<EnviromentType> EnviromentTypes { get; set; }
+        public DbSet<Crisis> Crisises { get; set; }
+        public DbSet<CrisisType> CrisisTypes { get; set; }
         public DbSet<PermitStatus> PermitStatuses { get; set; }
-
+        public DbSet<Relation> Relations { get; set; }
+        public DbSet<RelationType> RelationTypes { get; set; }
         public System.Data.Entity.DbSet<Models.UserJobRate> UserJobRates { get; set; }
     }
 }

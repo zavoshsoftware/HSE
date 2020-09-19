@@ -1,0 +1,66 @@
+﻿
+@model Models.Enviroment
+
+@{
+    ViewBag.Title = "بارگزاری محیط زیست و سلامت " + Server.HtmlDecode(Html.DisplayNameFor(model => model).ToString());
+    Layout = "~/Views/Shared/BackEndLayout/_BackEndLayout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("SuperVisorConfirmation", "Enviroments", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">        
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.CompanyId)
+        @Html.HiddenFor(model => model.EnviromentTypeId) 
+        @Html.HiddenFor(model => model.IsActive) 
+	    @Html.HiddenFor(model => model.CreationDate)
+	    @Html.HiddenFor(model => model.FileUrl)
+
+        
+	    <div class="form-group">
+		    @Html.LabelFor(model => model.FileUrl, new { @class = "control-label col-md-2" })
+		    <div class="col-md-10">
+			   <a href="@Model.FileUrl" target="_blank">دانلود</a>
+		    </div>
+	    </div>
+			  
+	    <div class="form-group">
+		    @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+		    <div class="col-md-10">
+			    <p>
+				    @Model.Description
+			    </p>
+		    </div>
+	    </div>
+
+	    <div class="form-group">
+		    @Html.LabelFor(model => model.PermitStatusId, new { @class = "control-label col-md-2" })
+		    <div class="col-md-10">
+			    @Html.DropDownList("PermitStatusId", String.Empty)
+
+			    @Html.ValidationMessageFor(model => model.PermitStatusId)
+		    </div>
+	    </div>
+
+	    <div class="form-group">
+		    @Html.LabelFor(model => model.SuperVisorComment, new { @class = "control-label col-md-2" })
+		    <div class="col-md-10">
+			    @Html.EditorFor(model => model.SuperVisorComment)
+			    @Html.ValidationMessageFor(model => model.SuperVisorComment)
+		    </div>
+	    </div>
+        <div class="form-group" id="buttons">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="ثبت" class="btn btn-primary" />
+				@Html.ActionLink("بازگشت به فهرست", "Index")
+            </div>
+        </div>
+    </div>
+}
+

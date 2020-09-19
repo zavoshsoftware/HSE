@@ -42,6 +42,8 @@ namespace Models
         public virtual ICollection<CompanyHumanResource> CompanyHumanResources { get; set; }
         public virtual ICollection<Equipment> Equipments { get; set; }
         public virtual ICollection<Permit> Permits { get; set; }
+        public virtual ICollection<Enviroment> Enviroments { get; set; }
+        public virtual ICollection<Crisis> Crisises { get; set; }
 
         [Display(Name = "فایل مفاد پیمان")]
         public string ContractItemFileUrl { get; set; }
