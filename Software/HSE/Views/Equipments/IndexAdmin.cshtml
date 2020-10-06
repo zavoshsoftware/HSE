@@ -14,11 +14,24 @@
 	  {
 		  columns.Bound(model => model.Company.Title);
 		  columns.Bound(model => model.Title);
+		  columns.Bound(model => model.SupervisorComment);
 		  columns.Bound(model => model.CreationDate);
 		  columns.Bound(item => @item.Id).Title("گواهینامه").Filterable(false).Groupable(false)
 			  .Template(@<text>
 				            <a href="@item.CertificateFileUrl" target="_blank">دانلود</a>
+
+				            @{
+					            var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
+					            string roleName = identity.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
+					            if (roleName == "supervisor")
+					            {
+						            @Html.ActionLink("ثبت نظر ناظر", "SupervisorComment", new { id = @item.Id }, new { @class = "k-button" })
+					            }
+				            }
+				         
 			             </text>).Width(200);  
+
+		 
 	  })
 	          
 	  .DataSource(dataSource => dataSource

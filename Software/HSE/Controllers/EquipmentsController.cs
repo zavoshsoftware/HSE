@@ -11,7 +11,7 @@ using Models;
 
 namespace HSE.Controllers
 {
-    public class EquipmentsController : Controller
+    public class EquipmentsController : Infrastructure.BaseController
     {
         private DatabaseContext db = new DatabaseContext();
 
@@ -229,5 +229,39 @@ namespace HSE.Controllers
             }
             base.Dispose(disposing);
         }
+
+
+
+
+        public ActionResult SupervisorComment(Guid? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Equipment equipment = db.Equipments.Find(id);
+            if (equipment == null)
+            {
+                return HttpNotFound();
+            }
+            return View(equipment);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SupervisorComment(Equipment equipment)
+        {
+            if (ModelState.IsValid)
+            {
+
+                equipment.IsDeleted = false;
+                equipment.LastModifiedDate = DateTime.Now;
+                db.Entry(equipment).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("IndexAdmin", new { id = equipment.CompanyId });
+            }
+            return View(equipment);
+        }
+
     }
 }

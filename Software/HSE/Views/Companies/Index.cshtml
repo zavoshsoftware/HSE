@@ -19,7 +19,7 @@ ViewBag.Title = "فهرست شرکت های پیمانکار";
 									.Template(@<text>
 									@Html.ActionLink("ویرایش", "Edit", new {id = @item.Id}, new {@class = "k-button"})
 									@Html.ActionLink("حذف", "Delete", new {id = @item.Id}, new {@class = "k-button"})
-									@Html.ActionLink("مدیریت کاربران شرکت پیمانکار", "index","CompanyUsers", new {id = @item.Id}, new {@class = "k-button"})
+									@*@Html.ActionLink("مدیریت کاربران شرکت پیمانکار", "index","CompanyUsers", new {id = @item.Id}, new {@class = "k-button"})*@
 									@Html.ActionLink("مدیریت صورت وضعیت های HSE پیمانکار", "index","CompanyStatusReports", new {id = @item.Id}, new {@class = "k-button"})
 									</text>).Width(200);  
 		})

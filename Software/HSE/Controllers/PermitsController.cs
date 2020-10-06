@@ -18,8 +18,24 @@ namespace HSE.Controllers
 
         public ActionResult List()
         {
-            List<Company> companies = db.Companies.Where(c => c.IsDeleted == false && c.IsActive ).ToList();
+            List<Company> companies;
+             
+            var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
+            string id = identity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
+            string roleName = identity.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
 
+            if (roleName == "supervisor")
+            {
+                Guid userId = new Guid(id);
+
+                companies = db.Companies
+                         .Where(c => c.SupervisorUserId == userId && c.IsDeleted == false && c.IsActive).ToList();
+            }
+            else
+            {
+                companies = db.Companies.Where(c => c.IsDeleted == false && c.IsActive).ToList();
+
+            }
             return View(companies);
         }
         public ActionResult Index(Guid? id)
@@ -27,7 +43,7 @@ namespace HSE.Controllers
 
             var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
             string uid = identity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
-           string roleTitle = identity.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
+            string roleTitle = identity.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
 
             ViewBag.roleTitle = roleTitle;
             Guid userId = new Guid(uid);
@@ -41,7 +57,7 @@ namespace HSE.Controllers
             }
             else
             {
-                companyId=id;
+                companyId = id;
             }
             if (!db.Permits.Any(c => c.CompanyId == companyId))
             {
@@ -73,8 +89,8 @@ namespace HSE.Controllers
             return View(permits.ToList());
         }
 
-     
-         
+
+
         public ActionResult UploadFile(Guid? id)
         {
             if (id == null)
@@ -86,13 +102,13 @@ namespace HSE.Controllers
             {
                 return HttpNotFound();
             }
-            
+
             return View(permit);
         }
- 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UploadFile( Permit permit, HttpPostedFileBase fileupload)
+        public ActionResult UploadFile(Permit permit, HttpPostedFileBase fileupload)
         {
 
             if (ModelState.IsValid)
@@ -120,7 +136,7 @@ namespace HSE.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-          
+
             return View(permit);
         }
 
@@ -136,7 +152,7 @@ namespace HSE.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.PermitStatusId = new SelectList(db.PermitStatuses, "Id", "Title",permit.PermitStatusId);
+            ViewBag.PermitStatusId = new SelectList(db.PermitStatuses, "Id", "Title", permit.PermitStatusId);
 
             return View(permit);
         }
@@ -152,7 +168,7 @@ namespace HSE.Controllers
                 permit.LastModifiedDate = DateTime.Now;
                 db.Entry(permit).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index",new{id=permit.CompanyId});
+                return RedirectToAction("Index", new { id = permit.CompanyId });
             }
 
             return View(permit);

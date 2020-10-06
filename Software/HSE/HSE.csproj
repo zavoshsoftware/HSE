@@ -808,6 +808,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Uploads\avatar.jpg" />
     <Content Include="Uploads\avatar_default.jpg" />
+    <Content Include="Uploads\bg.jpeg" />
     <Content Include="Uploads\logo.png" />
     <Content Include="Web.config" />
     <Content Include="Views\Shared\BackEndLayout\_BackEndLayout.cshtml" />
@@ -906,7 +907,8 @@
     <Compile Include="Controllers\EquipmentsController.cs" />
     <Compile Include="Controllers\EquipmentTypesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\HsePlansController.cs" />
+    <Compile Include="Controllers\HseDocumentsController.cs" />
+    <Compile Include="Controllers\HseDocumentTypesController.cs" />
     <Compile Include="Controllers\ImageBrowserController.cs" />
     <Compile Include="Controllers\OperationsController.cs" />
     <Compile Include="Controllers\EnviromentsController.cs" />
@@ -926,6 +928,9 @@
     <Compile Include="Controllers\RiskMatrisController.cs" />
     <Compile Include="Controllers\RiskProbabilitiesController.cs" />
     <Compile Include="Controllers\RisksController.cs" />
+    <Compile Include="Controllers\SafetiesController.cs" />
+    <Compile Include="Controllers\SafetyFileTypesController.cs" />
+    <Compile Include="Controllers\SafetyTypesController.cs" />
     <Compile Include="Controllers\StagesController.cs" />
     <Compile Include="Controllers\StatusController.cs" />
     <Compile Include="Controllers\UserJobRatesController.cs" />
@@ -1114,11 +1119,32 @@
     <Compile Include="Migrations\202009190354202_V43.designer.cs">
       <DependentUpon>202009190354202_V43.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202010060907078_V44.cs" />
+    <Compile Include="Migrations\202010060907078_V44.designer.cs">
+      <DependentUpon>202010060907078_V44.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010061347205_V45.cs" />
+    <Compile Include="Migrations\202010061347205_V45.designer.cs">
+      <DependentUpon>202010061347205_V45.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010061406532_V46.cs" />
+    <Compile Include="Migrations\202010061406532_V46.designer.cs">
+      <DependentUpon>202010061406532_V46.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010061456234_V47.cs" />
+    <Compile Include="Migrations\202010061456234_V47.designer.cs">
+      <DependentUpon>202010061456234_V47.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010061523393_V48.cs" />
+    <Compile Include="Migrations\202010061523393_V48.designer.cs">
+      <DependentUpon>202010061523393_V48.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DatabaseContext.cs" />
     <Compile Include="Models\DatabaseContextInitializer.cs" />
     <Compile Include="Models\DatabaseContextInitializerBeforeTheFirstRelease.cs" />
     <Compile Include="Models\Entities\Crisis.cs" />
+    <Compile Include="Models\Entities\HseDocumentType.cs" />
     <Compile Include="Models\Entities\Relation.cs" />
     <Compile Include="Models\Entities\RelationType.cs" />
     <Compile Include="Models\Entities\Enviroment.cs" />
@@ -1148,11 +1174,14 @@
     <Compile Include="Models\Entities\AccidentReasonAction.cs" />
     <Compile Include="Models\Entities\AccidentEmployeeType.cs" />
     <Compile Include="Models\Entities\CompanyStatusReport.cs" />
-    <Compile Include="Models\Entities\HsePlan.cs" />
+    <Compile Include="Models\Entities\HseDocument.cs" />
     <Compile Include="Models\Entities\RiskControlingWork.cs" />
     <Compile Include="Models\Entities\RiskMatris.cs" />
     <Compile Include="Models\Entities\RiskStatus.cs" />
     <Compile Include="Models\Entities\CompanyHumanResource.cs" />
+    <Compile Include="Models\Entities\Safety.cs" />
+    <Compile Include="Models\Entities\SafetyFileType.cs" />
+    <Compile Include="Models\Entities\SafetyType.cs" />
     <Compile Include="Models\Entities\TempTable.cs" />
     <Compile Include="Models\Entities\UserJobRate.cs" />
     <Compile Include="Models\Entities\UserStage.cs" />
@@ -1459,15 +1488,6 @@
     <Content Include="Views\AccidentReports\Details.cshtml" />
     <Content Include="Views\AccidentReports\Edit.cshtml" />
     <Content Include="Views\AccidentReports\Index.cshtml" />
-    <Content Include="Views\HsePlans\Create.cshtml" />
-    <Content Include="Views\HsePlans\Delete.cshtml" />
-    <Content Include="Views\HsePlans\Details.cshtml" />
-    <Content Include="Views\HsePlans\Edit.cshtml" />
-    <Content Include="Views\HsePlans\Index.cshtml" />
-    <Content Include="Views\HsePlans\IndexCompany.cshtml" />
-    <Content Include="Views\HsePlans\List.cshtml" />
-    <Content Include="Views\HsePlans\ListSupervisor.cshtml" />
-    <Content Include="Views\HsePlans\SupervisorComment.cshtml" />
     <Content Include="Views\Users\List.cshtml" />
     <Content Include="Views\Users\ListSupervisor.cshtml" />
     <Content Include="Views\CompanyHumanResources\Create.cshtml" />
@@ -1544,6 +1564,38 @@
     <Content Include="Views\Relations\Edit.cshtml" />
     <Content Include="Views\Relations\Index.cshtml" />
     <Content Include="Views\Relations\Details.cshtml" />
+    <Content Include="Views\HseDocumentTypes\Create.cshtml" />
+    <Content Include="Views\HseDocumentTypes\Delete.cshtml" />
+    <Content Include="Views\HseDocumentTypes\Details.cshtml" />
+    <Content Include="Views\HseDocumentTypes\Edit.cshtml" />
+    <Content Include="Views\HseDocumentTypes\Index.cshtml" />
+    <Content Include="Views\HseDocuments\Create.cshtml" />
+    <Content Include="Views\HseDocuments\Delete.cshtml" />
+    <Content Include="Views\HseDocuments\Details.cshtml" />
+    <Content Include="Views\HseDocuments\Edit.cshtml" />
+    <Content Include="Views\HseDocuments\Index.cshtml" />
+    <Content Include="Views\HseDocuments\IndexCompany.cshtml" />
+    <Content Include="Views\HseDocuments\List.cshtml" />
+    <Content Include="Views\HseDocuments\ListSupervisor.cshtml" />
+    <Content Include="Views\Equipments\SupervisorComment.cshtml" />
+    <Content Include="Views\SafetyTypes\Create.cshtml" />
+    <Content Include="Views\SafetyTypes\Delete.cshtml" />
+    <Content Include="Views\SafetyTypes\Details.cshtml" />
+    <Content Include="Views\SafetyTypes\Edit.cshtml" />
+    <Content Include="Views\SafetyTypes\Index.cshtml" />
+    <Content Include="Views\Safeties\Create.cshtml" />
+    <Content Include="Views\Safeties\Delete.cshtml" />
+    <Content Include="Views\Safeties\Details.cshtml" />
+    <Content Include="Views\Safeties\Edit.cshtml" />
+    <Content Include="Views\Safeties\Index.cshtml" />
+    <Content Include="Views\SafetyFileTypes\Create.cshtml" />
+    <Content Include="Views\SafetyFileTypes\Delete.cshtml" />
+    <Content Include="Views\SafetyFileTypes\Details.cshtml" />
+    <Content Include="Views\SafetyFileTypes\Edit.cshtml" />
+    <Content Include="Views\SafetyFileTypes\Index.cshtml" />
+    <Content Include="Views\Safeties\List.cshtml" />
+    <Content Include="Views\Safeties\AdminIndex.cshtml" />
+    <Content Include="Views\Safeties\SupervisorComment.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1563,6 +1615,7 @@
     <Folder Include="Uploads\hsePlans\" />
     <Folder Include="Uploads\permit\" />
     <Folder Include="Uploads\reports\" />
+    <Folder Include="Uploads\safety\" />
     <Folder Include="Views\Convertor\" />
     <Folder Include="Views\Home\" />
   </ItemGroup>
@@ -1701,6 +1754,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202009190354202_V43.resx">
       <DependentUpon>202009190354202_V43.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010060907078_V44.resx">
+      <DependentUpon>202010060907078_V44.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010061347205_V45.resx">
+      <DependentUpon>202010061347205_V45.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010061406532_V46.resx">
+      <DependentUpon>202010061406532_V46.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010061456234_V47.resx">
+      <DependentUpon>202010061456234_V47.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010061523393_V48.resx">
+      <DependentUpon>202010061523393_V48.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

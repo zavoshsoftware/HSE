@@ -51,7 +51,7 @@ namespace HSE.Controllers
     [Authorize(Roles = "Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Company company, HttpPostedFileBase fileupload)
+        public ActionResult Create(Company company, HttpPostedFileBase fileupload, HttpPostedFileBase fileupload2)
         {
             if (ModelState.IsValid)
             {
@@ -68,6 +68,20 @@ namespace HSE.Controllers
                     fileupload.SaveAs(physicalFilename);
 
                     company.ContractItemFileUrl = newFilenameUrl;
+                }
+                
+                if (fileupload2 != null)
+                {
+                    string filename = Path.GetFileName(fileupload2.FileName);
+                    string newFilename = Guid.NewGuid().ToString().Replace("-", string.Empty)
+                                         + Path.GetExtension(filename);
+
+                    string newFilenameUrl = "/Uploads/companyContract/" + newFilename;
+                    string physicalFilename = Server.MapPath(newFilenameUrl);
+
+                    fileupload2.SaveAs(physicalFilename);
+
+                    company.ChartFileUrl = newFilenameUrl;
                 }
                 #endregion
                 company.IsDeleted=false;
@@ -105,7 +119,7 @@ namespace HSE.Controllers
         [HttpPost]
     [Authorize(Roles = "Administrator")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Company company, HttpPostedFileBase fileupload)
+        public ActionResult Edit(Company company, HttpPostedFileBase fileupload, HttpPostedFileBase fileupload2)
         {
             if (ModelState.IsValid)
             {
@@ -122,6 +136,20 @@ namespace HSE.Controllers
                     fileupload.SaveAs(physicalFilename);
 
                     company.ContractItemFileUrl = newFilenameUrl;
+                }
+
+                if (fileupload2 != null)
+                {
+                    string filename = Path.GetFileName(fileupload2.FileName);
+                    string newFilename = Guid.NewGuid().ToString().Replace("-", string.Empty)
+                                         + Path.GetExtension(filename);
+
+                    string newFilenameUrl = "/Uploads/companyContract/" + newFilename;
+                    string physicalFilename = Server.MapPath(newFilenameUrl);
+
+                    fileupload2.SaveAs(physicalFilename);
+
+                    company.ChartFileUrl = newFilenameUrl;
                 }
                 #endregion
                 company.IsDeleted = false;

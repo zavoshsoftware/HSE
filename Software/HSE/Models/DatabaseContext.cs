@@ -79,7 +79,8 @@ namespace Models
         public DbSet<AccidentTypeRelAccident> AccidentTypeRelAccidents { get; set; }
         public DbSet<AccidentReport> AccidentReports { get; set; }
         public DbSet<AccidentReportRelAccident> AccidentReportRelAccidents { get; set; }
-        public DbSet<HsePlan> HsePlans { get; set; }
+        public DbSet<HseDocument> HseDocuments { get; set; }
+        public DbSet<HseDocumentType> HseDocumentTypes { get; set; }
         public DbSet<CompanyHumanResource> CompanyHumanResources { get; set; }
         public DbSet<Equipment> Equipments { get; set; }
         public DbSet<EquipmentType> EquipmentTypes { get; set; }
@@ -95,5 +96,9 @@ namespace Models
         public DbSet<Relation> Relations { get; set; }
         public DbSet<RelationType> RelationTypes { get; set; }
         public System.Data.Entity.DbSet<Models.UserJobRate> UserJobRates { get; set; }
+
+        public DbSet<Safety> Safeties { get; set; }
+        public DbSet<SafetyFileType> SafetyFileTypes { get; set; }
+        public DbSet<SafetyType> SafetyTypes { get; set; }
     }
 }

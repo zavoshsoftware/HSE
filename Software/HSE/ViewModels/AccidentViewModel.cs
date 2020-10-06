@@ -160,7 +160,7 @@ namespace ViewModels
         public List<AccidentReport> AccidentReports { get; set; }
 
 
-        [Display(Name = "اقدامات اصلاحي جهت جلوگيري از تكرار حادثه*")]
+        [Display(Name = "تخمين روزهاي از دست رفته (LTI)*")]
         [DataType(DataType.MultilineText)]
         [Required(ErrorMessage = "لطفا {0} را وارد نمایید")]
         public string WasteDays { get; set; }

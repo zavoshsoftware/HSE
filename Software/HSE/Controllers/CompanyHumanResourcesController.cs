@@ -11,7 +11,7 @@ using Models;
 
 namespace HSE.Controllers
 {
-    public class CompanyHumanResourcesController : Controller
+    public class CompanyHumanResourcesController : Infrastructure.BaseController
     {
         private DatabaseContext db = new DatabaseContext();
 
@@ -51,6 +51,13 @@ namespace HSE.Controllers
                 .Where(c => c.CompanyId == id && c.IsDeleted == false).OrderByDescending(c => c.CreationDate)
                 .Include(c => c.UserJobRate);
 
+
+
+            Company company = db.Companies.Find(id);
+
+            if (company != null)
+                ViewBag.chart = company.ChartFileUrl;
+
             return View(companyHumanResources.ToList());
         }
 
@@ -78,6 +85,11 @@ namespace HSE.Controllers
                 companyHumanResources = db.CompanyHumanResources.Include(c => c.Company)
                    .Where(c => c.CompanyId == user.CompanyId && c.IsDeleted == false).OrderByDescending(c => c.CreationDate)
                    .Include(c => c.UserJobRate).ToList();
+
+                Company company = db.Companies.Find(user.CompanyId);
+
+                if (company != null)
+                    ViewBag.chart = company.ChartFileUrl;
             }
             return View(companyHumanResources);
         }

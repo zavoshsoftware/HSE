@@ -22,6 +22,10 @@ namespace Models
         public Guid EquipmentTypeId { get; set; }
         public virtual EquipmentType EquipmentType { get; set; }
 
+        [Display(Name = "نظر ناظر")]
+        [DataType(DataType.MultilineText)]
+        public string SupervisorComment { get; set; }
+
         internal class configuration : EntityTypeConfiguration<Equipment>
         {
             public configuration()

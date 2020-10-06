@@ -17,6 +17,7 @@ ViewBag.Title = "فهرست شرکت های پیمانکار" ;
 					columns.Bound(item => @item.Id).Title("دستورات").Filterable(false).Groupable(false)
 							.Template(@<text>
 								          @Html.ActionLink("مشاهده منابع انسانی", "IndexAdmin", new {id = @item.Id}, new {@class = "k-button"})
+													<a href="@item.ChartFileUrl" target="_blank">دانلود چارت سازمانی</a>
 									</text>).Width(200);  
 		})
 		.ToolBar(toolbar =>

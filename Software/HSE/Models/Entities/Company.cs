@@ -47,6 +47,9 @@ namespace Models
 
         [Display(Name = "فایل مفاد پیمان")]
         public string ContractItemFileUrl { get; set; }
+
+        [Display(Name = "چارت سازمانی")]
+        public string ChartFileUrl { get; set; }
         internal class configuration : EntityTypeConfiguration<Company>
         {
             public configuration()

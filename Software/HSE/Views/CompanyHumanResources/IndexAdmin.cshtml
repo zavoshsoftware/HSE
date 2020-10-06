@@ -7,6 +7,7 @@ ViewBag.Title = "فهرست منابع انسانی " ;
 }
 
 <h2>@ViewBag.Title</h2>
+<a href="@ViewBag.chart" target="_blank" class="btn btn-primary">دانلود چارت سازمانی</a>
 
         @(Html.Kendo().Grid(Model)
 									.Name("Grid")
@@ -25,7 +26,8 @@ ViewBag.Title = "فهرست منابع انسانی " ;
 		})
 		.ToolBar(toolbar =>
 					{				
-						toolbar.Custom().Action("Create","CompanyHumanResources").Text("افزودن");                          
+						toolbar.Custom().Action("Create","CompanyHumanResources").Text("افزودن");               
+						
 					}
 		)         
 		.DataSource(dataSource => dataSource

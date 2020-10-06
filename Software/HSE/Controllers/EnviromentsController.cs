@@ -18,8 +18,24 @@ namespace HSE.Controllers
 
         public ActionResult List()
         {
-            List<Company> companies = db.Companies.Where(c => c.IsDeleted == false && c.IsActive ).ToList();
+            List<Company> companies;
 
+            var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
+            string id = identity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
+            string roleName = identity.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
+
+            if (roleName == "supervisor")
+            {
+                Guid userId = new Guid(id);
+
+                companies = db.Companies
+                    .Where(c => c.SupervisorUserId == userId && c.IsDeleted == false && c.IsActive).ToList();
+            }
+            else
+            {
+                companies = db.Companies.Where(c => c.IsDeleted == false && c.IsActive).ToList();
+
+            }
             return View(companies);
         }
         public ActionResult Index(Guid? id)
