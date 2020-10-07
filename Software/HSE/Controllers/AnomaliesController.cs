@@ -86,6 +86,10 @@ namespace HSE.Controllers
             {
                 ViewBag.AnomalyResultId = new SelectList(db.AnomalyResults, "Id", "Title", anomaly.AnomalyResultId);
             }
+            if (roleName == "Administrator")
+            {
+                ViewBag.companyId = anomaly.CompanyId;
+            }
             return View(anomaly);
         }
 

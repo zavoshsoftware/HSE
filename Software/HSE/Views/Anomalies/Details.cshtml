@@ -15,9 +15,6 @@
 				جزییات Anomaly
 			</div>
 			<div class="panel-body detail ">
-
-
-
 				<div class="row">
 					<div class="col-md-6">
 						@Html.DisplayNameFor(model => model.EventDate)
@@ -304,5 +301,5 @@
 
 
 <p>
-	@Html.ActionLink("بازگشت به فهرست", "Index")
+	@Html.ActionLink("بازگشت به فهرست", "Index",new{id= ViewBag.companyId })
 </p>
