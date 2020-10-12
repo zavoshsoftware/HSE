@@ -26,17 +26,15 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Body, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.FileUrl, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                                 @Html.Raw(Model.Body)
+	            @if (!string.IsNullOrEmpty(Model.FileUrl))
+	            {
+		            <a href="@Model.FileUrl" class="btn btn-primary" target="_blank">دانلود</a>
+	            }
             </div>
         </div>
-
-        
-
- 
-
-      
+			 
     </div>
 }
 

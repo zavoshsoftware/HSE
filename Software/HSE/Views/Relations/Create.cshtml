@@ -25,15 +25,23 @@
                 @Html.ValidationMessageFor(model => model.Title)
             </div>
         </div>
+							
+	        <div class="form-group">
+		        @Html.LabelFor(model => model.CompanyId, new { @class = "control-label col-md-2" })
+		        <div class="col-md-10">
+			        @Html.DropDownList("CompanyId", String.Empty)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Body, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                    @Html.EditorFor(model => model.Body)
+			        @Html.ValidationMessageFor(model => model.CompanyId)
+		        </div>
+	        </div>
 
-                @Html.ValidationMessageFor(model => model.Body)
-            </div>
-        </div>
+	        <div class="form-group">
+		        @Html.LabelFor(model => model.FileUrl, new {@class = "control-label col-md-2"})
+		        <div class="col-md-10">
+			        @Html.Kendo().Upload().Name("fileUpload").Multiple(false)
+			        @Html.ValidationMessageFor(model => model.FileUrl)
+		        </div>
+	        </div>
 
         <div class="form-group">
 			<div class="col-md-2">
@@ -63,5 +71,14 @@
         </div>
         </div>
 </div>
-}
+} 
+@section scripts{
+	<script type="text/javascript">
 
+		$(document).ready(function() {
+			if ("@ViewBag.role" === "company") {
+				$("#CompanyId").attr("disabled", "disabled");
+			}
+		});
+	</script>
+}

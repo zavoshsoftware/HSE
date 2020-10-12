@@ -13,5 +13,11 @@ namespace HSE.Controllers
         {
             return Redirect("/login");
         }
+
+        [Authorize]
+        public ActionResult Dashboard()
+        {
+            return View();
+        }
     }
 }

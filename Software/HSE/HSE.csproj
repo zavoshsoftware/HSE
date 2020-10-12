@@ -809,6 +809,7 @@
     <Content Include="Uploads\avatar.jpg" />
     <Content Include="Uploads\avatar_default.jpg" />
     <Content Include="Uploads\bg.jpeg" />
+    <Content Include="Uploads\dashboard.jpeg" />
     <Content Include="Uploads\logo.png" />
     <Content Include="Web.config" />
     <Content Include="Views\Shared\BackEndLayout\_BackEndLayout.cshtml" />
@@ -898,6 +899,7 @@
     <Compile Include="Controllers\CompaniesController.cs" />
     <Compile Include="Controllers\CompanyHumanResourcesController.cs" />
     <Compile Include="Controllers\CompanyStatusReportsController.cs" />
+    <Compile Include="Controllers\CompanyTypesController.cs" />
     <Compile Include="Controllers\ContractRquirmentsController.cs" />
     <Compile Include="Controllers\ConvertorController.cs" />
     <Compile Include="Controllers\CrisisTypesController.cs" />
@@ -912,6 +914,8 @@
     <Compile Include="Controllers\ImageBrowserController.cs" />
     <Compile Include="Controllers\OperationsController.cs" />
     <Compile Include="Controllers\EnviromentsController.cs" />
+    <Compile Include="Controllers\PassiveDefensesController.cs" />
+    <Compile Include="Controllers\PassiveDefenseTypesController.cs" />
     <Compile Include="Controllers\PermitsController.cs" />
     <Compile Include="Controllers\PermitStatusesController.cs" />
     <Compile Include="Controllers\PermitTypesController.cs" />
@@ -1139,12 +1143,43 @@
     <Compile Include="Migrations\202010061523393_V48.designer.cs">
       <DependentUpon>202010061523393_V48.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202010120758411_V49.cs" />
+    <Compile Include="Migrations\202010120758411_V49.designer.cs">
+      <DependentUpon>202010120758411_V49.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010120825345_V50.cs" />
+    <Compile Include="Migrations\202010120825345_V50.designer.cs">
+      <DependentUpon>202010120825345_V50.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010120954186_V51.cs" />
+    <Compile Include="Migrations\202010120954186_V51.designer.cs">
+      <DependentUpon>202010120954186_V51.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010121038208_V52.cs" />
+    <Compile Include="Migrations\202010121038208_V52.designer.cs">
+      <DependentUpon>202010121038208_V52.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010121128103_V53.cs" />
+    <Compile Include="Migrations\202010121128103_V53.designer.cs">
+      <DependentUpon>202010121128103_V53.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010121435167_V54.cs" />
+    <Compile Include="Migrations\202010121435167_V54.designer.cs">
+      <DependentUpon>202010121435167_V54.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010121512309_V55.cs" />
+    <Compile Include="Migrations\202010121512309_V55.designer.cs">
+      <DependentUpon>202010121512309_V55.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DatabaseContext.cs" />
     <Compile Include="Models\DatabaseContextInitializer.cs" />
     <Compile Include="Models\DatabaseContextInitializerBeforeTheFirstRelease.cs" />
+    <Compile Include="Models\Entities\CompanyType.cs" />
     <Compile Include="Models\Entities\Crisis.cs" />
     <Compile Include="Models\Entities\HseDocumentType.cs" />
+    <Compile Include="Models\Entities\PassiveDefense.cs" />
+    <Compile Include="Models\Entities\PassiveDefenseType.cs" />
     <Compile Include="Models\Entities\Relation.cs" />
     <Compile Include="Models\Entities\RelationType.cs" />
     <Compile Include="Models\Entities\Enviroment.cs" />
@@ -1214,6 +1249,8 @@
     <Compile Include="Models\Entities\WbsRequirment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\ReportIndexViewModel.cs" />
+    <Compile Include="ViewModels\ChangePasswordViewModel.cs" />
     <Compile Include="ViewModels\AccidentViewModel.cs" />
     <Compile Include="ViewModels\CalculateRiskInputViewModel.cs" />
     <Compile Include="ViewModels\CalculateRiskOutputViewModel.cs" />
@@ -1223,6 +1260,7 @@
     <Compile Include="ViewModels\RequirmentDetailViewModel.cs" />
     <Compile Include="ViewModels\ResponseUserViewModel.cs" />
     <Compile Include="ViewModels\UserRiskFormViewModel.cs" />
+    <Compile Include="ViewModels\UserRiskReportViewModel.cs" />
     <Compile Include="ViewModels\UserStageDetailsViewModel.cs" />
     <Compile Include="ViewModels\UserStageListViewModel.cs" />
     <Compile Include="ViewModels\WbsRequirmentDetailsViewModel.cs" />
@@ -1596,6 +1634,35 @@
     <Content Include="Views\Safeties\List.cshtml" />
     <Content Include="Views\Safeties\AdminIndex.cshtml" />
     <Content Include="Views\Safeties\SupervisorComment.cshtml" />
+    <Content Include="Views\CompanyTypes\Create.cshtml" />
+    <Content Include="Views\CompanyTypes\Delete.cshtml" />
+    <Content Include="Views\CompanyTypes\Details.cshtml" />
+    <Content Include="Views\CompanyTypes\Edit.cshtml" />
+    <Content Include="Views\CompanyTypes\Index.cshtml" />
+    <Content Include="Views\Permits\CompanyTypeList.cshtml" />
+    <Content Include="Views\HseDocuments\CompanyTypeList.cshtml" />
+    <Content Include="Views\Shared\_ListPartial.cshtml" />
+    <Content Include="Views\CompanyHumanResources\CompanyTypeList.cshtml" />
+    <Content Include="Views\Equipments\CompanyTypeList.cshtml" />
+    <Content Include="Views\Enviroments\CompanyTypeList.cshtml" />
+    <Content Include="Views\Anomalies\CompanyTypeList.cshtml" />
+    <Content Include="Views\UserRisks\CompanyTypeList.cshtml" />
+    <Content Include="Views\UserRisks\List.cshtml" />
+    <Content Include="Views\Users\ChangePassword.cshtml" />
+    <Content Include="Views\Home\Dashboard.cshtml" />
+    <Content Include="Views\UserRisks\ControlTask.cshtml" />
+    <Content Include="Views\PassiveDefenseTypes\Create.cshtml" />
+    <Content Include="Views\PassiveDefenseTypes\Delete.cshtml" />
+    <Content Include="Views\PassiveDefenseTypes\Details.cshtml" />
+    <Content Include="Views\PassiveDefenseTypes\Edit.cshtml" />
+    <Content Include="Views\PassiveDefenseTypes\Index.cshtml" />
+    <Content Include="Views\PassiveDefenses\Create.cshtml" />
+    <Content Include="Views\PassiveDefenses\Delete.cshtml" />
+    <Content Include="Views\PassiveDefenses\Details.cshtml" />
+    <Content Include="Views\PassiveDefenses\Edit.cshtml" />
+    <Content Include="Views\PassiveDefenses\Index.cshtml" />
+    <Content Include="Views\PassiveDefenses\SupervisorComment.cshtml" />
+    <Content Include="Views\UserRisks\UserRiskList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1613,11 +1680,12 @@
     <Folder Include="Uploads\Editor\" />
     <Folder Include="Uploads\equipment\" />
     <Folder Include="Uploads\hsePlans\" />
+    <Folder Include="Uploads\pd\" />
     <Folder Include="Uploads\permit\" />
+    <Folder Include="Uploads\relation\" />
     <Folder Include="Uploads\reports\" />
     <Folder Include="Uploads\safety\" />
     <Folder Include="Views\Convertor\" />
-    <Folder Include="Views\Home\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Resources\Resources.csproj">
@@ -1769,6 +1837,27 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202010061523393_V48.resx">
       <DependentUpon>202010061523393_V48.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010120758411_V49.resx">
+      <DependentUpon>202010120758411_V49.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010120825345_V50.resx">
+      <DependentUpon>202010120825345_V50.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010120954186_V51.resx">
+      <DependentUpon>202010120954186_V51.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010121038208_V52.resx">
+      <DependentUpon>202010121038208_V52.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010121128103_V53.resx">
+      <DependentUpon>202010121128103_V53.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010121435167_V54.resx">
+      <DependentUpon>202010121435167_V54.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010121512309_V55.resx">
+      <DependentUpon>202010121512309_V55.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

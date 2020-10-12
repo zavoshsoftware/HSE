@@ -99,6 +99,7 @@ namespace Models
         public Guid StatusId { get; set; }
         public virtual Status Status { get; set; }
 
+        [Display(Name = "شرکت پیمانکار")]
         public Guid CompanyId { get; set; }
         public virtual Company Company { get; set; }
 

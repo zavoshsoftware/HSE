@@ -18,24 +18,20 @@
 				columns.Bound(model => model.CreationDate);
 				columns.Bound(item => @item.Id).Title("دستورات").Filterable(false).Groupable(false)
 									.Template(@<text>
-											@if (ViewBag.role == "Administrator")
-											{
+										 
 												@Html.ActionLink("ویرایش", "Edit", new {id = @item.Id}, new {@class = "k-button"})
 												@Html.ActionLink("حذف", "Delete", new {id = @item.Id}, new {@class = "k-button"})
-}
-											else
-											{
+ 
 													@Html.ActionLink("مشاهده", "details", new { id = @item.Id }, new { @class = "k-button" })
 
-											}
+										 
 									</text>).Width(200);
 				})
 				.ToolBar(toolbar =>
 				{
-					if (ViewBag.role == "Administrator")
-					{
+				 
 						toolbar.Custom().Action("Create", "Relations").Text("افزودن");
-					}
+				 
 				}
 				)
 				.DataSource(dataSource => dataSource

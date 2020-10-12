@@ -117,7 +117,8 @@ $('#ddlStage').on('change',
                                 "</td><td>" + GetProbDdl(data[x].Code, data[x].RiskProbability) +
                                 "</td><td>" + GetIntDdl(data[x].Code, data[x].RiskIntensity) +
                                 "</td><td id='riskNumber_" + data[x].Code +
-                                "'></td>";
+                                "'></td><td><a target='_Blank' href='/userrisks/controlTask/" + data[x].Code+
+                                "'>مشاهده</></td>";
 
                             cookieVal += data[x].Code + "|";
                         }

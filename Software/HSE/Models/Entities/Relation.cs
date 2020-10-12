@@ -15,19 +15,19 @@ namespace Models
         [Display(Name = "عنوان")]
         public string Title { get; set; }
 
-        [Display(Name = "متن")]
-        [DataType(DataType.Html)]
-        [AllowHtml]
-        [Column(TypeName = "ntext")]
-        [UIHint("RichText")]
-        public string Body { get; set; }
-         
+        [Display(Name = "فایل صورتجلسه")]
+        public string FileUrl { get; set; }
+
+        [Display(Name = "شرکت پیمانکار")]
+        public Guid? CompanyId { get; set; }
+        public virtual Company Company { get; set; }
 
         internal class configuration : EntityTypeConfiguration<Relation>
         {
             public configuration()
             {
                 HasRequired(p => p.RelationType).WithMany(j => j.Relations).HasForeignKey(p => p.RelationTypeId);
+                HasOptional(p => p.Company).WithMany(j => j.Relations).HasForeignKey(p => p.CompanyId);
             }
         }
     }

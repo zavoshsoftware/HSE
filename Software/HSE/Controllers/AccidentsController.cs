@@ -844,11 +844,7 @@ namespace HSE.Controllers
                         AccidentReasonActionOther = accidentViewModel.AccidentReasonActionOther,
                         AccidentPartOther = accidentViewModel.AccidentPartOther,
                         AccidentInjuryOther = accidentViewModel.AccidentInjuryOther,
-                        AccidentReasonConditionOther = accidentViewModel.AccidentReasonConditionOther,
-
-
-
-
+                        AccidentReasonConditionOther = accidentViewModel.AccidentReasonConditionOther, 
                     };
 
                     accident.IsDeleted = false;

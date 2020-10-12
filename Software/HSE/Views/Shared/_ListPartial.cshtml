@@ -1,0 +1,17 @@
+﻿
+@model IEnumerable< Models.CompanyType>
+ 
+
+<div class="row" style="margin-top: 100px;">
+	@foreach (var companyType in Model)
+	{
+		 
+			 
+		<div class="col-md-4">
+			<a style="border: 1px solid cornflowerblue; padding: 20px 100px; text-align: center;" href="/@ViewBag.baseUrl/list/@companyType.Id">@companyType.Title</a>
+		</div>
+ 
+	}
+	 
+
+</div>

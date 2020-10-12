@@ -42,6 +42,7 @@ namespace HSE.Controllers
         public ActionResult Create()
         {
             ViewBag.SupervisorUserId = new SelectList(db.Users.Where(current=>current.Role.Name== "supervisor"&&current.IsDeleted==false), "Id", "FullName");
+            ViewBag.CompanyTypeId = new SelectList(db.CompanyTypes.Where(current=>current.IsActive &&current.IsDeleted==false), "Id", "Title");
             return View();
         }
 
@@ -93,6 +94,7 @@ namespace HSE.Controllers
             }
 
             ViewBag.SupervisorUserId = new SelectList(db.Users.Where(current => current.Role.Name == "supervisor" && current.IsDeleted == false), "Id", "FullName", company.SupervisorUserId);
+            ViewBag.CompanyTypeId = new SelectList(db.CompanyTypes.Where(current=>current.IsActive &&current.IsDeleted==false), "Id", "Title");
             return View(company);
         }
 
@@ -110,6 +112,7 @@ namespace HSE.Controllers
                 return HttpNotFound();
             }
             ViewBag.SupervisorUserId = new SelectList(db.Users.Where(current => current.Role.Name == "supervisor" && current.IsDeleted == false), "Id", "FullName", company.SupervisorUserId);
+            ViewBag.CompanyTypeId = new SelectList(db.CompanyTypes.Where(current=>current.IsActive &&current.IsDeleted==false), "Id", "Title",company.CompanyTypeId);
             return View(company);
         }
 
@@ -158,6 +161,7 @@ namespace HSE.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.CompanyTypeId = new SelectList(db.CompanyTypes.Where(current=>current.IsActive &&current.IsDeleted==false), "Id", "Title",company.CompanyTypeId);
             ViewBag.SupervisorUserId = new SelectList(db.Users.Where(current => current.Role.Name == "supervisor" && current.IsDeleted == false), "Id", "FullName", company.SupervisorUserId);
             return View(company);
         }

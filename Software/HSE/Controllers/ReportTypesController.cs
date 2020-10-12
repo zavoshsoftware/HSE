@@ -40,6 +40,7 @@ namespace HSE.Controllers
         // GET: ReportTypes/Create
         public ActionResult Create()
         {
+            ViewBag.ParentId = new SelectList(db.ReportTypes, "Id", "Title");
             return View();
         }
 
@@ -74,6 +75,7 @@ namespace HSE.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.ParentId = new SelectList(db.ReportTypes, "Id", "Title");
 
             return View(reportType);
         }
@@ -90,6 +92,7 @@ namespace HSE.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.ParentId = new SelectList(db.ReportTypes, "Id", "Title",reportType.ParentId);
             return View(reportType);
         }
 
@@ -123,6 +126,7 @@ namespace HSE.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.ParentId = new SelectList(db.ReportTypes, "Id", "Title",reportType.ParentId);
             return View(reportType);
         }
 

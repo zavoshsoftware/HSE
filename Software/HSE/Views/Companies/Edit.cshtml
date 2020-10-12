@@ -25,13 +25,20 @@
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.SupervisorUserId, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("SupervisorUserId", String.Empty)
-                @Html.ValidationMessageFor(model => model.SupervisorUserId)
-            </div>
-        </div>
+	    <div class="form-group">
+		    @Html.LabelFor(model => model.SupervisorUserId, new { @class = "control-label col-md-2" })
+		    <div class="col-md-10">
+			    @Html.DropDownList("SupervisorUserId", String.Empty)
+			    @Html.ValidationMessageFor(model => model.SupervisorUserId)
+		    </div>
+	    </div>
+	    <div class="form-group">
+		    @Html.LabelFor(model => model.CompanyTypeId, new { @class = "control-label col-md-2" })
+		    <div class="col-md-10">
+			    @Html.DropDownList("CompanyTypeId", String.Empty)
+			    @Html.ValidationMessageFor(model => model.CompanyTypeId)
+		    </div>
+	    </div>
 	    <div class="form-group">
 		    @Html.LabelFor(model => model.ContractItemFileUrl, new {@class = "control-label col-md-2"})
 		    <div class="col-md-10">

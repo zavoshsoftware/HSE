@@ -8,28 +8,29 @@ using System.Web;
 using System.Web.Mvc;
 using Helpers;
 using Models;
+using ViewModels;
 
 namespace HSE.Controllers
 {
 
-    [Authorize(Roles = "Administrator")]
     public class UsersController : Infrastructure.BaseController
     {
         private DatabaseContext db = new DatabaseContext();
 
+        [Authorize(Roles = "Administrator")]
         public ActionResult Index()
         {
             List<User> user = db.Users.Include(h => h.Company)
-                .Where(h=> h.IsDeleted == false)
+                .Where(h => h.IsDeleted == false)
                 .OrderByDescending(h => h.CreationDate).ToList();
 
             return View(user);
         }
 
 
-     
 
-        // GET: Users/Details/5
+
+        [Authorize(Roles = "Administrator")]
         public ActionResult Details(Guid? id)
         {
             if (id == null)
@@ -44,17 +45,15 @@ namespace HSE.Controllers
             return View(user);
         }
 
-        // GET: Users/Create
+        [Authorize(Roles = "Administrator")]
         public ActionResult Create()
         {
             ViewBag.RoleId = new SelectList(db.Roles, "Id", "Title");
-            ViewBag.CompanyId = new SelectList(db.Companies.Where(c=>c.IsDeleted==false), "Id", "Title");
+            ViewBag.CompanyId = new SelectList(db.Companies.Where(c => c.IsDeleted == false), "Id", "Title");
             return View();
         }
 
-        // POST: Users/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(User user)
@@ -64,8 +63,8 @@ namespace HSE.Controllers
             if (ModelState.IsValid)
             {
 
-				user.IsDeleted=false;
-				user.CreationDate= DateTime.Now; 
+                user.IsDeleted = false;
+                user.CreationDate = DateTime.Now;
                 user.Id = Guid.NewGuid();
                 db.Users.Add(user);
                 db.SaveChanges();
@@ -73,12 +72,57 @@ namespace HSE.Controllers
             }
 
             ViewBag.RoleId = new SelectList(db.Roles, "Id", "Title", user.RoleId);
-            ViewBag.CompanyId = new SelectList(db.Companies.Where(c=>c.IsDeleted==false), "Id", "Title");
+            ViewBag.CompanyId = new SelectList(db.Companies.Where(c => c.IsDeleted == false), "Id", "Title");
             return View(user);
         }
 
-         
 
+        [Authorize()]
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [Authorize()]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangePassword(ChangePasswordViewModel changePassword)
+        {
+            var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
+            string id = identity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
+
+            Guid userId = new Guid(id);
+
+            User user = db.Users.Find(userId);
+
+            if (ModelState.IsValid)
+            {
+                if (user.Password != changePassword.OldPassword)
+                {
+                    ModelState.AddModelError("invalidOldPass", "کلمه عبور قدیمی صحیح نمی باشد.");
+                    return View(changePassword);
+                }
+                if (changePassword.NewPassword != changePassword.RepeatNewPassword)
+                {
+                    ModelState.AddModelError("invalidOldPass", "تکرار کلمه عبور را به درستی وارد نمایید.");
+                    return View(changePassword);
+                }
+
+                user.Password = changePassword.NewPassword;
+                db.SaveChanges();
+                ViewBag.success = "کلمه عبور شما با موفقیت تغییر یافت.";
+                return View(changePassword);
+
+
+            }
+            return View(changePassword);
+
+
+        }
+
+
+
+        [Authorize(Roles = "Administrator")]
         public ActionResult Edit(Guid? id)
         {
             if (id == null)
@@ -91,28 +135,30 @@ namespace HSE.Controllers
                 return HttpNotFound();
             }
             ViewBag.RoleId = new SelectList(db.Roles, "Id", "Title", user.RoleId);
-            ViewBag.CompanyId = new SelectList(db.Companies.Where(c=>c.IsDeleted==false), "Id", "Title",user.CompanyId);
+            ViewBag.CompanyId = new SelectList(db.Companies.Where(c => c.IsDeleted == false), "Id", "Title", user.CompanyId);
             return View(user);
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Password,Username,FullName,Code,Email,RoleId,IsActive,CreationDate,LastModifiedDate,IsDeleted,DeletionDate,Description")] User user)
         {
             if (ModelState.IsValid)
             {
-				user.IsDeleted = false;
-				user.LastModifiedDate = DateTime.Now;
+                user.IsDeleted = false;
+                user.LastModifiedDate = DateTime.Now;
                 db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             ViewBag.RoleId = new SelectList(db.Roles, "Id", "Title", user.RoleId);
-            ViewBag.CompanyId = new SelectList(db.Companies.Where(c=>c.IsDeleted==false), "Id", "Title",user.CompanyId);
+            ViewBag.CompanyId = new SelectList(db.Companies.Where(c => c.IsDeleted == false), "Id", "Title", user.CompanyId);
             return View(user);
         }
 
         // GET: Users/Delete/5
+        [Authorize(Roles = "Administrator")]
         public ActionResult Delete(Guid? id)
         {
             if (id == null)
@@ -128,14 +174,15 @@ namespace HSE.Controllers
         }
 
         // POST: Users/Delete/5
+        [Authorize(Roles = "Administrator")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
             User user = db.Users.Find(id);
-			user.IsDeleted=true;
-			user.DeletionDate=DateTime.Now;
- 
+            user.IsDeleted = true;
+            user.DeletionDate = DateTime.Now;
+
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -156,9 +156,7 @@
 </div>
 }
 
-
-
-
+ 
 @section scripts{
 	<script>
 
@@ -188,5 +186,36 @@
 						});
 				}
 			});
+	</script>
+	
+	<script type="text/javascript">
+
+		$(document).ready(function() {
+			if ("@ViewBag.role" === "company") {
+				$("#CompanyId").attr("disabled", "disabled");
+
+				var SelectedValue = $("#CompanyId").val();
+
+				var procemessage = "<option value='0'> صبرکنید...</option>";
+				$("#ResponseUserId").html(procemessage).show();
+				$.ajax(
+					{
+						url: "/anomalies/FillResponseUser",
+						data: { id: SelectedValue },
+						cache: false,
+						type: "POST",
+						success: function(data) {
+							var markup = "<option value='0'>انتخاب کاربر</option>";
+							for (var x = 0; x < data.length; x++) {
+								markup += "<option value=" + data[x].Value + ">" + data[x].Title + "</option>";
+							}
+							$("#ResponseUserId").html(markup).show();
+						},
+						error: function(reponse) {
+							alert("error : " + reponse);
+						}
+					});
+			}
+		});
 	</script>
 }

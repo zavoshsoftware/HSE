@@ -19,6 +19,8 @@ namespace Models
             Equipments = new List<Equipment>();
             CompanyHumanResources = new List<CompanyHumanResource>();
             Permits = new List<Permit>();
+            PassiveDefenses = new List<PassiveDefense>();
+            Relations = new List<Relation>();
         }
         [Display(Name = "نام شرکت پیمانکار")]
         public string Title { get; set; }
@@ -42,19 +44,27 @@ namespace Models
         public virtual ICollection<CompanyHumanResource> CompanyHumanResources { get; set; }
         public virtual ICollection<Equipment> Equipments { get; set; }
         public virtual ICollection<Permit> Permits { get; set; }
+        public virtual ICollection<Relation> Relations { get; set; }
         public virtual ICollection<Enviroment> Enviroments { get; set; }
         public virtual ICollection<Crisis> Crisises { get; set; }
+        public virtual ICollection<PassiveDefense> PassiveDefenses { get; set; }
 
         [Display(Name = "فایل مفاد پیمان")]
         public string ContractItemFileUrl { get; set; }
 
         [Display(Name = "چارت سازمانی")]
         public string ChartFileUrl { get; set; }
+
+        [Display(Name = "نوع شرکت")]
+        public Guid? CompanyTypeId { get; set; }
+        public virtual CompanyType CompanyType { get; set; }
+
         internal class configuration : EntityTypeConfiguration<Company>
         {
             public configuration()
             {
                 HasOptional(p => p.SupervisorUser).WithMany(j => j.Companies).HasForeignKey(p => p.SupervisorUserId);
+                HasOptional(p => p.CompanyType).WithMany(j => j.Companies).HasForeignKey(p => p.CompanyTypeId);
             }
         }
     }

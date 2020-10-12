@@ -100,5 +100,8 @@ namespace Models
         public DbSet<Safety> Safeties { get; set; }
         public DbSet<SafetyFileType> SafetyFileTypes { get; set; }
         public DbSet<SafetyType> SafetyTypes { get; set; }
+        public DbSet<CompanyType> CompanyTypes { get; set; }
+        public DbSet<PassiveDefenseType> PassiveDefenseTypes { get; set; }
+        public DbSet<PassiveDefense> PassiveDefenses { get; set; }
     }
 }

@@ -15,16 +15,11 @@
         <hr />
         @Html.ValidationSummary(true)
         @Html.HiddenFor(model => model.Id)
+	    @Html.HiddenFor(model => model.CompanyId)
+	    @Html.HiddenFor(model => model.UserId)
 
       
-        <div class="form-group">
-            @Html.LabelFor(model => model.CompanyId, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("CompanyId", String.Empty)
-                @Html.ValidationMessageFor(model => model.CompanyId)
-            </div>
-        </div>
-
+        
 	    <div class="form-group">
 		    @Html.LabelFor(model => model.FileUrl, new {@class = "control-label col-md-2"})
 		    <div class="col-md-10">
@@ -59,7 +54,7 @@
         <div class="form-group" id="buttons">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="ثبت" class="btn btn-primary" />
-				@Html.ActionLink("بازگشت به فهرست", "Index")
+	            @Html.ActionLink("بازگشت به فهرست", "Index",new{id=ViewBag.CompanyId})
             </div>
         </div>
     </div>

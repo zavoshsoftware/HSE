@@ -12,9 +12,9 @@
     
     <div class="form-horizontal">        
         @Html.ValidationSummary(true)
-	    <p class="alert alert-info">
+	    @*<p class="alert alert-info">
 		    جهت دانلود فایل نمونه <a href="@ViewBag.sampleFile">اینجا</a> را کلیک کنید.
-	    </p>
+	    </p>*@
         <div class="form-group">
         <div class="form-group">
             @Html.LabelFor(model => model.ReportDate, new { @class = "control-label col-md-2" })
@@ -25,7 +25,15 @@
             </div>
         </div>
 
-    
+	        <div class="form-group">
+		        @Html.LabelFor(model => model.ReportTypeId, new { @class = "control-label col-md-2" })
+		        <div class="col-md-10">
+			        @Html.DropDownList("ReportTypeId", String.Empty)
+
+			        @Html.ValidationMessageFor(model => model.ReportTypeId)
+		        </div>
+	        </div>
+				
 	        <div class="form-group">
 		        @Html.LabelFor(model => model.FileUrl, new { @class = "control-label col-md-2" })
 		        <div class="col-md-10">

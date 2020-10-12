@@ -16,10 +16,16 @@ namespace HSE.Controllers
     {
         private DatabaseContext db = new DatabaseContext();
 
-
-        public ActionResult List()
+        public ActionResult CompanyTypeList()
         {
-            List<Company> companies = db.Companies.Where(c => c.IsDeleted == false && c.IsActive).ToList();
+            List<CompanyType> companyTypes = db.CompanyTypes.Where(c => c.IsDeleted == false && c.IsActive).ToList();
+            ViewBag.baseUrl = "hsedocuments";
+
+            return View(companyTypes);
+        }
+        public ActionResult List(Guid? id)
+        {
+            List<Company> companies = db.Companies.Where(c =>c.CompanyTypeId==id&& c.IsDeleted == false && c.IsActive).ToList();
 
             return View(companies);
         }
@@ -84,20 +90,16 @@ namespace HSE.Controllers
             return View(hseDocument);
         }
 
-        // GET: HseDocuments/Create
-        public ActionResult Create()
+        public ActionResult Create(Guid id)
         {
-            ViewBag.CompanyId = new SelectList(db.Companies, "Id", "Title");
+            ViewBag.CompanyId = id;
             ViewBag.HseDocumentTypeId = new SelectList(db.HseDocumentTypes, "Id", "Title");
             return View();
         }
 
-        // POST: HseDocuments/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(HseDocument hseDocument, HttpPostedFileBase fileupload)
+        public ActionResult Create(HseDocument hseDocument, HttpPostedFileBase fileupload, Guid id)
         {
             if (ModelState.IsValid)
             {
@@ -119,10 +121,11 @@ namespace HSE.Controllers
 
 
                 var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
-                string id = identity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
+                string uid = identity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
 
+                hseDocument.CompanyId = id;
                 hseDocument.IsActive = true;
-                hseDocument.UserId = new Guid(id);
+                hseDocument.UserId = new Guid(uid);
                 hseDocument.IsDeleted=false;
 				hseDocument.CreationDate= DateTime.Now; 
                 hseDocument.Id = Guid.NewGuid();
@@ -131,7 +134,7 @@ namespace HSE.Controllers
                 return RedirectToAction("Index",new{id=hseDocument.CompanyId});
             }
 
-            ViewBag.CompanyId = new SelectList(db.Companies, "Id", "Title", hseDocument.CompanyId);
+            ViewBag.CompanyId = id;
             ViewBag.HseDocumentTypeId = new SelectList(db.HseDocumentTypes, "Id", "Title", hseDocument.HseDocumentTypeId);
             return View(hseDocument);
         }
@@ -148,15 +151,13 @@ namespace HSE.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CompanyId = new SelectList(db.Companies, "Id", "Title", hseDocument.CompanyId);
+            ViewBag.CompanyId =   hseDocument.CompanyId ;
             ViewBag.HseDocumentTypeId = new SelectList(db.HseDocumentTypes, "Id", "Title", hseDocument.HseDocumentTypeId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "Password", hseDocument.UserId);
             return View(hseDocument);
         }
 
-        // POST: HseDocuments/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+  
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(HseDocument hseDocument, HttpPostedFileBase fileupload)
@@ -185,13 +186,12 @@ namespace HSE.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index", new { id = hseDocument.CompanyId });
             }
-            ViewBag.CompanyId = new SelectList(db.Companies, "Id", "Title", hseDocument.CompanyId);
+            ViewBag.CompanyId =   hseDocument.CompanyId ;
             ViewBag.HseDocumentTypeId = new SelectList(db.HseDocumentTypes, "Id", "Title", hseDocument.HseDocumentTypeId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "Password", hseDocument.UserId);
             return View(hseDocument);
         }
-
-        // GET: HseDocuments/Delete/5
+ 
         public ActionResult Delete(Guid? id)
         {
             if (id == null)
@@ -203,10 +203,11 @@ namespace HSE.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.CompanyId = hseDocument.CompanyId;
+
             return View(hseDocument);
         }
-
-        // POST: HseDocuments/Delete/5
+         
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
@@ -216,7 +217,7 @@ namespace HSE.Controllers
 			hseDocument.DeletionDate=DateTime.Now;
  
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index",new{id=hseDocument.CompanyId});
         }
 
         protected override void Dispose(bool disposing)

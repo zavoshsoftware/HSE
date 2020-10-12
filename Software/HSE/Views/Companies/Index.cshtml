@@ -12,6 +12,7 @@ ViewBag.Title = "فهرست شرکت های پیمانکار";
 									.Columns(columns =>
 									{
 									columns.Bound(model => model.Title);
+									columns.Bound(model => model.CompanyType.Title).Title("نوع پیمانکار");
 									columns.Bound(model => model.SupervisorUser.FullName).Title("نام ناظر");
 									columns.Bound(model => model.IsActive);
 									columns.Bound(model => model.CreationDate);

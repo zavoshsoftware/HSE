@@ -1,62 +1,88 @@
 ﻿@model Models.Relation
 
 @{
-    ViewBag.Title = "ویرایش " + Server.HtmlDecode(Html.DisplayNameFor(model => model).ToString());
-    Layout = "~/Views/Shared/BackEndLayout/_BackEndLayout.cshtml";
+		ViewBag.Title = "ویرایش " + Server.HtmlDecode(Html.DisplayNameFor(model => model).ToString());
+		Layout = "~/Views/Shared/BackEndLayout/_BackEndLayout.cshtml";
 }
 
 <h2>@ViewBag.Title</h2>
 
-@using (Html.BeginForm("Edit", "Relations",FormMethod.Post, new { enctype = "multipart/form-data" })) 
+@using (Html.BeginForm("Edit", "Relations", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">        
-        <hr />
-        @Html.ValidationSummary(true)
-        @Html.HiddenFor(model => model.Id)
-        @Html.HiddenFor(model => model.RelationTypeId)
- 
+		@Html.AntiForgeryToken()
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Title, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                                  @Html.EditorFor(model => model.Title)
-                @Html.ValidationMessageFor(model => model.Title)
-            </div>
-        </div>
+		<div class="form-horizontal">
+			<hr />
+			@Html.ValidationSummary(true)
+			@Html.HiddenFor(model => model.Id)
+			@Html.HiddenFor(model => model.RelationTypeId)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Body, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                                  @Html.EditorFor(model => model.Body)
-                @Html.ValidationMessageFor(model => model.Body)
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.IsActive, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                                  @Html.EditorFor(model => model.IsActive)
-                @Html.ValidationMessageFor(model => model.IsActive)
-            </div>
-        </div>
+			<div class="form-group">
+				@Html.LabelFor(model => model.Title, new { @class = "control-label col-md-2" })
+				<div class="col-md-10">
+					@Html.EditorFor(model => model.Title)
+					@Html.ValidationMessageFor(model => model.Title)
+				</div>
+			</div>
 
-	 @Html.HiddenFor(model => model.CreationDate)
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                                  @Html.EditorFor(model => model.Description)
-                @Html.ValidationMessageFor(model => model.Description)
-            </div>
-        </div>
+			<div class="form-group">
+				@Html.LabelFor(model => model.CompanyId, new { @class = "control-label col-md-2" })
+				<div class="col-md-10">
+					@Html.DropDownList("CompanyId", String.Empty)
 
-        <div class="form-group" id="buttons">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="ثبت" class="btn btn-primary" />
-	            @Html.ActionLink("بازگشت به فهرست", "Index",new{id = ViewBag.RelationTypeId })
-            </div>
-        </div>
-    </div>
+					@Html.ValidationMessageFor(model => model.CompanyId)
+				</div>
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(model => model.FileUrl, new { @class = "control-label col-md-2" })
+				<div class="col-md-10">
+					@Html.Kendo().Upload().Name("fileUpload").Multiple(false)
+					@Html.ValidationMessageFor(model => model.FileUrl)
+					@Html.HiddenFor(model => model.FileUrl)
+					
+					@if (!string.IsNullOrEmpty(Model.FileUrl))
+					{
+						<a href="@Model.FileUrl" class="btn btn-primary" target="_blank">دانلود</a>
+					}
+				</div>
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(model => model.IsActive, new { @class = "control-label col-md-2" })
+				<div class="col-md-10">
+					@Html.EditorFor(model => model.IsActive)
+					@Html.ValidationMessageFor(model => model.IsActive)
+				</div>
+			</div>
+
+			@Html.HiddenFor(model => model.CreationDate)
+			<div class="form-group">
+				@Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+				<div class="col-md-10">
+					@Html.EditorFor(model => model.Description)
+					@Html.ValidationMessageFor(model => model.Description)
+				</div>
+			</div>
+
+			<div class="form-group" id="buttons">
+				<div class="col-md-offset-2 col-md-10">
+					<input type="submit" value="ثبت" class="btn btn-primary" />
+					@Html.ActionLink("بازگشت به فهرست", "Index", new { id = ViewBag.RelationTypeId })
+				</div>
+			</div>
+		</div>
 }
 
+
+@section scripts{
+	<script type="text/javascript">
+
+		$(document).ready(function() {
+			if ("@ViewBag.role" === "company") {
+				$("#CompanyId").attr("disabled", "disabled");
+			}
+		});
+	</script>
+}

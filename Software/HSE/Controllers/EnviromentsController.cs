@@ -16,24 +16,39 @@ namespace HSE.Controllers
     {
         private DatabaseContext db = new DatabaseContext();
 
-        public ActionResult List()
+        public ActionResult CompanyTypeList()
+        {
+            List<CompanyType> companyTypes = db.CompanyTypes.Where(c => c.IsDeleted == false && c.IsActive).ToList();
+            ViewBag.baseUrl = "Enviroments";
+
+            return View(companyTypes);
+        }
+
+
+        public ActionResult List(Guid? id)
         {
             List<Company> companies;
 
             var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
-            string id = identity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
+            string uid = identity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
             string roleName = identity.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
 
             if (roleName == "supervisor")
             {
-                Guid userId = new Guid(id);
+                Guid userId = new Guid(uid);
 
                 companies = db.Companies
                     .Where(c => c.SupervisorUserId == userId && c.IsDeleted == false && c.IsActive).ToList();
             }
             else
             {
-                companies = db.Companies.Where(c => c.IsDeleted == false && c.IsActive).ToList();
+                if (id == null)
+                    companies = db.Companies.Where(c => c.IsDeleted == false && c.IsActive)
+                        .ToList();
+
+                else
+                    companies = db.Companies.Where(c => c.CompanyTypeId == id && c.IsDeleted == false && c.IsActive)
+                        .ToList();
 
             }
             return View(companies);

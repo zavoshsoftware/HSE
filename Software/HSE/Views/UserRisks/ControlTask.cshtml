@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Models.RiskControlingWork>
+
+@{
+		ViewBag.Title = "فهرست اقدامات کنترلی "+ ViewBag.riskTitle;
+
+		Layout = "~/Views/Shared/BackEndLayout/_BackEndLayout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+        @(Html.Kendo().Grid(Model)
+              .Name("Grid")
+              .Columns(columns =>
+                  {
+                            columns.Bound(model => model.Title);
+      
+			 
+		})
+		   
+		.DataSource(dataSource => dataSource
+									.Server()
+							
+									.Model(model => model.Id(item => item.Id))
+					)              
+	)

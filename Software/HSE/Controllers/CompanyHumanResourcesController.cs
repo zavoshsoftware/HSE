@@ -15,14 +15,23 @@ namespace HSE.Controllers
     {
         private DatabaseContext db = new DatabaseContext();
 
+
+        public ActionResult CompanyTypeList()
+        {
+            List<CompanyType> companyTypes = db.CompanyTypes.Where(c => c.IsDeleted == false && c.IsActive).ToList();
+            ViewBag.baseUrl = "CompanyHumanResources";
+
+            return View(companyTypes);
+        }
+
         [Authorize(Roles = "Administrator,supervisor")]
-        public ActionResult List()
+        public ActionResult List(Guid? id)
         {
             var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
-            string id = identity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
+            string uid = identity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
             string roleName = identity.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
 
-            Guid userId = new Guid(id);
+            Guid userId = new Guid(uid);
 
             ViewBag.roleName = roleName;
 
@@ -31,9 +40,11 @@ namespace HSE.Controllers
 
             if (roleName == "Administrator")
             {
-                companies = db.Companies.Where(c => c.IsDeleted == false && c.IsActive == true).ToList();
+                if (id == null)
+                    companies = db.Companies.Where(c => c.IsDeleted == false && c.IsActive == true).ToList();
+                else
+                    companies = db.Companies.Where(c => c.CompanyTypeId == id && c.IsDeleted == false && c.IsActive == true).ToList();
             }
-
 
             if (roleName == "supervisor")
             {
@@ -68,12 +79,12 @@ namespace HSE.Controllers
             string roleName = identity.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
 
             if (id != null && (roleName == "Administrator" || roleName == "supervisor"))
-                return RedirectToAction("IndexAdmin", new {id = id});
-            
+                return RedirectToAction("IndexAdmin", new { id = id });
+
 
             List<CompanyHumanResource> companyHumanResources = new List<CompanyHumanResource>();
 
-          
+
             string uid = identity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
 
             Guid userId = new Guid(uid);
@@ -112,7 +123,7 @@ namespace HSE.Controllers
         [Authorize(Roles = "Administrator,supervisor,company")]
         public ActionResult Create(Guid? id)
         {
-            Guid? companyId=null;
+            Guid? companyId = null;
             var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
             string roleName = identity.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
 
@@ -174,7 +185,7 @@ namespace HSE.Controllers
                     companyHumanResource.CompanyId = id.Value;
                     db.SaveChanges();
 
-                    return RedirectToAction("IndexAdmin",new{id=id});
+                    return RedirectToAction("IndexAdmin", new { id = id });
 
                 }
                 else if (roleName == "company")
@@ -192,7 +203,7 @@ namespace HSE.Controllers
 
                 }
 
-              
+
             }
 
             ViewBag.CompanyId = id;
@@ -212,7 +223,7 @@ namespace HSE.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CompanyId =   companyHumanResource.CompanyId;
+            ViewBag.CompanyId = companyHumanResource.CompanyId;
             ViewBag.UserJobRateId = new SelectList(db.UserJobRates, "Id", "Title", companyHumanResource.UserJobRateId);
             return View(companyHumanResource);
         }
@@ -291,7 +302,7 @@ namespace HSE.Controllers
             if (roleName == "Administrator" || roleName == "supervisor")
                 return RedirectToAction("IndexAdmin", new { id = companyHumanResource.CompanyId });
 
-           else 
+            else
                 return RedirectToAction("Index");
         }
 

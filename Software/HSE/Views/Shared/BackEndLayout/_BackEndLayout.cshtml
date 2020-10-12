@@ -22,7 +22,7 @@
     <script src="~/Scripts/KendoPersianDate/JalaliDate.js"></script>
         <script src="~/Scripts/KendoPersianDate/kendo.web.js"></script>
 	<script src="~/Scripts/KendoPersianDate/fa-IR.js"></script>
-	<script src="~/Scripts/kendo/2017.3.913/kendo.all.min.js"></script>
+	@*<script src="~/Scripts/kendo/2017.3.913/kendo.all.min.js"></script>*@
     <script src="@Url.Content("~/Scripts/kendo/2017.3.913/kendo.aspnetmvc.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo.modernizr.custom.js")"></script>
     <link href="~/Content/font.css" rel="stylesheet" />
@@ -35,12 +35,16 @@
 	        <div class="navbar-header aside-md">
 		        <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen" data-target="#nav"><i class="fa fa-bars"></i></a><a href="#" class="navbar-brand">
 			        <img src="~/uploads/logo.png" class="m-r-sm">
+										
 		        </a><a class="btn btn-link visible-xs" data-toggle="dropdown" data-target=".nav-user"><i class="fa fa-cog"></i></a>
+		     
 	        </div>
 
             <ul class="nav navbar-nav hidden-xs"></ul>
 	        <ul class="nav navbar-nav navbar-right hidden-xs nav-user">
-						<li style="color: #fff; margin-top: 17px; margin-right:10px;">@ViewBag.Name به سامانه HSE خوش آمدید</li>
+						<li style="color: #fff; margin-top: 17px; margin-right:400px;">***شرکت مهندسی و توسعه نفت ایران***</li>
+		        
+		        <li style="color: #fff; margin-top: 17px; margin-right:10px;">@ViewBag.Name به سامانه HSE خوش آمدید</li>
 		        
 		        <li class="hidden-xs">
 			        <a href="#" class="dropdown-toggle dk" data-toggle="dropdown">
@@ -70,9 +74,9 @@
 			        </a>
 			        <ul class="dropdown-menu animated fadeInRight">
 				        <span class="arrow top"></span>
-				        @*<li><a href="/account/changepassword">تغییر کلمه عبور</a> </li>
-                        <li><a href="#">Help</a> </li>
-                        <li class="divider"></li>*@
+				        <li><a href="/users/changepassword">تغییر کلمه عبور</a> </li>
+                      
+                        <li class="divider"></li>
 				        <li>
 					        @Html.ActionLink("خروج", "LogOff", "Account")
 				        </li>

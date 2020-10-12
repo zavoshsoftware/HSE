@@ -55,16 +55,25 @@ namespace HSE.Controllers
         public ActionResult IndexAdmin(Guid id)
         {
             List<Anomaly> anomalies = new List<Anomaly>();
-            
-            anomalies = db.Anomalies.Where(a =>a.CompanyId==id&& a.IsDeleted == false)
+
+            anomalies = db.Anomalies.Where(a => a.CompanyId == id && a.IsDeleted == false)
                 .OrderByDescending(a => a.CreationDate).ToList();
 
             return View(anomalies);
         }
 
-        public ActionResult List()
+        public ActionResult CompanyTypeList()
         {
-            List<Company> companies = db.Companies.Where(c => c.IsDeleted == false && c.IsActive == true).ToList();
+            List<CompanyType> companyTypes = db.CompanyTypes.Where(c => c.IsDeleted == false && c.IsActive).ToList();
+            ViewBag.baseUrl = "Anomalies";
+
+            return View(companyTypes);
+        }
+
+
+        public ActionResult List(Guid? id)
+        {
+            List<Company> companies = db.Companies.Where(c => c.CompanyTypeId == id && c.IsDeleted == false && c.IsActive == true).ToList();
 
             return View(companies);
         }
@@ -152,10 +161,37 @@ namespace HSE.Controllers
         // GET: Anomalies/Create
         public ActionResult Create()
         {
+            var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
+            string roleName = identity.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
+            string id = identity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
+
+            Guid userId = new Guid(id);
+            ViewBag.role = roleName;
+            User user = db.Users.Find(userId);
+            if (roleName == "company")
+            {
+                if (user != null)
+                {
+                    ViewBag.CompanyId = new SelectList(db.Companies, "Id", "Title", user.CompanyId);
+
+
+                }
+                else
+                {
+                    ViewBag.CompanyId = new SelectList(db.Companies, "Id", "Title");
+                }
+            }
+            if (roleName == "supervisor")
+            {
+                ViewBag.CompanyId = new SelectList(db.Companies.Where(c=>c.SupervisorUserId==userId), "Id", "Title");
+            }
+            else
+            {
+                ViewBag.CompanyId = new SelectList(db.Companies, "Id", "Title");
+            }
             ViewBag.AnomalyHseId = new SelectList(db.AnomalyHses, "Id", "Title");
             ViewBag.AnomalyLevelId = new SelectList(db.AnomalyLevels, "Id", "Title");
             ViewBag.AnomalyResultId = new SelectList(db.AnomalyResults, "Id", "Title");
-            ViewBag.CompanyId = new SelectList(db.Companies, "Id", "Title");
 
             return View();
         }
@@ -167,6 +203,12 @@ namespace HSE.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Anomaly anomaly, HttpPostedFileBase fileupload)
         {
+            var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
+            string id = identity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
+            Guid userId = new Guid(id);
+            User user = db.Users.Find(userId);
+            string roleName = identity.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
+
             if (ModelState.IsValid)
             {
                 #region Upload and resize image if needed
@@ -186,10 +228,10 @@ namespace HSE.Controllers
                 #endregion
 
 
-                var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
-                string id = identity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
-                Guid userId = new Guid(id);
 
+
+                if (roleName == "company" && user.CompanyId != null)
+                    anomaly.CompanyId = user.CompanyId.Value;
 
                 anomaly.CreatorUserId = userId;
                 anomaly.AnomalyResultId = new Guid("0EDEBF8C-622B-4816-8F0B-FF06C676F37B");
@@ -205,7 +247,27 @@ namespace HSE.Controllers
             ViewBag.AnomalyHseId = new SelectList(db.AnomalyHses, "Id", "Title");
             ViewBag.AnomalyLevelId = new SelectList(db.AnomalyLevels, "Id", "Title");
             ViewBag.AnomalyResultId = new SelectList(db.AnomalyResults, "Id", "Title");
-            ViewBag.CompanyId = new SelectList(db.Companies, "Id", "Title");
+
+            if (roleName == "company")
+            {
+
+                if (user != null)
+                {
+                    ViewBag.CompanyId = new SelectList(db.Companies, "Id", "Title", user.CompanyId);
+                }
+                else
+                {
+                    ViewBag.CompanyId = new SelectList(db.Companies, "Id", "Title");
+                }
+            }
+            if (roleName == "supervisor")
+            {
+                ViewBag.CompanyId = new SelectList(db.Companies.Where(c => c.SupervisorUserId == userId), "Id", "Title");
+            }
+            else
+            {
+                ViewBag.CompanyId = new SelectList(db.Companies, "Id", "Title");
+            }
 
             return View(anomaly);
         }

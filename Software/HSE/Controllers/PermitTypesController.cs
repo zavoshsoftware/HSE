@@ -39,6 +39,7 @@ namespace HSE.Controllers
         // GET: PermitTypes/Create
         public ActionResult Create()
         {
+            ViewBag.CompanyTypeId = new SelectList(db.CompanyTypes.Where(current=>current.IsActive &&current.IsDeleted==false), "Id", "Title");
             return View();
         }
 
@@ -74,6 +75,7 @@ namespace HSE.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.CompanyTypeId = new SelectList(db.CompanyTypes.Where(current => current.IsActive && current.IsDeleted == false), "Id", "Title");
 
             return View(permitType);
         }
@@ -90,6 +92,7 @@ namespace HSE.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.CompanyTypeId = new SelectList(db.CompanyTypes.Where(current=>current.IsActive &&current.IsDeleted==false), "Id", "Title", permitType.CompanyTypeId);
             return View(permitType);
         }
 
@@ -124,6 +127,7 @@ namespace HSE.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.CompanyTypeId = new SelectList(db.CompanyTypes.Where(current=>current.IsActive &&current.IsDeleted==false), "Id", "Title",permitType.CompanyTypeId);
             return View(permitType);
         }
 
@@ -162,6 +166,19 @@ namespace HSE.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+
+        public void UpdateTypes()
+        {
+            List<PermitType> permitTypes = db.PermitTypes.ToList();
+
+            foreach (PermitType permitType in permitTypes)
+            {
+                permitType.CompanyTypeId = new Guid("eddb71ee-2489-477f-a8a3-461ebe4f41bf");
+            }
+
+            db.SaveChanges();
         }
     }
 }

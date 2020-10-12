@@ -18,6 +18,17 @@ namespace Models
 
         public virtual ICollection<Permit> Permits { get; set; }
 
-      
+        [Display(Name = "نوع شرکت")]
+        public Guid? CompanyTypeId { get; set; }
+        public virtual CompanyType CompanyType { get; set; }
+
+        internal class configuration : EntityTypeConfiguration<PermitType>
+        {
+            public configuration()
+            {
+                HasOptional(p => p.CompanyType).WithMany(j => j.PermitTypes).HasForeignKey(p => p.CompanyTypeId);
+            }
+        }
+
     }
 }

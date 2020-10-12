@@ -16,27 +16,43 @@ namespace HSE.Controllers
     {
         private DatabaseContext db = new DatabaseContext();
 
-        public ActionResult List()
+        public ActionResult List(Guid? id)
         {
             List<Company> companies;
-             
+
             var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
-            string id = identity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
+            string uid = identity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
             string roleName = identity.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
 
             if (roleName == "supervisor")
             {
-                Guid userId = new Guid(id);
+                Guid userId = new Guid(uid);
 
                 companies = db.Companies
                          .Where(c => c.SupervisorUserId == userId && c.IsDeleted == false && c.IsActive).ToList();
             }
             else
             {
-                companies = db.Companies.Where(c => c.IsDeleted == false && c.IsActive).ToList();
+                if (id == null)
+                    companies = db.Companies.Where(c => c.IsDeleted == false && c.IsActive)
+                        .ToList();
+                else
+                {
 
+                    companies = db.Companies.Where(c => c.CompanyTypeId == id && c.IsDeleted == false && c.IsActive)
+                        .ToList();
+                }
             }
             return View(companies);
+        }
+
+        public ActionResult CompanyTypeList()
+        {
+            List<CompanyType> companyTypes = db.CompanyTypes.Where(c => c.IsDeleted == false && c.IsActive).ToList();
+
+            ViewBag.baseUrl = "permits";
+
+            return View(companyTypes);
         }
         public ActionResult Index(Guid? id)
         {
@@ -59,9 +75,12 @@ namespace HSE.Controllers
             {
                 companyId = id;
             }
+
             if (!db.Permits.Any(c => c.CompanyId == companyId))
             {
-                List<PermitType> permitTypes = db.PermitTypes.Where(c => c.IsDeleted == false).ToList();
+                Company company = db.Companies.Find(companyId);
+
+                List<PermitType> permitTypes = db.PermitTypes.Where(c => c.CompanyTypeId == company.CompanyTypeId && c.IsDeleted == false).ToList();
 
                 foreach (PermitType permitType in permitTypes)
                 {
@@ -73,7 +92,8 @@ namespace HSE.Controllers
                         CreationDate = DateTime.Now,
                         PermitTypeId = permitType.Id,
                         PermitStatusId = db.PermitStatuses.FirstOrDefault(c => c.Code == 0).Id,
-                        CompanyId = companyId.Value
+                        CompanyId = companyId.Value,
+
                     };
 
                     db.Permits.Add(permit);

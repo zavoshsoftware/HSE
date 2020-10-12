@@ -477,5 +477,91 @@ namespace HSE.Controllers
             return null;
         }
 
+
+        [Authorize(Roles = "Administrator")]
+        public ActionResult CompanyTypeList()
+        {
+            List<CompanyType> companyTypes = db.CompanyTypes.Where(c => c.IsDeleted == false && c.IsActive).ToList();
+
+            ViewBag.baseUrl = "userrisks";
+
+            return View(companyTypes);
+        }
+
+
+        [Authorize(Roles = "Administrator")]
+        public ActionResult List(Guid? id)
+        {
+            List<Company> companies = db.Companies.Where(c => c.CompanyTypeId == id && c.IsDeleted == false && c.IsActive == true).ToList();
+
+            return View(companies);
+        }
+
+        public ActionResult UserRiskList(Guid id)
+        {
+          
+
+            User user = db.Users.FirstOrDefault(c => c.CompanyId == id && c.IsDeleted == false);
+
+            if (user == null)
+            {
+                return RedirectToAction("CompanyTypeList");
+            }
+
+            Company company = db.Companies.Find(id);
+
+            ViewBag.Title = "ریسک های وارد شده توسط " + company.Title;
+
+            List<UserStage> userStages = db.UserStages.Where(c => c.UserId == user.Id).Include(c => c.Stage).ToList();
+
+            List<UserRiskItem> riskItems = new List<UserRiskItem>();
+
+            foreach (UserStage userStage in userStages)
+            {
+                Act act = db.Acts.Find(userStage.Stage.ActId);
+                Operation operation = db.Operations.Find(act.OperationId);
+                Project project = db.Projects.Find(operation.ProjectId);
+                List<UserRisk> userRisks = db.UserRisks.Where(c => c.UserStageId == userStage.Id).ToList();
+
+                riskItems.Add(new UserRiskItem()
+                {
+                    StageTitle = userStage.Stage.Title,
+                    ActTitle = act.Title,
+                    OperationtTitle = operation.Title,
+                    ProjectTitle = project.Title,
+                    UserRisks = userRisks
+                });
+            }
+
+            UserRiskReportViewModel userRiskReport = new UserRiskReportViewModel()
+            {
+                ProbDesc = GetProbDesc(),
+                IntenDesc = GetIntenDesc(),
+                UserRiskItems = riskItems
+            };
+            return View(userRiskReport);
+        }
+
+        public ActionResult ControlTask(int id)
+        {
+            Risk risk = db.Risks.FirstOrDefault(c => c.Code == id);
+
+            if (risk != null)
+                ViewBag.riskTitle = risk.Title;
+
+            List<RiskControlingWork> riskControlingWorks =
+                db.RiskControlingWorks.Where(c => c.Risk.Code == id && c.IsDeleted == false).ToList();
+
+            return View(riskControlingWorks);
+        }
+
+
+        //[Authorize(Roles = "Administrator")]
+        //public ActionResult UserRisk(Guid? id)
+        //{
+        //    List<Company> companies = db.Companies.Where(c => c.CompanyTypeId == id && c.IsDeleted == false && c.IsActive == true).ToList();
+
+        //    return View(companies);
+        //}
     }
 }

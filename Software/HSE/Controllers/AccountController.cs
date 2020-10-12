@@ -74,15 +74,16 @@ namespace Foroozan.Controllers
             }
             else
             {
-                if(role== "Administrator")
-                return RedirectToAction("Index", "users");
-                else if(role=="company")
-                    return RedirectToAction("Details", "WbsRequirments");
+                //if(role== "Administrator")
+                //return RedirectToAction("Index", "users");
+                //else if(role=="company")
+                //    return RedirectToAction("Details", "WbsRequirments");
 
-                if (role == "supervisor")
-                    return RedirectToAction("index", "Anomalies");
-                return RedirectToAction("Index", "users");
+                //if (role == "supervisor")
+                //    return RedirectToAction("index", "Anomalies");
+                //return RedirectToAction("Index", "users");
 
+                return RedirectToAction("dashboard", "home");
             }
         }
         public ActionResult LogOff()

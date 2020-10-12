@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Models;
+using ViewModels;
 
 namespace HSE.Controllers
 {
@@ -18,6 +19,8 @@ namespace HSE.Controllers
 
         public ActionResult Index(Guid id)
         {
+            ReportIndexViewModel reportIndex=new ReportIndexViewModel();
+            
             var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
             string roleName = identity.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
             List<Report> reports = new List<Report>();
@@ -26,7 +29,7 @@ namespace HSE.Controllers
 
             if (roleName == "Administrator")
             {
-                reports = db.Reports.Include(r => r.Company).Where(r => r.IsDeleted == false && r.ReportTypeId == id)
+                reports = db.Reports.Include(r => r.Company).Where(r => r.IsDeleted == false && r.ReportType.ParentId == id)
                     .OrderByDescending(r => r.CreationDate).Include(r => r.ReportType).Include(r => r.Status).ToList();
 
             }
@@ -38,7 +41,7 @@ namespace HSE.Controllers
 
                  
                     reports = db.Reports.Include(r => r.Company).Where(r =>
-                            r.IsDeleted == false && r.ReportTypeId == id && r.CompanyId == companyId)
+                            r.IsDeleted == false && r.ReportType.ParentId == id && r.CompanyId == companyId)
                         .OrderByDescending(r => r.CreationDate).Include(r => r.ReportType).Include(r => r.Status)
                         .ToList();
                 
@@ -50,7 +53,7 @@ namespace HSE.Controllers
                 if (user != null)
                 {
                     reports = db.Reports.Include(r => r.Company).Where(r =>
-                            r.IsDeleted == false && r.ReportTypeId == id && r.Company.SupervisorUserId == user.Id)
+                            r.IsDeleted == false && r.ReportType.ParentId == id && r.Company.SupervisorUserId == user.Id)
                         .OrderByDescending(r => r.CreationDate).Include(r => r.ReportType).Include(r => r.Status)
                         .ToList();
                 }
@@ -71,9 +74,14 @@ namespace HSE.Controllers
                     ViewBag.Title = "فهرست گزارش ماهانه";
 
 
-                ViewBag.sampleFile = reportType.SampleFile;
+                //ViewBag.sampleFile = reportType.SampleFile;
             }
-            return View(reports.ToList());
+
+            reportIndex.Reports = reports;
+            reportIndex.ReportTypes = db.ReportTypes.Where(c => c.ParentId == id && c.IsDeleted == false && c.IsActive)
+                .ToList();
+
+            return View(reportIndex);
         }
 
         public Guid GetLoginUserCompanyId()
@@ -104,7 +112,7 @@ namespace HSE.Controllers
         // GET: Reports/Create
         public ActionResult Create(Guid id)
         {
-            ViewBag.ReportTypeId = id;
+            ViewBag.ReportTypeId = new SelectList(db.ReportTypes.Where(c=>c.ParentId==id), "Id", "Title");
             ViewBag.StatusId = new SelectList(db.Status, "Id", "Title");
             ReportType reportType = db.ReportTypes.Find(id);
 
@@ -141,7 +149,7 @@ namespace HSE.Controllers
 
                 report.StatusId = db.Status.OrderBy(c => c.Order).FirstOrDefault().Id;
                 report.CompanyId = GetLoginUserCompanyId();
-                report.ReportTypeId = id;
+                //report.ReportTypeId = id;
                 report.IsDeleted = false;
                 report.CreationDate = DateTime.Now;
                 report.Id = Guid.NewGuid();
@@ -152,6 +160,7 @@ namespace HSE.Controllers
 
             ViewBag.ReportTypeId = id;
             ViewBag.StatusId = new SelectList(db.Status, "Id", "Title", report.StatusId);
+            ViewBag.ReportTypeId = new SelectList(db.ReportTypes.Where(c => c.ParentId == id), "Id", "Title");
 
             ReportType reportType = db.ReportTypes.Find(id);
 
