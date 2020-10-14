@@ -142,7 +142,7 @@ namespace HSE.Controllers
         [HttpPost]
         [Authorize(Roles = "Administrator")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Password,Username,FullName,Code,Email,RoleId,IsActive,CreationDate,LastModifiedDate,IsDeleted,DeletionDate,Description")] User user)
+        public ActionResult Edit( User user)
         {
             if (ModelState.IsValid)
             {

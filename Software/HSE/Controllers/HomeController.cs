@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace HSE.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : Infrastructure.BaseController
     {
         // GET: Home
         public ActionResult Index()

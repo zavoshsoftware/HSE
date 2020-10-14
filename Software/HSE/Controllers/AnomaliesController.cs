@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -181,9 +182,9 @@ namespace HSE.Controllers
                     ViewBag.CompanyId = new SelectList(db.Companies, "Id", "Title");
                 }
             }
-            if (roleName == "supervisor")
+            else if (roleName == "supervisor")
             {
-                ViewBag.CompanyId = new SelectList(db.Companies.Where(c=>c.SupervisorUserId==userId), "Id", "Title");
+                ViewBag.CompanyId = new SelectList(db.Companies.Where(c => c.SupervisorUserId == userId), "Id", "Title");
             }
             else
             {
@@ -203,6 +204,8 @@ namespace HSE.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Anomaly anomaly, HttpPostedFileBase fileupload)
         {
+
+
             var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
             string id = identity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
             Guid userId = new Guid(id);
@@ -233,6 +236,8 @@ namespace HSE.Controllers
                 if (roleName == "company" && user.CompanyId != null)
                     anomaly.CompanyId = user.CompanyId.Value;
 
+                anomaly.EventDate = GetGrDate(anomaly.EventDate);
+                anomaly.Deadline = GetGrDate(anomaly.Deadline);
                 anomaly.CreatorUserId = userId;
                 anomaly.AnomalyResultId = new Guid("0EDEBF8C-622B-4816-8F0B-FF06C676F37B");
                 anomaly.StatusId = db.Status.OrderBy(c => c.Order).FirstOrDefault().Id;
@@ -270,6 +275,17 @@ namespace HSE.Controllers
             }
 
             return View(anomaly);
+        }
+
+
+
+        public DateTime GetGrDate(DateTime datetime)
+        {
+            System.Globalization.PersianCalendar c = new System.Globalization.PersianCalendar();
+
+            DateTime date = c.ToDateTime(datetime.Year, datetime.Month, datetime.Day, 0, 0, 0, 0);
+
+            return date;
         }
 
         // GET: Anomalies/Edit/5

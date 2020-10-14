@@ -18,7 +18,7 @@
 				columns.Bound(model => model.Status.Title).Title("وضعیت");
 				columns.Bound(model => model.ResponseUser.FullName).Title("مسئول پیگیری");
 				columns.Bound(model => model.DeadlineStr);
-				columns.Bound(model => model.CreationDate);
+				columns.Bound(model => model.CreationDateStr);
 				columns.Bound(item => @item.Id).Title("دستورات").Filterable(false).Groupable(false)
 									.Template(@<text>
 											@Html.ActionLink("مشاهده جزییات", "Details", new { id = @item.Id }, new { @class = "k-button" })

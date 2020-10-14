@@ -12,7 +12,7 @@ using Models;
 namespace HSE.Controllers
 {
     [Authorize(Roles = "Administrator,company,supervisor")]
-    public class EnviromentsController : Controller
+    public class EnviromentsController : Infrastructure.BaseController
     {
         private DatabaseContext db = new DatabaseContext();
 

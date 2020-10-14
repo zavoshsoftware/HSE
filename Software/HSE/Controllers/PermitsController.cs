@@ -12,7 +12,7 @@ using Models;
 namespace HSE.Controllers
 {
     [Authorize(Roles = "Administrator,company,supervisor")]
-    public class PermitsController : Controller
+    public class PermitsController : Infrastructure.BaseController
     {
         private DatabaseContext db = new DatabaseContext();
 
@@ -80,26 +80,30 @@ namespace HSE.Controllers
             {
                 Company company = db.Companies.Find(companyId);
 
-                List<PermitType> permitTypes = db.PermitTypes.Where(c => c.CompanyTypeId == company.CompanyTypeId && c.IsDeleted == false).ToList();
-
-                foreach (PermitType permitType in permitTypes)
+                if (company.CompanyTypeId != null)
                 {
-                    Permit permit = new Permit()
+                    List<PermitType> permitTypes = db.PermitTypes
+                        .Where(c => c.CompanyTypeId == company.CompanyTypeId && c.IsDeleted == false).ToList();
+
+                    foreach (PermitType permitType in permitTypes)
                     {
-                        Id = Guid.NewGuid(),
-                        IsDeleted = false,
-                        IsActive = true,
-                        CreationDate = DateTime.Now,
-                        PermitTypeId = permitType.Id,
-                        PermitStatusId = db.PermitStatuses.FirstOrDefault(c => c.Code == 0).Id,
-                        CompanyId = companyId.Value,
+                        Permit permit = new Permit()
+                        {
+                            Id = Guid.NewGuid(),
+                            IsDeleted = false,
+                            IsActive = true,
+                            CreationDate = DateTime.Now,
+                            PermitTypeId = permitType.Id,
+                            PermitStatusId = db.PermitStatuses.FirstOrDefault(c => c.Code == 0).Id,
+                            CompanyId = companyId.Value,
 
-                    };
+                        };
 
-                    db.Permits.Add(permit);
+                        db.Permits.Add(permit);
+                    }
+
+                    db.SaveChanges();
                 }
-
-                db.SaveChanges();
             }
 
             var permits = db.Permits.Include(p => p.Company).Include(c => c.PermitType)

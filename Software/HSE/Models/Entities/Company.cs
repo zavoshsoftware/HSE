@@ -25,9 +25,9 @@ namespace Models
         [Display(Name = "نام شرکت پیمانکار")]
         public string Title { get; set; }
 
-        [Display(Name = "تعداد پرسونل رسمی")]
+        [Display(Name = "تعداد پرسنل رسمی")]
         public int? OfficialEmployee { get; set; }
-        [Display(Name = "تعداد پرسونل قراردادی")]
+        [Display(Name = "تعداد پرسنل قراردادی")]
         public int? ContractEmployee { get; set; }
 
 
