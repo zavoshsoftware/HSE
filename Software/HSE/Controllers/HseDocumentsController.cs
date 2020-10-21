@@ -21,11 +21,13 @@ namespace HSE.Controllers
             List<CompanyType> companyTypes = db.CompanyTypes.Where(c => c.IsDeleted == false && c.IsActive).ToList();
             ViewBag.baseUrl = "hsedocuments";
 
+            ViewBag.Title = "مدارک مهندسی HSE";
+
             return View(companyTypes);
         }
         public ActionResult List(Guid? id)
         {
-            List<Company> companies = db.Companies.Where(c =>c.CompanyTypeId==id&& c.IsDeleted == false && c.IsActive).ToList();
+            List<Company> companies = db.Companies.Where(c =>c.CompanyTypeId==id&& c.IsDeleted == false && c.IsActive).OrderBy(c => c.Title).ToList();
 
             return View(companies);
         }
@@ -36,6 +38,14 @@ namespace HSE.Controllers
                 .Where(h => h.CompanyId == id && h.IsDeleted == false)
                 .OrderByDescending(h => h.CreationDate).Include(h => h.User).ToList();
 
+            Company company = db.Companies.FirstOrDefault(c => c.Id == id);
+            if (company != null)
+                ViewBag.companyTypeId = company.CompanyTypeId;
+
+            var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
+            string roleName = identity.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
+
+            ViewBag.roleName = roleName;
             return View(hsePlans.ToList());
         }
 

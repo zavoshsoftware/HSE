@@ -18,7 +18,7 @@ namespace HSE.Controllers
     [Authorize(Roles = "Administrator")]
         public ActionResult Index()
         {
-            var companies = db.Companies.Include(c => c.SupervisorUser).Where(c=>c.IsDeleted==false).OrderByDescending(c=>c.CreationDate);
+            var companies = db.Companies.Include(c => c.SupervisorUser).Where(c=>c.IsDeleted==false).OrderBy(c=>c.Title);
             return View(companies.ToList());
         }
 

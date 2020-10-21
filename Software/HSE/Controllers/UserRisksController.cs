@@ -492,7 +492,8 @@ namespace HSE.Controllers
         [Authorize(Roles = "Administrator")]
         public ActionResult List(Guid? id)
         {
-            List<Company> companies = db.Companies.Where(c => c.CompanyTypeId == id && c.IsDeleted == false && c.IsActive == true).ToList();
+            List<Company> companies = db.Companies.Where(c => c.CompanyTypeId == id && c.IsDeleted == false && c.IsActive == true).OrderBy(c => c.Title).ToList();
+            ViewBag.Title = "ارزیابی ریسک";
 
             return View(companies);
         }

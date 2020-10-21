@@ -554,8 +554,8 @@
 							@Html.LabelFor(model => model.AccidentComplication, new { @class = "control-label col-md-4" })
 							<div class="col-md-8">
 								<div class="row">
-
-									@for (int idx = 0; idx < Model.Complication.Count; idx++)
+									@if (Model.Complication != null) {
+									 for (int idx = 0; idx < Model.Complication.Count; idx++)
 									{
 										<div class="col-md-4">
 											@Html.HiddenFor(x => Model.Complication[idx].Id)
@@ -563,6 +563,7 @@
 											@Html.DisplayFor(x => Model.Complication[idx].Title)
 											@Html.HiddenFor(x => Model.Complication[idx].Title)
 										</div>
+}
 									}
 
 								</div>
@@ -572,8 +573,8 @@
 							@Html.LabelFor(model => model.AccidentInitialComplication, new { @class = "control-label col-md-4" })
 							<div class="col-md-8">
 								<div class="row">
-
-									@for (int idx = 0; idx < Model.InitialComplication.Count; idx++)
+								@if (Model.InitialComplication != null) {
+									 for (int idx = 0; idx < Model.InitialComplication.Count; idx++)
 									{
 										<div class="col-md-4">
 											@Html.HiddenFor(x => Model.InitialComplication[idx].Id)
@@ -581,6 +582,7 @@
 											@Html.DisplayFor(x => Model.InitialComplication[idx].Title)
 											@Html.HiddenFor(x => Model.InitialComplication[idx].Title)
 										</div>
+									}
 									}
 
 								</div>

@@ -47,6 +47,11 @@ namespace HSE.Controllers
                 .Where(h => h.CompanyId == companyId && h.SafetyTypeId == id && h.IsDeleted == false)
                 .OrderByDescending(h => h.CreationDate).Include(h => h.SafetyType).ToList();
 
+            SafetyType safetyType = db.SafetyTypes.Find(id);
+
+            if (safetyType != null)
+                ViewBag.Title = "فهرست " + safetyType.Title;
+
             return View(safeties);
         }
 
@@ -63,6 +68,13 @@ namespace HSE.Controllers
             var safeties = db.Safeties.Include(s => s.Company).Where(s =>
                     s.SafetyTypeId == id && s.CompanyId == user.CompanyId && s.IsDeleted == false)
                 .OrderByDescending(s => s.CreationDate).Include(s => s.SafetyFileType).Include(s => s.SafetyType);
+
+
+            SafetyType safetyType = db.SafetyTypes.Find(id);
+
+            if (safetyType != null)
+                ViewBag.Title = "فهرست " + safetyType.Title;
+
 
             return View(safeties.ToList());
         }

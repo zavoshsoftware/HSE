@@ -19,11 +19,7 @@ ViewBag.Title = "فهرست شرکت های پیمانکار" ;
 								          @Html.ActionLink("مشاهده تجهیزات و ماشین آلات", "IndexAdmin", new {id = @item.Id}, new {@class = "k-button"})
 									</text>).Width(200);  
 		})
-		.ToolBar(toolbar =>
-					{				
-						toolbar.Custom().Action("Create","HsePlans").Text("افزودن");                          
-					}
-		)         
+     
 		.DataSource(dataSource => dataSource
 									.Server()
 							

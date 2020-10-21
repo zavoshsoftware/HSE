@@ -19,6 +19,7 @@ namespace HSE.Controllers
         {
             List<CompanyType> companyTypes = db.CompanyTypes.Where(c => c.IsDeleted == false && c.IsActive).ToList();
             ViewBag.baseUrl = "Equipments";
+            ViewBag.Title = "تجهیزات و ماشین آلات";
 
             return View(companyTypes);
         }
@@ -52,7 +53,7 @@ namespace HSE.Controllers
                      .Where(c => c.SupervisorUserId == userId && c.IsDeleted == false && c.IsActive).ToList();
             }
 
-            return View(companies);
+            return View(companies.OrderBy(c => c.Title).ToList());
         }
 
         [Authorize(Roles = "Administrator,supervisor")]

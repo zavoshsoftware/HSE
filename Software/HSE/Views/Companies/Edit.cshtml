@@ -44,6 +44,20 @@
 		    <div class="col-md-10">
 			    @Html.Kendo().Upload().Name("fileUpload").Multiple(false)
 			    @Html.ValidationMessageFor(model => model.ContractItemFileUrl)
+					
+			    @if (!string.IsNullOrEmpty(Model.ContractItemFileUrl))
+			    {
+				    <dfn>
+					    <a class="btn btn-primary" href="@Model.ContractItemFileUrl">دانلود مفاد پیمان</a>
+				    </dfn>
+
+			    }
+			    else
+			    {
+				    <dfn>
+					    تا کنون فایل مفاد پیمان برای این پیمانکار بارگزاری نشده است
+				    </dfn>
+			    }
 		    </div>
 	    </div>
 			
@@ -52,6 +66,20 @@
 		    <div class="col-md-10">
 			    @Html.Kendo().Upload().Name("fileUpload2").Multiple(false)
 			    @Html.ValidationMessageFor(model => model.ChartFileUrl)
+					
+					@if (!string.IsNullOrEmpty(Model.ChartFileUrl))
+					{
+						<dfn>
+							<a class="btn btn-primary" href="@Model.ChartFileUrl">دانلود چارت</a>
+						</dfn>
+
+					}
+					else
+					{
+							<dfn>
+								تا کنون چارتی برای این پیمانکار بارگزاری نشده است
+							</dfn>
+					}
 		    </div>
 	    </div>
 

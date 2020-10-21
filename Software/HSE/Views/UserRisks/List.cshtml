@@ -19,11 +19,7 @@ ViewBag.Title = "فهرست شرکت های پیمانکار" ;
 									@Html.ActionLink("مشاهده ریسک های اندازه گیری شده", "UserRiskList", new {id = @item.Id}, new {@class = "k-button"})
 									</text>).Width(200);  
 		})
-		.ToolBar(toolbar =>
-					{				
-						toolbar.Custom().Action("Create","HsePlans").Text("افزودن");                          
-					}
-		)         
+	    
 		.DataSource(dataSource => dataSource
 									.Server()
 							

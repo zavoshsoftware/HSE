@@ -25,10 +25,10 @@
 									columns.Bound(model => model.CreationDate);
 									columns.Bound(item => @item.Id).Title("دانلود فایل").Filterable(false).Groupable(false)
 										.Template(@<text>
-											         <a href="@item.FileUrl">دانلود</a>
+											         <a href="@item.FileUrl" class = "k-button">دانلود</a>
 											         
 										           </text>).Width(200);
-										columns.Bound(item => @item.Id).Title("دانلود فایل").Filterable(false).Groupable(false)
+										columns.Bound(item => @item.Id).Title("دستورات").Filterable(false).Groupable(false)
 									.Template(@<text>
 							
 				@if (ViewBag.roleName == "company")

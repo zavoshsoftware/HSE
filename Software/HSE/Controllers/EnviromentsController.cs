@@ -20,7 +20,7 @@ namespace HSE.Controllers
         {
             List<CompanyType> companyTypes = db.CompanyTypes.Where(c => c.IsDeleted == false && c.IsActive).ToList();
             ViewBag.baseUrl = "Enviroments";
-
+            ViewBag.Title = "محیط زیست و سلامت";
             return View(companyTypes);
         }
 
@@ -51,7 +51,7 @@ namespace HSE.Controllers
                         .ToList();
 
             }
-            return View(companies);
+            return View(companies.OrderBy(c => c.Title).ToList());
         }
         public ActionResult Index(Guid? id)
         {

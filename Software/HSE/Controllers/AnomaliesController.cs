@@ -29,7 +29,6 @@ namespace HSE.Controllers
             ViewBag.roleName = roleName;
             List<Anomaly> anomalies = new List<Anomaly>();
 
-
             if (roleName == "Administrator")
             {
                 anomalies = db.Anomalies.Where(a => a.IsDeleted == false)
@@ -68,13 +67,15 @@ namespace HSE.Controllers
             List<CompanyType> companyTypes = db.CompanyTypes.Where(c => c.IsDeleted == false && c.IsActive).ToList();
             ViewBag.baseUrl = "Anomalies";
 
+            ViewBag.Title = "عدم انطباق (Anomaly)";
+
             return View(companyTypes);
         }
 
 
         public ActionResult List(Guid? id)
         {
-            List<Company> companies = db.Companies.Where(c => c.CompanyTypeId == id && c.IsDeleted == false && c.IsActive == true).ToList();
+            List<Company> companies = db.Companies.Where(c => c.CompanyTypeId == id && c.IsDeleted == false && c.IsActive == true).OrderBy(c => c.Title).ToList();
 
             return View(companies);
         }
@@ -109,6 +110,10 @@ namespace HSE.Controllers
 
             if (ModelState.IsValid)
             {
+                if (anomaly.EffectivnessDate != null)
+                    anomaly.EffectivnessDate = GetGrDate(anomaly.EffectivnessDate.Value);
+
+
                 anomaly.IsDeleted = false;
                 anomaly.StatusId = db.Status.OrderBy(c => c.Order).Skip(1).FirstOrDefault().Id;
                 anomaly.LastModifiedDate = DateTime.Now;

@@ -16,7 +16,7 @@ namespace Models
         public Guid CompanyId { get; set; }
         public virtual Company Company { get; set; }
 
-        [Display(Name = "فایل hse plan")]
+        [Display(Name = "بارگزاری سند ")]
         public string FileUrl { get; set; }
 
         [Display(Name = "نظر ناظر")]

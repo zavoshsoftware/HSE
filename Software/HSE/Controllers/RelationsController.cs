@@ -44,6 +44,10 @@ namespace HSE.Controllers
                     .OrderByDescending(r => r.CreationDate)
                     .ToList();
 
+            RelationType relationType = db.RelationTypes.FirstOrDefault(c => c.Id == id);
+
+            if (relationType != null)
+                ViewBag.Title = "ارتباطات " + relationType.Title;
             return View(relations);
         }
          

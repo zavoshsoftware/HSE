@@ -21,6 +21,7 @@ namespace HSE.Controllers
             List<CompanyType> companyTypes = db.CompanyTypes.Where(c => c.IsDeleted == false && c.IsActive).ToList();
             ViewBag.baseUrl = "CompanyHumanResources";
 
+            ViewBag.Title = "نیروی انسانی";
             return View(companyTypes);
         }
 
@@ -52,7 +53,7 @@ namespace HSE.Controllers
                      .Where(c => c.SupervisorUserId == userId && c.IsDeleted == false && c.IsActive).ToList();
             }
 
-            return View(companies);
+            return View(companies.OrderBy(c => c.Title).ToList());
         }
 
         [Authorize(Roles = "Administrator,supervisor")]
@@ -67,8 +68,10 @@ namespace HSE.Controllers
             Company company = db.Companies.Find(id);
 
             if (company != null)
+            {
                 ViewBag.chart = company.ChartFileUrl;
-
+                ViewBag.Title = "فهرست منابع انسانی " + company.Title;
+            }
             return View(companyHumanResources.ToList());
         }
 

@@ -43,7 +43,7 @@ namespace HSE.Controllers
                         .ToList();
                 }
             }
-            return View(companies);
+            return View(companies.OrderBy(c => c.Title).ToList());
         }
 
         public ActionResult CompanyTypeList()
@@ -51,6 +51,7 @@ namespace HSE.Controllers
             List<CompanyType> companyTypes = db.CompanyTypes.Where(c => c.IsDeleted == false && c.IsActive).ToList();
 
             ViewBag.baseUrl = "permits";
+            ViewBag.Title = "پرمیت";
 
             return View(companyTypes);
         }

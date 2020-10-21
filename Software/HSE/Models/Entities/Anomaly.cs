@@ -88,6 +88,30 @@ namespace Models
         [Display(Name = "تاریخ احراز اثربخشی")]
         public DateTime? EffectivnessDate { get; set; }
 
+
+
+        [NotMapped]
+        [Display(Name = "تاریخ احراز اثربخشی")]
+        public string EffectivnessDateStr
+        {
+            get
+            {
+                //  return "hi";
+                if (EffectivnessDate != null)
+                {
+                    System.Globalization.PersianCalendar pc = new System.Globalization.PersianCalendar();
+                    string year = pc.GetYear(EffectivnessDate.Value).ToString().PadLeft(4, '0');
+                    string month = pc.GetMonth(EffectivnessDate.Value).ToString().PadLeft(2, '0');
+                    string day = pc.GetDayOfMonth(EffectivnessDate.Value).ToString().PadLeft(2, '0');
+                    return String.Format("{0}/{1}/{2}", year, month, day);
+                }
+
+                return String.Empty;
+            }
+        }
+
+
+
         [Display(Name = "تصاویر")]
         public string ImageUrl { get; set; }
 

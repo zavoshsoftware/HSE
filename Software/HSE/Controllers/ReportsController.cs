@@ -146,7 +146,7 @@ namespace HSE.Controllers
                 }
                 #endregion
 
-
+                report.ReportDate = GetGrDate(report.ReportDate);
                 report.StatusId = db.Status.OrderBy(c => c.Order).FirstOrDefault().Id;
                 report.CompanyId = GetLoginUserCompanyId();
                 //report.ReportTypeId = id;
@@ -170,6 +170,14 @@ namespace HSE.Controllers
             return View(report);
         }
 
+        public DateTime GetGrDate(DateTime datetime)
+        {
+            System.Globalization.PersianCalendar c = new System.Globalization.PersianCalendar();
+
+            DateTime date = c.ToDateTime(datetime.Year, datetime.Month, datetime.Day, 0, 0, 0, 0);
+
+            return date;
+        }
         // GET: Reports/Edit/5
         public ActionResult Edit(Guid? id)
         {
