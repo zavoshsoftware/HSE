@@ -169,7 +169,10 @@
 
 					</div>
 					<div class="col-md-6">
-						<img src="@Model.ImageUrl" height="200px;" />
+						@foreach (var attachment in Model.AnomalyAttachments)
+						{
+								<img src="@attachment.ImageUrl" height="200px;" />
+						}
 
 					</div>
 				</div>
@@ -301,5 +304,14 @@
 
 
 <p>
-	@Html.ActionLink("بازگشت به فهرست", "Indexadmin",new{id= ViewBag.companyId })
+	@if (ViewBag.rolename == "company")
+	{
+		@Html.ActionLink("بازگشت به فهرست", "Index", new {id = ViewBag.companyId})
+
+	}
+	else
+	{
+			@Html.ActionLink("بازگشت به فهرست", "Indexadmin", new { id = ViewBag.companyId })
+
+	}
 </p>

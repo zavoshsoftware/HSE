@@ -103,5 +103,6 @@ namespace Models
         public DbSet<CompanyType> CompanyTypes { get; set; }
         public DbSet<PassiveDefenseType> PassiveDefenseTypes { get; set; }
         public DbSet<PassiveDefense> PassiveDefenses { get; set; }
+        public DbSet<AnomalyAttachment> AnomalyAttachments { get; set; }
     }
 }

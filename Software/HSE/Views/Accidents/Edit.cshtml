@@ -593,45 +593,63 @@
 
 
 		<div class="form-group">
-				<div class="row">
-					<div class="col-md-12">
-						@Html.LabelFor(model => model.AccidentAmount, new { @class = "control-label col-md-2" })
-						<div class="col-md-10">
-							@Html.EditorFor(model => model.AccidentAmount)
+			<div class="row">
+				<div class="col-md-12">
+					@Html.LabelFor(model => model.AccidentAmount, new { @class = "control-label col-md-2" })
+					<div class="col-md-10">
+						@Html.EditorFor(model => model.AccidentAmount)
 
-							@Html.ValidationMessageFor(model => model.AccidentAmount)
-						</div>
+						@Html.ValidationMessageFor(model => model.AccidentAmount)
 					</div>
-
 				</div>
+
 			</div>
- 
+		</div>
+				
+		
 
-			<div class="form-group">
-				@Html.LabelFor(model => model.Actions, new { @class = "control-label col-md-2" })
-				<div class="col-md-10">
-					@Html.EditorFor(model => model.Actions)
+		<div class="form-group">
+			@Html.LabelFor(model => model.Actions, new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.Actions)
 
-					@Html.ValidationMessageFor(model => model.Actions)
-				</div>
+				@Html.ValidationMessageFor(model => model.Actions)
 			</div>
+		</div>
 
-			<div class="form-group">
-				@Html.LabelFor(model => model.ReapeatAction, new { @class = "control-label col-md-2" })
-				<div class="col-md-10">
-					@Html.EditorFor(model => model.ReapeatAction)
+		<div class="form-group">
+			@Html.LabelFor(model => model.ReapeatAction, new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.ReapeatAction)
 
-					@Html.ValidationMessageFor(model => model.ReapeatAction)
-				</div>
+				@Html.ValidationMessageFor(model => model.ReapeatAction)
 			</div>
+		</div>
 
+		<div class="form-group">
+			@Html.LabelFor(model => model.WasteDays, new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.WasteDays)
+
+				@Html.ValidationMessageFor(model => model.WasteDays)
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.CompanyUser, new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.CompanyUser)
+
+				@Html.ValidationMessageFor(model => model.CompanyUser)
+			</div>
+		</div>
 
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					سایر گزارشات حوادث
 				</div>
 				<div class="panel-body">
-					<table>
+					<table class="table table-bordered">
 						<tr>
 							@*<td>شماره گزارش</td>*@
 							<td>نوع گزارش</td>
@@ -641,6 +659,7 @@
 							<td>محل ارسال</td>
 							<td>گزارش خام</td>
 							<td>بارگزاری</td>
+							<td>دانلود فایل بارگزاری شده</td>
 						</tr>
 
 						@{
@@ -659,6 +678,21 @@
 
 											<td>
 												@Html.Kendo().Upload().Name("fileUpload" + i).Multiple(false)
+											</td>
+											<td>
+												@{
+														Models.DatabaseContext db = new Models.DatabaseContext();
+
+														var file = db.AccidentReportRelAccidents.FirstOrDefault(c => c.AccidentId == Model.Id && c.AccidentReportId == report.Id);
+
+													if (file != null)
+													{
+														if (!string.IsNullOrEmpty(file.FileUrl))
+														{
+															<a href="@file.FileUrl" target="_blank" class="btn btn-primary">دانلود فایل بارگزاری شده</a>
+														}
+													}
+												}
 											</td>
 										</tr>
 									i = i + 1;

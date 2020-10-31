@@ -8,15 +8,19 @@ using System.Web;
 
 namespace Models
 {
-    public class Anomaly:BaseEntity
+    public class Anomaly : BaseEntity
     {
-        [Display(Name="تاریخ")]
+        public Anomaly()
+        {
+            AnomalyAttachments = new List<AnomalyAttachment>();
+        }
+        [Display(Name = "تاریخ")]
         public DateTime EventDate { get; set; }
 
-        [Display(Name="شماره")]
+        [Display(Name = "شماره")]
         public string Code { get; set; }
 
-        [Display(Name="شرح مختصری از گزارش عامل بالقوه آسیب رسان Anomaly")]
+        [Display(Name = "شرح مختصری از گزارش عامل بالقوه آسیب رسان Anomaly")]
         [DataType(DataType.MultilineText)]
         public string Summery { get; set; }
 
@@ -62,7 +66,7 @@ namespace Models
                 string year = pc.GetYear(Deadline).ToString().PadLeft(4, '0');
                 string month = pc.GetMonth(Deadline).ToString().PadLeft(2, '0');
                 string day = pc.GetDayOfMonth(Deadline).ToString().PadLeft(2, '0');
-                return String.Format("{0}/{1}/{2}", year, month, day) ;
+                return String.Format("{0}/{1}/{2}", year, month, day);
             }
         }
 
@@ -135,7 +139,7 @@ namespace Models
         [DataType(DataType.MultilineText)]
         public string CompanyNotes { get; set; }
 
-
+        public virtual ICollection<AnomalyAttachment> AnomalyAttachments { get; set; }
         internal class configuration : EntityTypeConfiguration<Anomaly>
         {
             public configuration()

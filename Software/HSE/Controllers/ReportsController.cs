@@ -265,7 +265,7 @@ namespace HSE.Controllers
             report.DeletionDate = DateTime.Now;
 
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index",new{id=report.ReportType.ParentId});
         }
 
         protected override void Dispose(bool disposing)

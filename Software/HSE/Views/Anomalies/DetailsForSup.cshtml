@@ -172,7 +172,10 @@
 
 					</div>
 					<div class="col-md-6">
-						<img src="@Model.ImageUrl" height="200px;" />
+						@foreach (var attachment in Model.AnomalyAttachments)
+						{
+							<img src="@attachment.ImageUrl" height="200px;" />
+						}
 
 					</div>
 				</div>

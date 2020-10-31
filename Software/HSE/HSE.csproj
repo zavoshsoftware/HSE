@@ -893,6 +893,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActsController.cs" />
     <Compile Include="Controllers\AnomaliesController.cs" />
+    <Compile Include="Controllers\AnomalyAttachmentsController.cs" />
     <Compile Include="Controllers\AnomalyHsesController.cs" />
     <Compile Include="Controllers\AnomalyLevelsController.cs" />
     <Compile Include="Controllers\AnomalyResultsController.cs" />
@@ -1171,10 +1172,15 @@
     <Compile Include="Migrations\202010121512309_V55.designer.cs">
       <DependentUpon>202010121512309_V55.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202010310859462_V56.cs" />
+    <Compile Include="Migrations\202010310859462_V56.designer.cs">
+      <DependentUpon>202010310859462_V56.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DatabaseContext.cs" />
     <Compile Include="Models\DatabaseContextInitializer.cs" />
     <Compile Include="Models\DatabaseContextInitializerBeforeTheFirstRelease.cs" />
+    <Compile Include="Models\Entities\AnomalyAttachment.cs" />
     <Compile Include="Models\Entities\CompanyType.cs" />
     <Compile Include="Models\Entities\Crisis.cs" />
     <Compile Include="Models\Entities\HseDocumentType.cs" />
@@ -1663,6 +1669,11 @@
     <Content Include="Views\PassiveDefenses\Index.cshtml" />
     <Content Include="Views\PassiveDefenses\SupervisorComment.cshtml" />
     <Content Include="Views\UserRisks\UserRiskList.cshtml" />
+    <Content Include="Views\AnomalyAttachments\Create.cshtml" />
+    <Content Include="Views\AnomalyAttachments\Delete.cshtml" />
+    <Content Include="Views\AnomalyAttachments\Details.cshtml" />
+    <Content Include="Views\AnomalyAttachments\Edit.cshtml" />
+    <Content Include="Views\AnomalyAttachments\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1858,6 +1869,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202010121512309_V55.resx">
       <DependentUpon>202010121512309_V55.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010310859462_V56.resx">
+      <DependentUpon>202010310859462_V56.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -127,7 +127,7 @@
 		    <div class="form-group">
 			    @Html.LabelFor(model => model.ImageUrl, new {@class = "control-label col-md-2"})
 			    <div class="col-md-10">
-				    @Html.Kendo().Upload().Name("fileUpload").Multiple(false)
+				    @Html.Kendo().Upload().Name("fileUpload").Multiple(true)
 				    @Html.ValidationMessageFor(model => model.ImageUrl)
 			    </div>
 		    </div>

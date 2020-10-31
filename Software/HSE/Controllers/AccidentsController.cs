@@ -99,7 +99,7 @@ namespace HSE.Controllers
                 AccidentTypeOther = accident.AccidentTypeOther,
                 AccidentDesc = accident.AccidentDesc,
                 AccidentInitialComplication = accident.AccidentInitialComplication,
-                InitialComplication=GetInitialComplication(accident.Id),
+                InitialComplication = GetInitialComplication(accident.Id),
                 AccidentInjuryOther = accident.AccidentInjuryOther,
                 AccidentPartOther = accident.AccidentPartOther,
                 AccidentReasonActionOther = accident.AccidentReasonActionOther,
@@ -566,6 +566,7 @@ namespace HSE.Controllers
                         CreationDate = DateTime.Now
                     };
                     db.AccidentInjuryRelAccidents.Add(injury);
+
                 }
             }
             catch (Exception e)
@@ -754,6 +755,22 @@ namespace HSE.Controllers
                 Id = Guid.NewGuid(),
                 CreationDate = DateTime.Now
             };
+
+            db.AccidentReportRelAccidents.Add(accidentReport);
+        }
+
+        public void EditAccidentReportRelAccident(Guid reportId, Guid accidentId, string fileUrl)
+        {
+            if (!string.IsNullOrEmpty(fileUrl))
+            {
+
+                AccidentReportRelAccident rep = db.AccidentReportRelAccidents.FirstOrDefault(c => c.AccidentId == accidentId && c.AccidentReportId == reportId);
+                if (rep != null)
+                {
+                    rep.FileUrl = fileUrl;
+                    rep.LastModifiedDate = DateTime.Now;
+                }
+            }
         }
 
 
@@ -792,8 +809,8 @@ namespace HSE.Controllers
             if (ModelState.IsValid)
             {
                 if (!(accidentViewModel.AccidentInjuries.Any(c => c.IsSelected) && accidentViewModel.AccidentReasonActions.Any(c => c.IsSelected) &&
-                     accidentViewModel.AccidentReasonConditions.Any(c => c.IsSelected) &&  accidentViewModel.AccidentParts.Any(c => c.IsSelected) &&
-                     accidentViewModel.AccidentResults.Any(c => c.IsSelected) &&  accidentViewModel.AccidentTypes.Any(c => c.IsSelected)))
+                     accidentViewModel.AccidentReasonConditions.Any(c => c.IsSelected) && accidentViewModel.AccidentParts.Any(c => c.IsSelected) &&
+                     accidentViewModel.AccidentResults.Any(c => c.IsSelected) && accidentViewModel.AccidentTypes.Any(c => c.IsSelected)))
                 {
                     ModelState.AddModelError("checkboxes", "کلیه فیلد های ستاره دار را تکمیل نمایید");
                 }
@@ -845,7 +862,7 @@ namespace HSE.Controllers
                         AccidentReasonActionOther = accidentViewModel.AccidentReasonActionOther,
                         AccidentPartOther = accidentViewModel.AccidentPartOther,
                         AccidentInjuryOther = accidentViewModel.AccidentInjuryOther,
-                        AccidentReasonConditionOther = accidentViewModel.AccidentReasonConditionOther, 
+                        AccidentReasonConditionOther = accidentViewModel.AccidentReasonConditionOther,
                     };
 
                     accident.IsDeleted = false;
@@ -972,7 +989,9 @@ namespace HSE.Controllers
                 ReapeatAction = accident.ReapeatAction,
                 Unit = accident.Unit,
                 UserFullName = accident.UserFullName,
-                WeekDay = accident.WeekDay
+                WeekDay = accident.WeekDay,
+                CompanyUser = accident.CompanyUser,
+                WasteDays = accident.WasteDays
 
             };
 
@@ -990,54 +1009,56 @@ namespace HSE.Controllers
         {
             if (ModelState.IsValid)
             {
-                Accident accident = new Accident()
-                {
-                    FirstName = accidentViewModel.FirstName,
-                    LastName = accidentViewModel.LastName,
-                    PersonalNumber = accidentViewModel.PersonalNumber,
-                    Unit = accidentViewModel.Unit,
-                    Education = accidentViewModel.Education,
-                    Age = accidentViewModel.Age,
-                    Experience = accidentViewModel.Experience,
-                    AccidentDate = accidentViewModel.AccidentDate,
-                    AccidentTime = accidentViewModel.AccidentTime,
-                    IsMaried = ReturnIsMariage(accidentViewModel.MarriageStatusId),
-                    WeekDay = accidentViewModel.WeekDay,
-                    Place = accidentViewModel.Place,
-                    AccidentEmployeeTypeId = accidentViewModel.AccidentEmployeeTypeId,
-                    Phone = accidentViewModel.Phone,
-                    Company = accidentViewModel.Company,
-                    Job = accidentViewModel.Job,
-                    ManageName = accidentViewModel.ManageName,
-                    HospitalTime = accidentViewModel.HospitalTime,
-                    HospitalName = accidentViewModel.HospitalName,
-                    NationalCode = accidentViewModel.NationalCode,
-                    CellNumber = accidentViewModel.CellNumber,
-                    Address = accidentViewModel.Address,
-                    AccidentDesc = accidentViewModel.AccidentDesc,
-                    UserFullName = accidentViewModel.UserFullName,
-                    IsAcceptable = accidentViewModel.IsAcceptable,
-                    AccidentAmount = accidentViewModel.AccidentAmount,
-                    AccidentComplication = accidentViewModel.AccidentComplication,
-                    AccidentInitialComplication = accidentViewModel.AccidentInitialComplication,
-                    Actions = accidentViewModel.Actions,
-                    ReapeatAction = accidentViewModel.ReapeatAction,
-
-                    AccidentTypeOther = accidentViewModel.AccidentTypeOther,
-                    AccidentReasonActionOther = accidentViewModel.AccidentReasonActionOther,
-                    AccidentPartOther = accidentViewModel.AccidentPartOther,
-                    AccidentInjuryOther = accidentViewModel.AccidentInjuryOther,
-                    AccidentReasonConditionOther = accidentViewModel.AccidentReasonConditionOther
+                Accident accident = db.Accidents.Find(accidentViewModel.Id);
 
 
-                };
+                accident.FirstName = accidentViewModel.FirstName;
+                accident.LastName = accidentViewModel.LastName;
+                accident.PersonalNumber = accidentViewModel.PersonalNumber;
+                accident.Unit = accidentViewModel.Unit;
+                accident.Education = accidentViewModel.Education;
+                accident.Age = accidentViewModel.Age;
+                accident.Experience = accidentViewModel.Experience;
+                accident.AccidentDate = accidentViewModel.AccidentDate;
+                accident.AccidentTime = accidentViewModel.AccidentTime;
+                accident.IsMaried = ReturnIsMariage(accidentViewModel.MarriageStatusId);
+                accident.WeekDay = accidentViewModel.WeekDay;
+                accident.Place = accidentViewModel.Place;
+                accident.AccidentEmployeeTypeId = accidentViewModel.AccidentEmployeeTypeId;
+                accident.Phone = accidentViewModel.Phone;
+                accident.Company = accidentViewModel.Company;
+                accident.Job = accidentViewModel.Job;
+                accident.ManageName = accidentViewModel.ManageName;
+                accident.HospitalTime = accidentViewModel.HospitalTime;
+                accident.HospitalName = accidentViewModel.HospitalName;
+                accident.NationalCode = accidentViewModel.NationalCode;
+                accident.CellNumber = accidentViewModel.CellNumber;
+                accident.Address = accidentViewModel.Address;
+                accident.AccidentDesc = accidentViewModel.AccidentDesc;
+                accident.UserFullName = accidentViewModel.UserFullName;
+                accident.IsAcceptable = accidentViewModel.IsAcceptable;
+                accident.AccidentAmount = accidentViewModel.AccidentAmount;
+                accident.AccidentComplication = accidentViewModel.AccidentComplication;
+                accident.AccidentInitialComplication = accidentViewModel.AccidentInitialComplication;
+                accident.Actions = accidentViewModel.Actions;
+                accident.ReapeatAction = accidentViewModel.ReapeatAction;
+                accident.AccidentTypeOther = accidentViewModel.AccidentTypeOther;
+                accident.AccidentReasonActionOther = accidentViewModel.AccidentReasonActionOther;
+                accident.AccidentPartOther = accidentViewModel.AccidentPartOther;
+                accident.AccidentInjuryOther = accidentViewModel.AccidentInjuryOther;
+                accident.AccidentReasonConditionOther = accidentViewModel.AccidentReasonConditionOther;
+                accident.CompanyUser = accidentViewModel.CompanyUser;
+                accident.WasteDays = accidentViewModel.WasteDays;
+
+
+
 
                 accident.IsDeleted = false;
-                accident.CreationDate = DateTime.Now;
                 accident.LastModifiedDate = DateTime.Now;
 
 
                 db.SaveChanges();
+
 
                 InsertAccidentInjuryRelAccident(accidentViewModel.AccidentInjuries, accident.Id);
                 InsertAccidentReasonActionRelAccident(accidentViewModel.AccidentReasonActions, accident.Id);
@@ -1047,16 +1068,16 @@ namespace HSE.Controllers
                 InsertAccidentResultRelAccident(accidentViewModel.AccidentResults, accident.Id);
 
 
-                InsertAccidentReportRelAccident(new Guid("B2D00079-A144-4991-A439-19A479096E2F"), accident.Id, UploadFile(fileUpload1));
-                InsertAccidentReportRelAccident(new Guid("0630884E-769D-41D8-84DC-49F9393B23EF"), accident.Id, UploadFile(fileUpload2));
-                InsertAccidentReportRelAccident(new Guid("4864B35E-2A47-4470-8088-4AFF7DD5C1FF"), accident.Id, UploadFile(fileUpload3));
-                InsertAccidentReportRelAccident(new Guid("CD529926-F1BC-4A6A-8C01-59F076CD45FD"), accident.Id, UploadFile(fileUpload4));
-                InsertAccidentReportRelAccident(new Guid("06FBF6A7-B20D-4CEE-A69F-63AA38618C06"), accident.Id, UploadFile(fileUpload5));
-                InsertAccidentReportRelAccident(new Guid("305538E2-AE72-4579-8FAD-6AEC9D835813"), accident.Id, UploadFile(fileUpload6));
-                InsertAccidentReportRelAccident(new Guid("053E7D95-E97C-4447-AE8E-A4D1F5B00B52"), accident.Id, UploadFile(fileUpload7));
-                InsertAccidentReportRelAccident(new Guid("9403E98D-ABD2-4843-8C23-DE9E81B2C6D6"), accident.Id, UploadFile(fileUpload8));
-                InsertAccidentReportRelAccident(new Guid("E68DFA7A-7946-437F-A2F6-E6A881A0CCA1"), accident.Id, UploadFile(fileUpload9));
-                InsertAccidentReportRelAccident(new Guid("14E8912A-08B4-4CD6-8F27-F7DFDD86465E"), accident.Id, UploadFile(fileUpload10));
+                EditAccidentReportRelAccident(new Guid("B2D00079-A144-4991-A439-19A479096E2F"), accident.Id, UploadFile(fileUpload1));
+                EditAccidentReportRelAccident(new Guid("0630884E-769D-41D8-84DC-49F9393B23EF"), accident.Id, UploadFile(fileUpload2));
+                EditAccidentReportRelAccident(new Guid("4864B35E-2A47-4470-8088-4AFF7DD5C1FF"), accident.Id, UploadFile(fileUpload3));
+                EditAccidentReportRelAccident(new Guid("CD529926-F1BC-4A6A-8C01-59F076CD45FD"), accident.Id, UploadFile(fileUpload4));
+                EditAccidentReportRelAccident(new Guid("06FBF6A7-B20D-4CEE-A69F-63AA38618C06"), accident.Id, UploadFile(fileUpload5));
+                EditAccidentReportRelAccident(new Guid("305538E2-AE72-4579-8FAD-6AEC9D835813"), accident.Id, UploadFile(fileUpload6));
+                EditAccidentReportRelAccident(new Guid("053E7D95-E97C-4447-AE8E-A4D1F5B00B52"), accident.Id, UploadFile(fileUpload7));
+                EditAccidentReportRelAccident(new Guid("9403E98D-ABD2-4843-8C23-DE9E81B2C6D6"), accident.Id, UploadFile(fileUpload8));
+                EditAccidentReportRelAccident(new Guid("E68DFA7A-7946-437F-A2F6-E6A881A0CCA1"), accident.Id, UploadFile(fileUpload9));
+                EditAccidentReportRelAccident(new Guid("14E8912A-08B4-4CD6-8F27-F7DFDD86465E"), accident.Id, UploadFile(fileUpload10));
 
 
                 db.SaveChanges();
