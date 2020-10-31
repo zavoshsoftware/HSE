@@ -773,6 +773,14 @@ namespace HSE.Controllers
             }
         }
 
+        public DateTime GetGrDate(DateTime datetime)
+        {
+            System.Globalization.PersianCalendar c = new System.Globalization.PersianCalendar();
+
+            DateTime date = c.ToDateTime(datetime.Year, datetime.Month, datetime.Day, 0, 0, 0, 0);
+
+            return date;
+        }
 
         #endregion
 
@@ -834,7 +842,7 @@ namespace HSE.Controllers
                         Education = accidentViewModel.Education,
                         Age = accidentViewModel.Age,
                         Experience = accidentViewModel.Experience,
-                        AccidentDate = accidentViewModel.AccidentDate,
+                        AccidentDate = GetGrDate(accidentViewModel.AccidentDate),
                         AccidentTime = accidentViewModel.AccidentTime,
                         IsMaried = ReturnIsMariage(accidentViewModel.MarriageStatusId),
                         WeekDay = accidentViewModel.WeekDay,
@@ -1019,7 +1027,7 @@ namespace HSE.Controllers
                 accident.Education = accidentViewModel.Education;
                 accident.Age = accidentViewModel.Age;
                 accident.Experience = accidentViewModel.Experience;
-                accident.AccidentDate = accidentViewModel.AccidentDate;
+                accident.AccidentDate =GetGrDate(accidentViewModel.AccidentDate);
                 accident.AccidentTime = accidentViewModel.AccidentTime;
                 accident.IsMaried = ReturnIsMariage(accidentViewModel.MarriageStatusId);
                 accident.WeekDay = accidentViewModel.WeekDay;
