@@ -17,7 +17,7 @@ ViewBag.Title = "فهرست کاربران" ;
 									columns.Bound(model => model.Email);
 									columns.Bound(model => model.Role.Title);
 									columns.Bound(model => model.IsActive);
-									columns.Bound(model => model.CreationDate);
+									columns.Bound(model => model.CreationDateStr);
 									columns.Bound(item => @item.Id).Title("دستورات").Filterable(false).Groupable(false)
 									.Template(@<text>
 									@Html.ActionLink("ویرایش", "Edit", new {id = @item.Id}, new {@class = "k-button"})
