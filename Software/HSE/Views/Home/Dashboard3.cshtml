@@ -1,0 +1,188 @@
+﻿  
+
+<div class="row">
+	<div class="col-md-6"><div id="chartContainer"></div></div>
+	<div class="col-md-6"><div id="accidentChartContainer"></div></div>
+</div>
+
+
+<div class="row" style="margin-top: 500px;">
+	<div class="col-md-6"><div id="accidentInjuryChartContainer"></div></div>
+	<div class="col-md-6"><div id="accidentComplicationChartContainer"></div></div>
+</div>
+
+
+
+
+@section scripts{
+	<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+	<script type="text/javascript">
+		window.onload = function() {
+			var result = @Html.Raw(ViewBag.DataPoints);
+			var dataPoints = [];
+			for (var i = 0; i < result.length; i++) {
+				dataPoints.push({ label: result[i].Label, y: result[i].Y, legendText: result[i].Label });
+			}
+
+			var chart = new CanvasJS.Chart("chartContainer",
+				{
+					title: {
+						text: "وضعیت عدم انطباق های ثبت شده (Anomaly)"
+					},
+					animationEnabled: true,
+					legend: {
+						verticalAlign: "center",
+						horizontalAlign: "right",
+						fontSize: 20,
+						fontFamily: "tahoma"
+					},
+					theme: "light2",
+					data: [
+						{
+							type: "pie",
+							indexLabelFontFamily: "Garamond",
+							indexLabelFontSize: 20,
+							indexLabel: "{label} {y}%",
+							startAngle: -20,
+							showInLegend: false,
+							toolTipContent: "{legendText} {y}%",
+							dataPoints: dataPoints
+						}
+					]
+				});
+			chart.render();
+
+
+			var resultAccident = @Html.Raw(ViewBag.DataPointsAccident);
+			var dataPointsAccident = [];
+			for (var j = 0; j < resultAccident.length; j++) {
+				dataPointsAccident.push({
+					label: resultAccident[j].Label,
+					y: resultAccident[j].Y,
+					legendText: resultAccident[j].Label
+				});
+			}
+
+			var chartAccident = new CanvasJS.Chart("accidentChartContainer",
+				{
+					title: {
+						text: "نوع حوادت ثبت شده"
+					},
+					animationEnabled: true,
+					legend: {
+						verticalAlign: "center",
+						horizontalAlign: "right",
+						fontSize: 20,
+						fontFamily: "tahoma"
+					},
+					theme: "light2",
+					data: [
+						{
+							type: "pie",
+							indexLabelFontFamily: "Garamond",
+							indexLabelFontSize: 20,
+							indexLabel: "%{label} {y}",
+							startAngle: -20,
+							showInLegend: false,
+							toolTipContent: "%{legendText} {y}",
+							dataPoints: dataPointsAccident
+						}
+					]
+				});
+			chartAccident.render();
+
+			var resultAccidentInjury = @Html.Raw(ViewBag.DataPointsAccidentInjury);
+			var dataPointsAccidentInjury = [];
+
+			for (var k = 0; k< resultAccidentInjury.length; k++) {
+				dataPointsAccidentInjury.push({
+					label: resultAccidentInjury[k].Label,
+					y: resultAccidentInjury[k].Y,
+					legendText: resultAccidentInjury[k].Label
+				});
+			}
+
+			var chartAccidentInjury = new CanvasJS.Chart("accidentInjuryChartContainer",
+				{
+					title: {
+						text: "نوع صدمه حوادث"
+					},
+					animationEnabled: true,
+					legend: {
+						verticalAlign: "center",
+						horizontalAlign: "right",
+						fontSize: 20,
+						fontFamily: "tahoma"
+					},
+					theme: "light2",
+					data: [
+						{
+							type: "pie",
+							indexLabelFontFamily: "Garamond",
+							indexLabelFontSize: 20,
+							indexLabel: "%{label} {y}",
+							startAngle: -20,
+							showInLegend: false,
+							toolTipContent: "%{legendText} {y}",
+							dataPoints: dataPointsAccidentInjury
+						}
+					]
+				});
+			chartAccidentInjury.render();
+
+
+
+
+
+
+
+
+
+
+
+			var resultAccidentComp = @Html.Raw(ViewBag.DataPointsAccidentComplication);
+			var dataPointsAccidentComp = [];
+
+			for (var k = 0; k < resultAccidentComp.length; k++) {
+				dataPointsAccidentComp.push({
+					label: resultAccidentComp[k].Label,
+					y: resultAccidentComp[k].Y,
+					legendText: resultAccidentComp[k].Label
+				});
+			}
+
+			var chartAccidentComp = new CanvasJS.Chart("accidentComplicationChartContainer",
+				{
+					title: {
+						text: "عوارض ناشی از حوادث"
+					},
+					animationEnabled: true,
+					legend: {
+						verticalAlign: "center",
+						horizontalAlign: "right",
+						fontSize: 20,
+						fontFamily: "tahoma"
+					},
+					theme: "light2",
+					data: [
+						{
+							type: "pie",
+							indexLabelFontFamily: "Garamond",
+							indexLabelFontSize: 20,
+							indexLabel: "%{label} {y}",
+							startAngle: -20,
+							showInLegend: false,
+							toolTipContent: "%{legendText} {y}",
+							dataPoints: dataPointsAccidentComp
+						}
+					]
+				});
+			chartAccidentComp.render();
+
+
+		};
+
+
+	</script>
+}

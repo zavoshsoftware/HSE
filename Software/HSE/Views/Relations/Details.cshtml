@@ -1,4 +1,4 @@
-﻿@model Models.Relation
+﻿@model ViewModels.relationDetailViewModel
 
 @{
     ViewBag.Title = "مشاهده " + Server.HtmlDecode(Html.DisplayNameFor(model => model).ToString());
@@ -14,27 +14,70 @@
     <div class="form-horizontal">        
         <hr />
         @Html.ValidationSummary(true)
-        @Html.HiddenFor(model => model.Id)
-        @Html.HiddenFor(model => model.RelationTypeId)
+        @Html.HiddenFor(model => model.Relation.Id)
+        @Html.HiddenFor(model => model.Relation.RelationTypeId)
  
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Title, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Relation.Title, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                                @Model.Title
+                                @Model.Relation.Title
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FileUrl, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Relation.FileUrl, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-	            @if (!string.IsNullOrEmpty(Model.FileUrl))
+	            @if (!string.IsNullOrEmpty(Model.Relation.FileUrl))
 	            {
-		            <a href="@Model.FileUrl" class="btn btn-primary" target="_blank">دانلود</a>
+		            <a href="@Model.Relation.FileUrl" class="btn btn-primary" target="_blank">دانلود</a>
+	            }
+							
+	            else
+	            {
+		            <p>فایلی بارگزاری نشده است</p>
 	            }
             </div>
         </div>
-			 
+@if (ViewBag.relationType == "inorganization")
+{
+		
+	<div class="form-group">
+		@Html.LabelFor(model => model.Relation.ActionPlanFileUrl, new { @class = "control-label col-md-2" })
+		<div class="col-md-10">
+			@if (!string.IsNullOrEmpty(Model.Relation.ActionPlanFileUrl))
+			{
+				<a href="@Model.Relation.ActionPlanFileUrl" class="btn btn-primary" target="_blank">دانلود</a>
+			}
+			else
+			{
+				<p>فایلی بارگزاری نشده است</p>
+			}
+		</div>
+	</div>
+}
+@if (ViewBag.relationType == "edu")
+{
+	<div class="form-group">
+		@Html.LabelFor(model => model.Relation.Title, new { @class = "control-label col-md-2" })
+		<div class="col-md-10">
+			@Model.Relation.Title
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label	 class = "control-label col-md-2" >تصاویر</label>
+		<div class="col-md-10">
+			@foreach (var image in Model.RelationImages)
+			{
+				<img src="@image.ImageUrl" class="img-responsive" />
+				<br/>
+			}
+		</div>
+	</div>
+
+
+}
     </div>
 }
 

@@ -1,0 +1,29 @@
+﻿@model IEnumerable<ViewModels.PermitTypeListViewModel>
+
+@{
+		ViewBag.Title = "فهرست انوع پرمیت";
+
+		Layout = "~/Views/Shared/BackEndLayout/_BackEndLayout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@(Html.Kendo().Grid(Model)
+				.Name("Grid")
+				.Columns(columns =>
+				{
+				columns.Bound(model => model.PermitType.Title);
+				columns.Bound(model => model.Qty);
+
+				columns.Bound(item => @item.PermitType.Id).Title("دستورات").Filterable(false).Groupable(false)
+											.Template(@<text>
+											@Html.ActionLink("مشاهده پرمیت های این دسته", "Index", new { id = @ViewBag.id, permitTypeId = @item.PermitType.Id }, new { @class = "k-button" })
+											</text>).Width(200);
+				})
+
+				.DataSource(dataSource => dataSource
+																		.Server()
+
+																		.Model(model => model.Id(item => item.PermitType.Id))
+										)
+)

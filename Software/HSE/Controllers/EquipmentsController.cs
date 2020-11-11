@@ -142,7 +142,7 @@ namespace HSE.Controllers
 
 
                 equipment.CompanyId = companyId.Value;
-
+                equipment.FinishDate = GetGrDate(equipment.FinishDate);
                 equipment.IsDeleted = false;
                 equipment.CreationDate = DateTime.Now;
                 equipment.Id = Guid.NewGuid();
@@ -194,6 +194,7 @@ namespace HSE.Controllers
                 }
                 #endregion
 
+                equipment.FinishDate = GetGrDate(equipment.FinishDate);
                 equipment.IsDeleted = false;
                 equipment.LastModifiedDate = DateTime.Now;
                 db.Entry(equipment).State = EntityState.Modified;
@@ -243,7 +244,14 @@ namespace HSE.Controllers
         }
 
 
+        public DateTime GetGrDate(DateTime datetime)
+        {
+            System.Globalization.PersianCalendar c = new System.Globalization.PersianCalendar();
 
+            DateTime date = c.ToDateTime(datetime.Year, datetime.Month, datetime.Day, 0, 0, 0, 0);
+
+            return date;
+        }
 
         public ActionResult SupervisorComment(Guid? id)
         {

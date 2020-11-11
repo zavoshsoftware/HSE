@@ -36,8 +36,14 @@
 			</div>
 
 			<div class="form-group">
-				@Html.LabelFor(model => model.FileUrl, new { @class = "control-label col-md-2" })
-				<div class="col-md-10">
+				@if (ViewBag.relationType == "edu")
+				{
+					<label class="control-label col-md-2">فايل اموزشى</label>
+				}
+				else
+				{
+					@Html.LabelFor(model => model.FileUrl, new { @class = "control-label col-md-2" })
+				}				<div class="col-md-10">
 					@Html.Kendo().Upload().Name("fileUpload").Multiple(false)
 					@Html.ValidationMessageFor(model => model.FileUrl)
 					@Html.HiddenFor(model => model.FileUrl)
@@ -48,6 +54,42 @@
 					}
 				</div>
 			</div>
+			
+			
+			@if (ViewBag.relationType == "edu")
+			{
+					
+				<div class="form-group">
+					@Html.LabelFor(model => model.TeacherName, new { @class = "control-label col-md-2" })
+					<div class="col-md-10">
+						@Html.EditorFor(model => model.TeacherName)
+
+						@Html.ValidationMessageFor(model => model.TeacherName)
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-md-2">تصاویر</label>
+
+					<div class="col-md-10">
+						@Html.Kendo().Upload().Name("imagesFileUpload").Multiple(true)
+
+					</div>
+				</div>
+							
+			}
+			@if (ViewBag.relationType == "inorganization")
+			{
+				<div class="form-group">
+					<label class="control-label col-md-2">ActionPlan</label>
+
+					<div class="col-md-10">
+						@Html.Kendo().Upload().Name("ActionPlanFileUpload").Multiple(true)
+						@Html.HiddenFor(model => model.ActionPlanFileUrl)
+
+					</div>
+				</div>
+			}
 
 			<div class="form-group">
 				@Html.LabelFor(model => model.IsActive, new { @class = "control-label col-md-2" })

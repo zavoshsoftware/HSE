@@ -14,6 +14,7 @@ namespace Models
         public Guid AnomalyId { get; set; }
         public virtual Anomaly Anomaly { get; set; }
 
+        public bool IsResultAttachment { get; set; }
         internal class configuration : EntityTypeConfiguration<AnomalyAttachment>
         {
             public configuration()

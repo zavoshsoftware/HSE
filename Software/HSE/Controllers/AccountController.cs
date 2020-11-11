@@ -70,10 +70,13 @@ namespace Foroozan.Controllers
         {
             if (Url.IsLocalUrl(returnUrl))
             {
+              
                 return Redirect(returnUrl);
             }
             else
             {
+                //if (role == "Administrator")
+                //    return RedirectToAction("dashboard3", "home");
                 //if(role== "Administrator")
                 //return RedirectToAction("Index", "users");
                 //else if(role=="company")

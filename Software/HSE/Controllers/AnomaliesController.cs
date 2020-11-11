@@ -114,7 +114,7 @@ namespace HSE.Controllers
         }
 
         [HttpPost]
-        public ActionResult Details(Anomaly anomaly)
+        public ActionResult Details(Anomaly anomaly, List<HttpPostedFileBase> fileUploadResultAttachment)
         {
 
             if (ModelState.IsValid)
@@ -127,6 +127,38 @@ namespace HSE.Controllers
                 anomaly.StatusId = db.Status.OrderBy(c => c.Order).Skip(1).FirstOrDefault().Id;
                 anomaly.LastModifiedDate = DateTime.Now;
                 db.Entry(anomaly).State = EntityState.Modified;
+
+
+                #region Upload and resize image if needed
+                if (fileUploadResultAttachment != null)
+                {
+                    foreach (HttpPostedFileBase t in fileUploadResultAttachment)
+                    {
+                        string filename = Path.GetFileName(t.FileName);
+                        string newFilename = Guid.NewGuid().ToString().Replace("-", string.Empty)
+                                             + Path.GetExtension(filename);
+
+                        string newFilenameUrl = "/Uploads/anomaly/" + newFilename;
+                        string physicalFilename = Server.MapPath(newFilenameUrl);
+
+                        t.SaveAs(physicalFilename);
+
+                        AnomalyAttachment anomalyAttachment = new AnomalyAttachment()
+                        {
+                            Id = Guid.NewGuid(),
+                            ImageUrl = newFilenameUrl,
+                            CreationDate = DateTime.Now,
+                            AnomalyId = anomaly.Id,
+                            IsActive = true,
+                            IsDeleted = false,
+                            IsResultAttachment = true
+                        };
+                        db.AnomalyAttachments.Add(anomalyAttachment);
+                    }
+                }
+                #endregion
+
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -265,6 +297,7 @@ namespace HSE.Controllers
                             AnomalyId = anomaly.Id,
                             IsActive = true,
                             IsDeleted = false,
+                            IsResultAttachment = false
                         };
                         db.AnomalyAttachments.Add(anomalyAttachment);
                     }
@@ -407,6 +440,21 @@ namespace HSE.Controllers
         }
 
 
+        public ActionResult RemoveAttachment(Guid id)
+        {
+            AnomalyAttachment anomalyAttachment = db.AnomalyAttachments.Find(id);
+            if (anomalyAttachment != null)
+            {
+                anomalyAttachment.IsDeleted = true;
+                anomalyAttachment.DeletionDate=DateTime.Now;
+
+                db.SaveChanges();
+
+                return RedirectToAction("Details", new {id = anomalyAttachment.AnomalyId});
+            }
+
+            return RedirectToAction("Index");
+        }
         //public string ConvertAttachment()
         //{
         //    List<Anomaly> anomalies = db.Anomalies.ToList();

@@ -172,8 +172,8 @@
 
 					</div>
 					<div class="col-md-6">
-						@foreach (var attachment in Model.AnomalyAttachments)
-						{
+@foreach (var attachment in Model.AnomalyAttachments.Where(c => c.IsDeleted == false && c.IsResultAttachment == false))
+{
 							<img src="@attachment.ImageUrl" height="200px;" />
 						}
 
@@ -215,14 +215,38 @@
 
 					</div>
 				</div>
+			<div class="row">
+				<div class="col-md-6">
+
+					@Html.DisplayNameFor(model => model.CompanyNotes)
+
+				</div>
+				<div class="col-md-6">
+					@Html.DisplayFor(model => model.CompanyNotes)
+
+
+				</div>
+			</div>
+
 		<div class="row">
 					<div class="col-md-6">
 
-						@Html.DisplayNameFor(model => model.CompanyNotes)
+						<label>ضمیمه های شرکت پیمانکار</label>
 
 					</div>
 					<div class="col-md-6">
-						@Html.DisplayFor(model => model.CompanyNotes)
+						<table class="table table-bordered">
+							@foreach (var attachment in Model.AnomalyAttachments.Where(c =>c.IsDeleted==false&& c.IsResultAttachment == true))
+							{
+
+								<tr>
+									<td>
+										<a href="@attachment.ImageUrl" target="_blank" class="btn btn-default">مشاهده</a>
+									</td>
+								
+								</tr>
+							}
+						</table>
 
 
 					</div>

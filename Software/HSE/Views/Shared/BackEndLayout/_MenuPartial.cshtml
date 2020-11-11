@@ -6,10 +6,12 @@
 				<ul class="nav">
 	 
 					@{
-						var identity = (System.Security.Claims.ClaimsIdentity) User.Identity;
-						string roleName = identity.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
-						if (roleName == "Administrator")
-						{
+							var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
+							string roleName = identity.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
+							if (roleName == "Administrator")
+							{
+									<li class="menuitem"><a href="/home/dashboard3"><i class="fa fa-cogs icon"><b class="bg-info"></b></i><span>داشبورد مدیریتی</span></a></li>
+
 							<li id="blogLi" class="menuitem">
 								<a href="#">
 									<i class="fa fa-sitemap icon"><b class="bg-primary"></b></i><span class="pull-right"><i class="fa fa-angle-down text"></i><i class="fa fa-angle-up text-active"></i></span><span>مدیریت اطلاعات پایه ای</span>
@@ -109,7 +111,7 @@
 
 									<li>
 										<a href="/relations/index/6ae4c301-1bdc-4495-82de-f4e356f67e12">
-											<i class="fa fa-angle-left"></i><span>درون سازمانی - TBM</span>
+											<i class="fa fa-angle-left"></i><span>درون سازمانی - آموزش</span>
 										</a>
 									</li>
 									<li>
@@ -126,7 +128,7 @@
 
 									<li>
 										<a href="/relations/index/79d99e93-5b4e-43cb-9e35-a5634ddb709e">
-											<i class="fa fa-angle-left"></i><span>برون سازمانی - TBM</span>
+											<i class="fa fa-angle-left"></i><span>برون سازمانی - آموزش</span>
 										</a>
 									</li>
 
@@ -395,7 +397,7 @@
 
 									<li>
 										<a href="/relations/index/6ae4c301-1bdc-4495-82de-f4e356f67e12">
-											<i class="fa fa-angle-left"></i><span>درون سازمانی - TBM</span>
+											<i class="fa fa-angle-left"></i><span>درون سازمانی - آموزش</span>
 										</a>
 									</li>
 									<li>
@@ -412,7 +414,7 @@
 
 									<li>
 										<a href="/relations/index/79d99e93-5b4e-43cb-9e35-a5634ddb709e">
-											<i class="fa fa-angle-left"></i><span>برون سازمانی - TBM</span>
+											<i class="fa fa-angle-left"></i><span>برون سازمانی - آموزش</span>
 										</a>
 									</li>
 
@@ -547,7 +549,7 @@
 									 
 									</ul>
 								</li>
-								<li class="menuitem"><a href="/permits"><i class="fa fa-cogs icon"><b class="bg-info"></b></i><span>فهرست پرمیت ها</span></a></li>
+								<li class="menuitem"><a href="/permits/PermitTypeList"><i class="fa fa-cogs icon"><b class="bg-info"></b></i><span>فهرست پرمیت ها</span></a></li>
 								<li class="menuitem"><a href="/enviroments"><i class="fa fa-cogs icon"><b class="bg-info"></b></i><span>محیط زیست و سلامت</span></a></li>
 								
 								<li id="blogLi" class="menuitem">
@@ -570,7 +572,7 @@
 
 										<li>
 											<a href="/relations/index/6ae4c301-1bdc-4495-82de-f4e356f67e12">
-												<i class="fa fa-angle-left"></i><span>درون سازمانی - TBM</span>
+												<i class="fa fa-angle-left"></i><span>درون سازمانی - آموزش</span>
 											</a>
 										</li>
 										<li>
@@ -587,7 +589,7 @@
 
 										<li>
 											<a href="/relations/index/79d99e93-5b4e-43cb-9e35-a5634ddb709e">
-												<i class="fa fa-angle-left"></i><span>برون سازمانی - TBM</span>
+												<i class="fa fa-angle-left"></i><span>برون سازمانی - آموزش</span>
 											</a>
 										</li>
 
