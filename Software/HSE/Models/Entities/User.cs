@@ -67,6 +67,7 @@ namespace Models
         [Display(Name="شرکت پیمانکار")]
         public Guid? CompanyId { get; set; }
         public virtual Company Company { get; set; }
+        public virtual ICollection<Notification> Notifications { get; set; }
     }
 }
 

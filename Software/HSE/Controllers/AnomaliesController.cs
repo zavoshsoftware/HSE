@@ -305,6 +305,9 @@ namespace HSE.Controllers
                 #endregion
 
                 db.SaveChanges();
+                Company co = db.Companies.Find(anomaly.CompanyId);
+                Helpers.NotificationHelper.InsertNotification(co.Title, "/Anomalies/Indexadmin/" + co.Id, "عدم انطباق");
+
                 return RedirectToAction("Index");
             }
 

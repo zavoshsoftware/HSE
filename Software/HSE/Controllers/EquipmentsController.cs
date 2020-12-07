@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Helpers;
 using Models;
 
 namespace HSE.Controllers
@@ -148,6 +149,10 @@ namespace HSE.Controllers
                 equipment.Id = Guid.NewGuid();
                 db.Equipments.Add(equipment);
                 db.SaveChanges();
+
+                Company co = db.Companies.Find(companyId);
+                Helpers.NotificationHelper.InsertNotification(co.Title, "/Equipments/IndexAdmin/" + companyId, "ماشین آلات و تجهیزات");
+
                 return RedirectToAction("Index");
             }
 

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Helpers;
 using Models;
 
 namespace HSE.Controllers
@@ -188,6 +189,7 @@ namespace HSE.Controllers
                     companyHumanResource.CompanyId = id.Value;
                     db.SaveChanges();
 
+                   
                     return RedirectToAction("IndexAdmin", new { id = id });
 
                 }
@@ -202,6 +204,7 @@ namespace HSE.Controllers
                     companyHumanResource.CompanyId = user.CompanyId.Value;
                     db.SaveChanges();
 
+                    NotificationHelper.InsertNotification(user.Company.Title, "/CompanyHumanResources/IndexAdmin/"+user.CompanyId.Value,"منابع انسانی");
                     return RedirectToAction("Index");
 
                 }

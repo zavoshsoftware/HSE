@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -121,6 +122,38 @@ namespace HSE.Controllers
             return View();
         }
 
+        public string TestDatetime(DateTime dateinput)
+        {
+            //  string persianDate = dateinput;
+            //CultureInfo persianCulture = new CultureInfo("fa-IR");
+            //DateTime persianDateTime = DateTime.ParseExact(persianDate,
+            //    "yyyy/MM/dd", persianCulture);
+            string[] newDate = dateinput.ToString().Split('/');
+            string newdateeeee = newDate[2] + "/" + newDate[1] + "/" + newDate[0];
+            DateTime dt = DateTime.Parse(newdateeeee, new CultureInfo("fa-IR"));
+            // Get Utc Date
+            var dt_utc = dt.ToUniversalTime();
+
+
+            CultureInfo MyCultureInfo = new CultureInfo("fa-IR");
+            System.Globalization.PersianCalendar c = new System.Globalization.PersianCalendar();
+
+            DateTime date = c.ToDateTime(dateinput.Year, dateinput.Month, dateinput.Day, 0, 0, 0, 0);
+
+            return dt_utc.ToString()+"--------"+date;
+
+
+
+            //System.Globalization.PersianCalendar c = new System.Globalization.PersianCalendar();
+
+            //DateTime date = c.ToDateTime(persianDateTime.Year, persianDateTime.Month, persianDateTime.Day, 0, 0, 0, 0);
+
+
+
+            //return persianDateTime.ToString();
+        }
+
+
         // POST: Reports/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -128,6 +161,11 @@ namespace HSE.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Report report, Guid id, HttpPostedFileBase fileupload)
         {
+            //rep
+            return RedirectToAction("TestDatetime", new {dateinput = report.ReportDate});
+            report.ReportDate = GetGrDate(report.ReportDate);
+
+           // ModelState.Remove("{ReportDate}");
             if (ModelState.IsValid)
             {
                 #region Upload and resize image if needed
@@ -155,6 +193,10 @@ namespace HSE.Controllers
                 report.Id = Guid.NewGuid();
                 db.Reports.Add(report);
                 db.SaveChanges();
+
+                Company co = db.Companies.Find(report.CompanyId);
+                Helpers.NotificationHelper.InsertNotification(co.Title, "/reports/index/" + report.ReportTypeId , "گزارشات دوره ای");
+
                 return RedirectToAction("Index", new { id = id });
             }
 
@@ -169,9 +211,17 @@ namespace HSE.Controllers
 
             return View(report);
         }
+        public DateTime ConvertPersianToEnglish(string now)
+        {
+            CultureInfo MyCultureInfo = new CultureInfo("fa-IR");
+            
+            DateTime MyDateTime = DateTime.Parse(now, MyCultureInfo);
 
+            return MyDateTime;
+        }
         public DateTime GetGrDate(DateTime datetime)
         {
+            CultureInfo MyCultureInfo = new CultureInfo("fa-IR");
             System.Globalization.PersianCalendar c = new System.Globalization.PersianCalendar();
 
             DateTime date = c.ToDateTime(datetime.Year, datetime.Month, datetime.Day, 0, 0, 0, 0);

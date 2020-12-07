@@ -1,0 +1,179 @@
+﻿@model ViewModels.CompanyListDashboardViewModel
+
+<div class="panel  panel-primary">
+	<div class="panel-heading">گزارش ثبت حوادث پیمانکاران</div>
+	<div class="panel-body">
+
+		<div class="panel  panel-primary">
+			<div class="panel-heading">لیست شرکت های پیمانکار</div>
+			<div class="panel-body">
+				<div class="row" id="list_company">
+					@foreach (var company in Model.Companies)
+					{
+							<div class="col-md-3">
+								<input type="checkbox" value="@company.Id" name="@company.Id" checked="@company.IsSelected" />
+								<label>@company.Title</label>
+							</div>
+					}
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<input type="button" class="btn btn-success" value="فیلتر" id="btnfilter" />
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-md-6">
+				<div class="panel  panel-primary">
+					<div class="panel-heading">گزارش 1</div>
+					<div class="panel-body">
+						<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="panel  panel-primary">
+					<div class="panel-heading">گزارش 2</div>
+					<div class="panel-body">
+						<p class="alert alert-danger" id="typeEmpty">دیتایی برای فیلترهای انتخابی موجود نمی باشد.</p>
+						<div id="anomalyListChartContainer">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		@*<div class="row">
+			<div class="col-md-6">
+				<div class="panel  panel-primary">
+					<div class="panel-heading">گزارش 3</div>
+					<div class="panel-body">
+				<div id="accidentReasonActionChartContainer"></div>
+			</div>
+			</div>
+			</div>
+			<div class="col-md-6">
+				<div class="panel  panel-primary">
+					<div class="panel-heading">گزارش 4</div>
+					<div class="panel-body">
+				<div id="accidentReasonConditionChartContainer"></div>
+			</div>
+		</div>	</div>
+		</div>*@
+
+	</div>
+</div>
+
+
+@section scripts{
+	<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+
+
+			$('#btnfilter').click(function () {
+				var names = [];
+				$('#list_company input:checked').each(function () {
+					names.push(this.name);
+				});
+
+				var qs = '';
+				for (var i = 0; i < names.length; i++) {
+					if (i === 0) {
+						qs = '?companyId[0]=' + names[0];
+					} else {
+						qs = qs + '&companyId[' + i + ']=' + names[i];
+					}
+				}
+
+				var url = window.location.href;
+				var baseUrl = url.split('?')[0];
+
+				window.location.href = baseUrl + qs;
+
+			});
+		});
+	</script>
+
+	<script type="text/javascript">
+		window.onload = function () {
+
+			var resultAnomaly = @Html.Raw(ViewBag.DataPointsAnomaly);
+			var dataPointsAnomaly = [];
+			var tot = 0;
+			for (var j = 0; j < resultAnomaly.length; j++) {
+				dataPointsAnomaly.push({
+					label: resultAnomaly[j].Label,
+					y: resultAnomaly[j].Y,
+					legendText: resultAnomaly[j].Label
+				});
+				tot += resultAnomaly[j].Y;
+			}
+
+			var chart = new CanvasJS.Chart("chartContainer", {
+				animationEnabled: true,
+				title:{
+					text: "عدم انطباق ها",
+					horizontalAlign: "center"
+				},
+				data: [{
+					type: "doughnut",
+					startAngle: 60,
+					//innerRadius: 60,
+					indexLabelFontSize: 17,
+					indexLabel: "{label} - #percent%",
+					toolTipContent: "<b>{label}:</b> {y} (#percent%)",
+					dataPoints: dataPointsAnomaly
+				}]
+			});
+			chart.render();
+
+
+
+
+
+			var resultAnomalyList = @Html.Raw(ViewBag.DataPointsAnomalyByCompany);
+			var dataPointsAnomalyList = [];
+			var tot = 0;
+			for (var j = 0; j < resultAnomalyList.length; j++) {
+				dataPointsAnomalyList.push({
+					label: resultAnomalyList[j].Label,
+					y: resultAnomalyList[j].Y,
+					legendText: resultAnomalyList[j].Label
+				});
+				tot += resultAnomalyList[j].Y;
+			}
+
+			var chart = new CanvasJS.Chart("anomalyListChartContainer", {
+				animationEnabled: true,
+				title:{
+					text: "تعداد عدم انطباق های ثبت شده",
+					horizontalAlign: "center"
+				},
+				axisX:{
+					interval: 1
+				},
+				axisY2:{
+					interlacedColor: "rgba(1,77,101,.2)",
+					gridColor: "rgba(1,77,101,.1)",
+					//title: "عدم انطباق ها"
+				},
+				data: [{
+					type: "bar",
+					name: "companies",
+					axisYType: "secondary",
+					color: "#014D65",
+					dataPoints: dataPointsAnomalyList
+				}]
+			});
+			chart.render();
+ 
+		}
+	</script>
+}
+
+ 

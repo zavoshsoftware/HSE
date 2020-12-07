@@ -1,0 +1,288 @@
+﻿@model ViewModels.CompanyListDashboardViewModel
+
+<div class="panel  panel-primary">
+	<div class="panel-heading">گزارش ثبت حوادث پیمانکاران</div>
+
+	<div class="panel-body">
+
+
+		<div class="panel  panel-primary">
+			<div class="panel-heading">لیست شرکت های پیمانکار</div>
+			<div class="panel-body">
+				<div class="row" id="list_company">
+					@foreach (var company in Model.Companies)
+					{
+							<div class="col-md-3">
+
+								<input type="checkbox" value="@company.Id" name="@company.Id" checked="@company.IsSelected" />
+
+								<label>@company.Title</label>
+							</div>
+					}
+
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+
+						<input type="button" class="btn btn-success" value="فیلتر" id="btnfilter" />
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-md-6">
+
+				<div class="panel  panel-primary">
+					<div class="panel-heading">گزارش 1</div>
+					<div class="panel-body">
+
+						<div id="accidentInjuryChartContainer"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="panel  panel-primary">
+					<div class="panel-heading">گزارش 2</div>
+					<div class="panel-body">
+						<p class="alert alert-danger" id="typeEmpty">دیتایی برای فیلترهای انتخابی موجود نمی باشد.</p>
+
+						<div id="accidentChartContainer">
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-md-6">
+				<div class="panel  panel-primary">
+					<div class="panel-heading">گزارش 3</div>
+					<div class="panel-body">
+				<div id="accidentReasonActionChartContainer"></div>
+			</div>
+			</div>
+			</div>
+			<div class="col-md-6">
+				<div class="panel  panel-primary">
+					<div class="panel-heading">گزارش 4</div>
+					<div class="panel-body">
+				<div id="accidentReasonConditionChartContainer"></div>
+			</div>
+		</div>	</div>
+		</div>
+
+
+	</div>
+</div>
+
+
+@section scripts{
+	<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+
+
+			$('#btnfilter').click(function () {
+				var names = [];
+				$('#list_company input:checked').each(function () {
+					names.push(this.name);
+				});
+
+				var qs = '';
+				for (var i = 0; i < names.length; i++) {
+					if (i === 0) {
+						qs = '?companyId[0]=' + names[0];
+					} else {
+						qs = qs + '&companyId[' + i + ']=' + names[i];
+					}
+				}
+
+				var url = window.location.href;
+				var baseUrl = url.split('?')[0];
+
+				window.location.href = baseUrl + qs;
+
+			});
+		});
+	</script>
+
+	<script type="text/javascript">
+		window.onload = function() {
+
+			var resultAccident = @Html.Raw(ViewBag.DataPointsAccident);
+			var dataPointsAccident = [];
+			var tot = 0;
+			for (var j = 0; j < resultAccident.length; j++) {
+				dataPointsAccident.push({
+					label: resultAccident[j].Label,
+					y: resultAccident[j].Y,
+					legendText: resultAccident[j].Label
+				});
+				tot += resultAccident[j].Y;
+			}
+
+
+			var chartAccident = new CanvasJS.Chart("accidentChartContainer",
+				{
+					title: {
+						text: "نوع حوادت ثبت شده"
+					},
+					animationEnabled: true,
+					legend: {
+						verticalAlign: "center",
+						horizontalAlign: "right",
+						fontSize: 20,
+						fontFamily: "tahoma"
+					},
+					theme: "light1",
+					data: [
+						{
+							type: "pie",
+							indexLabelFontFamily: "Garamond",
+							indexLabelFontSize: 20,
+							indexLabel: "%{label} {y}",
+							startAngle: -20,
+							showInLegend: false,
+							toolTipContent: "%{legendText} {y}",
+							dataPoints: dataPointsAccident
+						}
+					]
+				});
+
+				chartAccident.render();
+
+			if (tot === 0) {
+				$('#typeEmpty').css('display', 'block');
+			}
+
+
+			var resultAccidentInjury = @Html.Raw(ViewBag.DataPointsAccidentInjury);
+			var dataPointsAccidentInjury = [];
+
+			for (var k = 0; k < resultAccidentInjury.length; k++) {
+				dataPointsAccidentInjury.push({
+					label: resultAccidentInjury[k].Label,
+					y: resultAccidentInjury[k].Y,
+					legendText: resultAccidentInjury[k].Label
+				});
+			}
+
+			var chartAccidentInjury = new CanvasJS.Chart("accidentInjuryChartContainer",
+				{
+					title: {
+						text: "نوع صدمه حوادث"
+					},
+					animationEnabled: true,
+					legend: {
+						verticalAlign: "center",
+						horizontalAlign: "right",
+						fontSize: 20,
+						fontFamily: "tahoma"
+					},
+					theme: "light2",
+					data: [
+						{
+							type: "pie",
+							indexLabelFontFamily: "Garamond",
+							indexLabelFontSize: 20,
+							indexLabel: "%{label} {y}",
+							startAngle: -20,
+							showInLegend: false,
+							toolTipContent: "%{legendText} {y}",
+							dataPoints: dataPointsAccidentInjury
+						}
+					]
+				});
+			chartAccidentInjury.render();
+
+
+
+	var resultAccidentReasonAction = @Html.Raw(ViewBag.DataPointsAccidentReasonAction);
+		var dataPointsAccidentReasonAction = [];
+
+		for (var k = 0; k < resultAccidentReasonAction.length; k++) {
+			dataPointsAccidentReasonAction.push({
+				label: resultAccidentReasonAction[k].Label,
+				y: resultAccidentReasonAction[k].Y,
+				legendText: resultAccidentReasonAction[k].Label
+				});
+			}
+
+		var chartAccidentReasonAction = new CanvasJS.Chart("accidentReasonActionChartContainer",
+				{
+					title: {
+						text: "علت وقوع - اعمال ناایمن"
+					},
+					animationEnabled: true,
+					legend: {
+						verticalAlign: "center",
+						horizontalAlign: "right",
+						fontSize: 20,
+						fontFamily: "tahoma"
+					},
+					theme: "light2",
+					data: [
+						{
+							type: "pie",
+							indexLabelFontFamily: "Garamond",
+							indexLabelFontSize: 20,
+							indexLabel: "%{label} {y}",
+							startAngle: -20,
+							showInLegend: false,
+							toolTipContent: "%{legendText} {y}",
+							dataPoints: dataPointsAccidentReasonAction
+						}
+					]
+				});
+		chartAccidentReasonAction.render();
+
+
+	var resultAccidentReasonCondition = @Html.Raw(ViewBag.DataPointsAccidentReasonCondition);
+		var dataPointsAccidentReasonCondition = [];
+
+		for (var k = 0; k < resultAccidentReasonCondition.length; k++) {
+			dataPointsAccidentReasonCondition.push({
+				label: resultAccidentReasonCondition[k].Label,
+				y: resultAccidentReasonCondition[k].Y,
+				legendText: resultAccidentReasonCondition[k].Label
+				});
+			}
+
+		var chartAccidentReasonCondition = new CanvasJS.Chart("accidentReasonConditionChartContainer",
+				{
+					title: {
+						text: "علت وقوع - شرایط ناایمن"
+					},
+					animationEnabled: true,
+					legend: {
+						verticalAlign: "center",
+						horizontalAlign: "right",
+						fontSize: 20,
+						fontFamily: "tahoma"
+					},
+					theme: "light2",
+					data: [
+						{
+							type: "pie",
+							indexLabelFontFamily: "Garamond",
+							indexLabelFontSize: 20,
+							indexLabel: "%{label} {y}",
+							startAngle: -20,
+							showInLegend: false,
+							toolTipContent: "%{legendText} {y}",
+							dataPoints: dataPointsAccidentReasonCondition
+						}
+					]
+				});
+		chartAccidentReasonCondition.render();
+
+
+		};
+
+	</script>
+}

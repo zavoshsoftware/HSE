@@ -97,6 +97,10 @@ namespace HSE.Controllers
                 passiveDefense.Id = Guid.NewGuid();
                 db.PassiveDefenses.Add(passiveDefense);
                 db.SaveChanges();
+
+                Company co = db.Companies.Find(passiveDefense.CompanyId);
+                Helpers.NotificationHelper.InsertNotification(co.Title, "/PassiveDefenses/index/" + passiveDefense.PassiveDefenseTypeId, "پدافند غیرعامل");
+
                 return RedirectToAction("Index", new { id = id });
             }
 

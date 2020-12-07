@@ -453,6 +453,10 @@ namespace HSE.Controllers
                     }
 
                     db.SaveChanges();
+                    User user = db.Users.Find(userId);
+                   
+                    Helpers.NotificationHelper.InsertNotification(user.Company.Title, "/userrisks/UserRiskList/" + user.CompanyId, "ارزیابی ریسک");
+
                     return Json("true", JsonRequestBehavior.AllowGet);
 
                 }

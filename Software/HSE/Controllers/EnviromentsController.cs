@@ -149,6 +149,9 @@ namespace HSE.Controllers
                 enviroment.LastModifiedDate = DateTime.Now;
                 db.Entry(enviroment).State = EntityState.Modified;
                 db.SaveChanges();
+                Company co = db.Companies.Find(enviroment.CompanyId);
+                Helpers.NotificationHelper.InsertNotification(co.Title, "/Enviroments/Index/" + enviroment.CompanyId , "محیط زیست");
+
                 return RedirectToAction("Index");
             }
           

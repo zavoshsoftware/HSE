@@ -139,6 +139,12 @@ namespace HSE.Controllers
                 safety.Id = Guid.NewGuid();
                 db.Safeties.Add(safety);
                 db.SaveChanges();
+
+
+                Company co = db.Companies.Find(user.CompanyId);
+
+                Helpers.NotificationHelper.InsertNotification(co.Title, "/safety/adminindex/" + safety.SafetyTypeId+"/" + co.Id, "ایمنی");
+
                 return RedirectToAction("Index", new { id = id });
             }
 

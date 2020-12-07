@@ -8,7 +8,7 @@ namespace Helpers
 {
     public static class GetUserInfo
     {
-        public static string GetUserFullName()
+        public static User GetUserFullName()
         {
             DatabaseContext db = new DatabaseContext();
 
@@ -22,10 +22,10 @@ namespace Helpers
                 Models.User user = db.Users.FirstOrDefault(current => current.Id == id);
 
                 if (user != null)
-                    return user.FullName;
+                    return user;
             }
 
-            return string.Empty;
+            return new User();
         }
     }
 }

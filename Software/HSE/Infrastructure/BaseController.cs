@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Helpers;
+using Models;
 
 namespace HSE.Infrastructure
 {
@@ -20,8 +21,19 @@ namespace HSE.Infrastructure
 
             System.Threading.Thread.CurrentThread.CurrentCulture = oCultureInfo;
             System.Threading.Thread.CurrentThread.CurrentUICulture = oCultureInfo;
+            DatabaseContext db = new DatabaseContext();
 
-            ViewBag.Name = GetUserInfo.GetUserFullName();
+            User user = GetUserInfo.GetUserFullName();
+            if (user != null)
+            {
+                ViewBag.Name = user.FullName;
+
+                List<Notification> notifications = db.Notifications.Where(c =>c.UserId==user.Id&& c.IsVisited == false && c.IsDeleted == false).ToList();
+                ViewBag.notif = notifications;
+                ViewBag.notifCount = notifications.Count();
+            }
+          
+
             return base.BeginExecuteCore(callback, state);
         }
     }

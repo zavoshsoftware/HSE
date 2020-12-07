@@ -268,3 +268,11 @@ section.content{
 .login .form-group {
     direction: rtl;
 }
+
+#typeEmpty {
+    display: none;
+}
+
+.canvasjs-chart-container {
+    min-height: 400px;
+}

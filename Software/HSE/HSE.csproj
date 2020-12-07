@@ -182,6 +182,7 @@
     <Content Include="Content\Admin\Style-RTL.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\false.png" />
     <Content Include="Content\kendo\2017.3.913\Black\editor.png" />
     <Content Include="Content\kendo\2017.3.913\Black\imagebrowser.png" />
     <Content Include="Content\kendo\2017.3.913\Black\indeterminate.gif" />
@@ -519,8 +520,26 @@
     <Content Include="Content\kendo\2017.3.913\Uniform\sprite_2x.png" />
     <Content Include="Content\kendo\2017.3.913\Uniform\sprite_kpi.png" />
     <Content Include="Content\kendo\2017.3.913\Uniform\sprite_kpi_2x.png" />
+    <Content Include="Content\PersianDatePicker\images\calendar.png" />
+    <Content Include="Content\PersianDatePicker\images\ui-bg_flat_30_cccccc_40x100.png" />
+    <Content Include="Content\PersianDatePicker\images\ui-bg_flat_50_5c5c5c_40x100.png" />
+    <Content Include="Content\PersianDatePicker\images\ui-bg_glass_40_ffc73d_1x400.png" />
+    <Content Include="Content\PersianDatePicker\images\ui-bg_highlight-hard_20_0972a5_1x100.png" />
+    <Content Include="Content\PersianDatePicker\images\ui-bg_highlight-soft_33_003147_1x100.png" />
+    <Content Include="Content\PersianDatePicker\images\ui-bg_highlight-soft_35_222222_1x100.png" />
+    <Content Include="Content\PersianDatePicker\images\ui-bg_highlight-soft_44_444444_1x100.png" />
+    <Content Include="Content\PersianDatePicker\images\ui-bg_highlight-soft_80_eeeeee_1x100.png" />
+    <Content Include="Content\PersianDatePicker\images\ui-bg_loop_25_000000_21x21.png" />
+    <Content Include="Content\PersianDatePicker\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\PersianDatePicker\images\ui-icons_4b8e0b_256x240.png" />
+    <Content Include="Content\PersianDatePicker\images\ui-icons_a83300_256x240.png" />
+    <Content Include="Content\PersianDatePicker\images\ui-icons_cccccc_256x240.png" />
+    <Content Include="Content\PersianDatePicker\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\PersianDatePicker\jquery-ui-datetimepicker.min.css" />
+    <Content Include="Content\PersianDatePicker\jquery-ui.css" />
     <Content Include="Content\profile.jpeg" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\true.png" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\fontAwesome\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -806,6 +825,11 @@
     <Content Include="Scripts\kendo\2017.3.913\kendo.window.min.js" />
     <Content Include="Scripts\kendo\2017.3.913\pako_deflate.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\PersianDatePicker\ai.0.22.9-build00167.js" />
+    <Content Include="Scripts\PersianDatePicker\ai.0.22.9-build00167.min.js" />
+    <Content Include="Scripts\PersianDatePicker\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\PersianDatePicker\jquery-ui.js" />
+    <Content Include="Scripts\PersianDatePicker\PersianDateTimePicker\jquery-ui-datetimepicker.min.js" />
     <Content Include="Uploads\avatar.jpg" />
     <Content Include="Uploads\avatar_default.jpg" />
     <Content Include="Uploads\bg.jpeg" />
@@ -913,6 +937,7 @@
     <Compile Include="Controllers\HseDocumentsController.cs" />
     <Compile Include="Controllers\HseDocumentTypesController.cs" />
     <Compile Include="Controllers\ImageBrowserController.cs" />
+    <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="Controllers\OperationsController.cs" />
     <Compile Include="Controllers\EnviromentsController.cs" />
     <Compile Include="Controllers\PassiveDefensesController.cs" />
@@ -950,6 +975,7 @@
     </Compile>
     <Compile Include="Helpers\CodeGenerator.cs" />
     <Compile Include="Helpers\GetUserInfo.cs" />
+    <Compile Include="Helpers\NotificationHelper.cs" />
     <Compile Include="Helpers\PersianCulture.cs" />
     <Compile Include="Infrastructure\BaseController.cs" />
     <Compile Include="Migrations\202003030934301_V01.cs" />
@@ -1192,6 +1218,10 @@
     <Compile Include="Migrations\202011110659418_V60.designer.cs">
       <DependentUpon>202011110659418_V60.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202012070900010_V61.cs" />
+    <Compile Include="Migrations\202012070900010_V61.designer.cs">
+      <DependentUpon>202012070900010_V61.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DatabaseContext.cs" />
     <Compile Include="Models\DatabaseContextInitializer.cs" />
@@ -1270,8 +1300,11 @@
     <Compile Include="Models\Entities\WbsUserType.cs" />
     <Compile Include="Models\Entities\WbsDocument.cs" />
     <Compile Include="Models\Entities\WbsRequirment.cs" />
+    <Compile Include="Models\Notification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\MdlDashboardViewModel.cs" />
+    <Compile Include="ViewModels\CompanyListDashboardViewModel.cs" />
     <Compile Include="ViewModels\ChartViewModel.cs" />
     <Compile Include="ViewModels\PermitTypeListViewModel.cs" />
     <Compile Include="ViewModels\relationDetailViewModel.cs" />
@@ -1689,7 +1722,6 @@
     <Content Include="Views\AnomalyAttachments\Details.cshtml" />
     <Content Include="Views\AnomalyAttachments\Edit.cshtml" />
     <Content Include="Views\AnomalyAttachments\Index.cshtml" />
-    <Content Include="Views\Home\Dashboard2.cshtml" />
     <Content Include="Views\Home\Dashboard3.cshtml" />
     <Content Include="Views\Permits\Create.cshtml" />
     <Content Include="Views\Permits\Delete.cshtml" />
@@ -1700,6 +1732,9 @@
     <Content Include="Views\Permits\List.cshtml" />
     <Content Include="Views\Permits\CompanyTypeList.cshtml" />
     <Content Include="Views\Permits\SuperVisorConfirmation.cshtml" />
+    <Content Include="Views\Home\AccidentDashboard.cshtml" />
+    <Content Include="Views\Home\MdlDashboard.cshtml" />
+    <Content Include="Views\Home\AnomalyDashboard.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1723,6 +1758,7 @@
     <Folder Include="Uploads\reports\" />
     <Folder Include="Uploads\safety\" />
     <Folder Include="Views\Convertor\" />
+    <Folder Include="Views\Notifications\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Resources\Resources.csproj">
@@ -1910,6 +1946,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011110659418_V60.resx">
       <DependentUpon>202011110659418_V60.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012070900010_V61.resx">
+      <DependentUpon>202012070900010_V61.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

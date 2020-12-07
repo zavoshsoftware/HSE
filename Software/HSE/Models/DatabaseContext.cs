@@ -105,5 +105,6 @@ namespace Models
         public DbSet<PassiveDefense> PassiveDefenses { get; set; }
         public DbSet<AnomalyAttachment> AnomalyAttachments { get; set; }
         public DbSet<RelationImage> RelationImages { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
     }
 }

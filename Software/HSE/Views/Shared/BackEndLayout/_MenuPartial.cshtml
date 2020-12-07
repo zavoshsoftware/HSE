@@ -10,8 +10,41 @@
 							string roleName = identity.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
 							if (roleName == "Administrator")
 							{
-									<li class="menuitem"><a href="/home/dashboard3"><i class="fa fa-cogs icon"><b class="bg-info"></b></i><span>داشبورد مدیریتی</span></a></li>
 
+							<li id="blogLi" class="menuitem">
+								<a href="#">
+									<i class="fa fa-sitemap icon"><b class="bg-primary"></b></i><span class="pull-right"><i class="fa fa-angle-down text"></i><i class="fa fa-angle-up text-active"></i></span><span>داشبورد</span>
+								</a>
+								<ul class="nav lt">
+									<li>
+										<a href="/home/accidentdashboard">
+											<i class="fa fa-angle-left"></i><span>داشبورد ثبت حوادث</span>
+										</a>
+									</li><li>
+										<a href="/Home/MdlDashboard?companyTypeId=eddb71ee-2489-477f-a8a3-461ebe4f41bf">
+											<i class="fa fa-angle-left"></i><span>داشبورد وضعیت مدارک MDL</span>
+										</a>
+									</li>
+
+									<li>
+										<a href="/home/anomalydashboard">
+											<i class="fa fa-angle-left"></i><span>داشبود عدم انطباق ها</span>
+										</a>
+									</li>
+									@*	<li>
+										<a href="/projects">
+											<i class="fa fa-angle-left"></i><span>مدیریت پروژه ها</span>
+										</a>
+									</li>
+
+									<li>
+										<a href="/operations">
+											<i class="fa fa-angle-left"></i><span>مدیریت عملیات ها</span>
+										</a>
+									</li>*@
+
+								</ul>
+							</li>
 							<li id="blogLi" class="menuitem">
 								<a href="#">
 									<i class="fa fa-sitemap icon"><b class="bg-primary"></b></i><span class="pull-right"><i class="fa fa-angle-down text"></i><i class="fa fa-angle-up text-active"></i></span><span>مدیریت اطلاعات پایه ای</span>
@@ -253,7 +286,7 @@
 							</li>
 
 
-							<li id="blogLi" class="menuitem">
+							@*<li id="blogLi" class="menuitem">
 								<a href="#">
 									<i class="fa fa-sitemap icon"><b class="bg-primary"></b></i><span class="pull-right"><i class="fa fa-angle-down text"></i><i class="fa fa-angle-up text-active"></i></span><span>مدیریت محتوای WBS HSE&PD</span>
 								</a>
@@ -277,7 +310,7 @@
 									</li>
 
 								</ul>
-							</li>
+							</li>*@
 						}
 
 						if (roleName == "supervisor")
@@ -761,9 +794,9 @@
 									</ul>
 								</li>
 
-								<li class="menuitem"><a href="/ContractRquirments"><i class="fa fa-cogs icon"><b class="bg-info"></b></i><span>ثبت گزارش WBS</span></a></li>
+								@*<li class="menuitem"><a href="/ContractRquirments"><i class="fa fa-cogs icon"><b class="bg-info"></b></i><span>ثبت گزارش WBS</span></a></li>*@
 
-							<li class="menuitem"><a href="/WbsRequirments/Details"><i class="fa fa-cogs icon"><b class="bg-info"></b></i><span>الزامات پشتیبان WBS HSE & PD </span></a></li>
+							@*<li class="menuitem"><a href="/WbsRequirments/Details"><i class="fa fa-cogs icon"><b class="bg-info"></b></i><span>الزامات پشتیبان WBS HSE & PD </span></a></li>*@
 						}
 					}
 				</ul>

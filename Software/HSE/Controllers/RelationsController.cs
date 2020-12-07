@@ -163,6 +163,9 @@ namespace HSE.Controllers
                 }
 
                 db.SaveChanges();
+                Company co = db.Companies.Find(relation.CompanyId);
+                Helpers.NotificationHelper.InsertNotification(co.Title, "/relations/Index/" + relation.RelationTypeId, "ارتباطات");
+
                 return RedirectToAction("Index", new { id = id });
             }
             if (id == new Guid("6ae4c301-1bdc-4495-82de-f4e356f67e12") ||

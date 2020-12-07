@@ -315,7 +315,7 @@
 								{
 										<div class="col-md-3">
 											@Html.HiddenFor(x => Model.AccidentReasonActions[idx].Id)
-											@Html.CheckBoxFor(x => Model.AccidentReasonActions[idx].IsSelected)
+											@Html.CheckBoxFor(x => Model.AccidentReasonActions[idx].IsSelected, new { @class = "chkreasonAct" })
 											@Html.DisplayFor(x => Model.AccidentReasonActions[idx].Title)
 											@Html.HiddenFor(x => Model.AccidentReasonActions[idx].Title)
 										</div>
@@ -357,7 +357,7 @@
 								{
 										<div class="col-md-3">
 											@Html.HiddenFor(x => Model.AccidentReasonConditions[idx].Id)
-											@Html.CheckBoxFor(x => Model.AccidentReasonConditions[idx].IsSelected)
+											@Html.CheckBoxFor(x => Model.AccidentReasonConditions[idx].IsSelected, new { @class = "chkreasonCondition" })
 											@Html.DisplayFor(x => Model.AccidentReasonConditions[idx].Title)
 											@Html.HiddenFor(x => Model.AccidentReasonConditions[idx].Title)
 										</div>
@@ -444,7 +444,7 @@
 								{
 										<div class="col-md-3">
 											@Html.HiddenFor(x => Model.AccidentInjuries[idx].Id)
-											@Html.CheckBoxFor(x => Model.AccidentInjuries[idx].IsSelected)
+											@Html.CheckBoxFor(x => Model.AccidentInjuries[idx].IsSelected, new { @class = "chkInjury" })
 											@Html.DisplayFor(x => Model.AccidentInjuries[idx].Title)
 											@Html.HiddenFor(x => Model.AccidentInjuries[idx].Title)
 										</div>
@@ -487,7 +487,7 @@
 								{
 										<div class="col-md-3">
 											@Html.HiddenFor(x => Model.AccidentTypes[idx].Id)
-											@Html.CheckBoxFor(x => Model.AccidentTypes[idx].IsSelected)
+											@Html.CheckBoxFor(x => Model.AccidentTypes[idx].IsSelected, new { @class = "chkType" })
 											@Html.DisplayFor(x => Model.AccidentTypes[idx].Title)
 											@Html.HiddenFor(x => Model.AccidentTypes[idx].Title)
 										</div>
@@ -530,7 +530,7 @@
 							{
 								<div class="col-md-3">
 									@Html.HiddenFor(x => Model.AccidentResults[idx].Id)
-									@Html.CheckBoxFor(x => Model.AccidentResults[idx].IsSelected)
+									@Html.CheckBoxFor(x => Model.AccidentResults[idx].IsSelected, new { @class = "chkResult" })
 									@Html.DisplayFor(x => Model.AccidentResults[idx].Title)
 									@Html.HiddenFor(x => Model.AccidentResults[idx].Title)
 								</div>
@@ -558,7 +558,7 @@
 									{
 										<div class="col-md-4">
 											@Html.HiddenFor(x => Model.Complication[idx].Id)
-											@Html.CheckBoxFor(x => Model.Complication[idx].IsSelected)
+											@Html.CheckBoxFor(x => Model.Complication[idx].IsSelected, new { @class = "chkComplication" })
 											@Html.DisplayFor(x => Model.Complication[idx].Title)
 											@Html.HiddenFor(x => Model.Complication[idx].Title)
 										</div>
@@ -576,7 +576,7 @@
 									{
 										<div class="col-md-4">
 											@Html.HiddenFor(x => Model.InitialComplication[idx].Id)
-											@Html.CheckBoxFor(x => Model.InitialComplication[idx].IsSelected)
+											@Html.CheckBoxFor(x => Model.InitialComplication[idx].IsSelected, new { @class = "chkInitialComplication" })
 											@Html.DisplayFor(x => Model.InitialComplication[idx].Title)
 											@Html.HiddenFor(x => Model.InitialComplication[idx].Title)
 										</div>
@@ -712,3 +712,46 @@
 		</div>
 }
 
+
+@section scripts{
+	<script>
+		$(document).ready(function () {
+			loadCheckboxDisable('chkreasonAct');
+			loadCheckboxDisable('chkreasonCondition');
+			loadCheckboxDisable('chkInjury');
+			loadCheckboxDisable('chkType');
+			loadCheckboxDisable('chkResult');
+			loadCheckboxDisable('chkComplication');
+			loadCheckboxDisable('chkInitialComplication');
+
+			disableOtherCheckbox('chkreasonAct');
+			disableOtherCheckbox('chkreasonCondition');
+			disableOtherCheckbox('chkInjury');
+			disableOtherCheckbox('chkType');
+			disableOtherCheckbox('chkResult');
+			disableOtherCheckbox('chkComplication');
+			disableOtherCheckbox('chkInitialComplication');
+		});
+
+		function disableOtherCheckbox(checkboxClass) {
+			$("."+checkboxClass).change(function() {
+				if (this.checked) {
+					$("." + checkboxClass).attr("disabled", true);
+					$(this).removeAttr("disabled");
+				} else {
+					$("." + checkboxClass).removeAttr("disabled");
+				}
+			});
+		}
+
+		function loadCheckboxDisable(checkboxClass) {
+			if ($("." + checkboxClass).is(":checked") === true){
+				$("." + checkboxClass).attr("disabled", true);
+			}
+
+			$('.' + checkboxClass+':checked').each(function () {
+				$(this).removeAttr("disabled");
+			});
+		}
+	</script>
+}

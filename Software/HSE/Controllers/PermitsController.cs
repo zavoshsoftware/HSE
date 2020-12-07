@@ -12,7 +12,7 @@ using ViewModels;
 
 namespace HSE.Controllers
 {
-    public class PermitsController : Controller
+    public class PermitsController : Infrastructure.BaseController
     {
         private DatabaseContext db = new DatabaseContext();
 
@@ -201,6 +201,9 @@ namespace HSE.Controllers
                 permit.Id = Guid.NewGuid();
                 db.Permits.Add(permit);
                 db.SaveChanges();
+
+                Helpers.NotificationHelper.InsertNotification(user.Company.Title, "/permits/Index/" + companyId+ "?permitTypeId="+ id, "پرمیت");
+
                 return RedirectToAction("Index",new{ permitTypeId =id});
             }
 
@@ -350,3 +353,4 @@ namespace HSE.Controllers
         }
     }
 }
+

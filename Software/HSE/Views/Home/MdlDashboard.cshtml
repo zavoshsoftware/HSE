@@ -1,0 +1,99 @@
+﻿@model ViewModels.MdlDashboardViewModel
+@{
+		ViewBag.Title = "MdlDashboard";
+		Layout = "~/Views/Shared/BackEndLayout/_BackEndLayout.cshtml";
+}
+
+<div class="panel panel-default">
+	<div class="panel-heading">وضعیت مدارک MDL</div>
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-md-6">
+				@Html.DropDownListFor(m => m.SelectedCompanyTypeId, Model.CompanyTypes,new{@class="form-control"})
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>نام پیمانکار</th>
+							<th>HSE Plan</th>
+							<th>Risk Assessment</th>
+							<th>EPR</th>
+							<th>ESR</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						@foreach (var mdrItem in Model.MdrItems)
+						{
+								<tr>
+									<td>@mdrItem.CompanyTitle</td>
+
+									<td>
+
+										@if (mdrItem.HsePlan)
+										{
+											<img src="~/Content/true.png"/>
+}
+										else
+										{
+												<img src="~/Content/false.png" />
+										}
+									</td>
+									
+									<td>
+
+										@if (mdrItem.RiskAssessment)
+										{
+											<img src="~/Content/true.png"/>
+}
+										else
+										{
+												<img src="~/Content/false.png" />
+										}
+									</td>
+									
+									<td>
+
+										@if (mdrItem.Erp)
+										{
+											<img src="~/Content/true.png"/>
+}
+										else
+										{
+												<img src="~/Content/false.png" />
+										}
+									</td>
+									
+									<td>
+
+										@if (mdrItem.Esr)
+										{
+											<img src="~/Content/true.png"/>
+}
+										else
+										{
+												<img src="~/Content/false.png" />
+										}
+									</td>
+								</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section scripts
+{
+	<script>
+		$("#SelectedCompanyTypeId").change(function () {
+			var companyTypeId = this.value;
+			window.location.href = "/Home/MdlDashboard?companyTypeId=" + companyTypeId;
+		});
+	</script>
+}

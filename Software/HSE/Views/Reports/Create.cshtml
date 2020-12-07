@@ -19,7 +19,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ReportDate, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                    @Html.EditorFor(model => model.ReportDate)
+	            @*<input type="text" id="ReportDate" name="ReportDate" />*@
+	            @Html.EditorFor(model => model.ReportDate)
 
                 @Html.ValidationMessageFor(model => model.ReportDate)
             </div>
@@ -74,3 +75,10 @@
 </div>
 }
 
+@section scripts{
+	<script>
+		$(document).ready(function () {
+			$("#ReportDate").datepicker();
+		});
+	</script>
+}

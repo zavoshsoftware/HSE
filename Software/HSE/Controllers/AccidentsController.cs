@@ -900,6 +900,11 @@ namespace HSE.Controllers
 
                     db.SaveChanges();
 
+
+                    User user = db.Users.Find(userId);
+                    Helpers.NotificationHelper.InsertNotification(user.Company.Title, "/Accidents" , "گزارش حوادث");
+
+
                     return RedirectToAction("Index");
                 }
             }
