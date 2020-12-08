@@ -47,6 +47,7 @@ namespace ViewModels
 
         [Display(Name = "تاریخ حادثه*")]
         [Required(ErrorMessage = "لطفا {0} را وارد نمایید")]
+        [UIHint("PersianDatePicker")]
         public DateTime AccidentDate { get; set; }
 
         [Display(Name = "ساعت وقوع حادثه*")]

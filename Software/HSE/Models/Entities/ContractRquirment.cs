@@ -18,6 +18,7 @@ namespace Models
         [Display(Name="شماره پیمان")]
         public string Code { get; set; }
         [Display(Name="تاریخ قرارداد")]
+        [UIHint("PersianDatePicker")]
         public DateTime ContractDate { get; set; }
         [NotMapped]
         [Display(Name = "تاریخ قرارداد")]
@@ -49,6 +50,7 @@ namespace Models
             }
         }
         [Display(Name="تاریخ شروع به کار")]
+        [UIHint("PersianDatePicker")]
         public DateTime StartDate { get; set; }
         [Display(Name="پیمانکار")]
         public Guid CompanyId { get; set; }

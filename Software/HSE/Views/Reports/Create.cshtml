@@ -21,6 +21,7 @@
             <div class="col-md-10">
 	            @*<input type="text" id="ReportDate" name="ReportDate" />*@
 	            @Html.EditorFor(model => model.ReportDate)
+	            @*<input type="text" onclick="PersianDatePicker.Show(this,'@DateTime.Now');"  class="form-control" width="150" id="ReportDate"  name="ReportDate" value="@DateTime.Now.ToString()" />*@
 
                 @Html.ValidationMessageFor(model => model.ReportDate)
             </div>
@@ -74,11 +75,4 @@
         </div>
 </div>
 }
-
-@section scripts{
-	<script>
-		$(document).ready(function () {
-			$("#ReportDate").datepicker();
-		});
-	</script>
-}
+ 

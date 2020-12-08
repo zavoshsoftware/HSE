@@ -20,8 +20,8 @@ namespace HSE.Controllers
 
         public ActionResult Index(Guid id)
         {
-            ReportIndexViewModel reportIndex=new ReportIndexViewModel();
-            
+            ReportIndexViewModel reportIndex = new ReportIndexViewModel();
+
             var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
             string roleName = identity.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
             List<Report> reports = new List<Report>();
@@ -38,14 +38,14 @@ namespace HSE.Controllers
             if (roleName == "company")
             {
 
-                Guid  companyId = GetLoginUserCompanyId();
+                Guid companyId = GetLoginUserCompanyId();
 
-                 
-                    reports = db.Reports.Include(r => r.Company).Where(r =>
-                            r.IsDeleted == false && r.ReportType.ParentId == id && r.CompanyId == companyId)
-                        .OrderByDescending(r => r.CreationDate).Include(r => r.ReportType).Include(r => r.Status)
-                        .ToList();
-                
+
+                reports = db.Reports.Include(r => r.Company).Where(r =>
+                        r.IsDeleted == false && r.ReportType.ParentId == id && r.CompanyId == companyId)
+                    .OrderByDescending(r => r.CreationDate).Include(r => r.ReportType).Include(r => r.Status)
+                    .ToList();
+
             }
             if (roleName == "supervisor")
             {
@@ -90,7 +90,7 @@ namespace HSE.Controllers
             var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
             Guid userId = new Guid(identity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value);
 
-           // CompanyUser companyUser = db.CompanyUsers.FirstOrDefault(c => c.UserId == userId);
+            // CompanyUser companyUser = db.CompanyUsers.FirstOrDefault(c => c.UserId == userId);
             User user = db.Users.FirstOrDefault(c => c.Id == userId);
 
             return user.CompanyId.Value;
@@ -113,7 +113,7 @@ namespace HSE.Controllers
         // GET: Reports/Create
         public ActionResult Create(Guid id)
         {
-            ViewBag.ReportTypeId = new SelectList(db.ReportTypes.Where(c=>c.ParentId==id), "Id", "Title");
+            ViewBag.ReportTypeId = new SelectList(db.ReportTypes.Where(c => c.ParentId == id), "Id", "Title");
             ViewBag.StatusId = new SelectList(db.Status, "Id", "Title");
             ReportType reportType = db.ReportTypes.Find(id);
 
@@ -124,33 +124,14 @@ namespace HSE.Controllers
 
         public string TestDatetime(DateTime dateinput)
         {
-            //  string persianDate = dateinput;
-            //CultureInfo persianCulture = new CultureInfo("fa-IR");
-            //DateTime persianDateTime = DateTime.ParseExact(persianDate,
-            //    "yyyy/MM/dd", persianCulture);
-            string[] newDate = dateinput.ToString().Split('/');
-            string newdateeeee = newDate[2] + "/" + newDate[1] + "/" + newDate[0];
-            DateTime dt = DateTime.Parse(newdateeeee, new CultureInfo("fa-IR"));
-            // Get Utc Date
-            var dt_utc = dt.ToUniversalTime();
+            const string dateTime = "1396/02/31";
+            var y = Convert.ToInt32(dateTime.Substring(0, 4));
+            var m = Convert.ToInt32(dateTime.Substring(5, 2));
+            var d = Convert.ToInt32(dateTime.Substring(8, 2));
+            var x = new System.Globalization.PersianCalendar();
+            var dt = x.ToDateTime(y, m, d, 0, 0, 0, 0, 0);
 
-
-            CultureInfo MyCultureInfo = new CultureInfo("fa-IR");
-            System.Globalization.PersianCalendar c = new System.Globalization.PersianCalendar();
-
-            DateTime date = c.ToDateTime(dateinput.Year, dateinput.Month, dateinput.Day, 0, 0, 0, 0);
-
-            return dt_utc.ToString()+"--------"+date;
-
-
-
-            //System.Globalization.PersianCalendar c = new System.Globalization.PersianCalendar();
-
-            //DateTime date = c.ToDateTime(persianDateTime.Year, persianDateTime.Month, persianDateTime.Day, 0, 0, 0, 0);
-
-
-
-            //return persianDateTime.ToString();
+            return dt.ToString();
         }
 
 
@@ -161,11 +142,12 @@ namespace HSE.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Report report, Guid id, HttpPostedFileBase fileupload)
         {
+           
             //rep
-            return RedirectToAction("TestDatetime", new {dateinput = report.ReportDate});
-            report.ReportDate = GetGrDate(report.ReportDate);
+            // return RedirectToAction("TestDatetime", new { dateinput = report.ReportDate });
+         
 
-           // ModelState.Remove("{ReportDate}");
+            // ModelState.Remove("{ReportDate}");
             if (ModelState.IsValid)
             {
                 #region Upload and resize image if needed
@@ -184,7 +166,7 @@ namespace HSE.Controllers
                 }
                 #endregion
 
-                report.ReportDate = GetGrDate(report.ReportDate);
+            
                 report.StatusId = db.Status.OrderBy(c => c.Order).FirstOrDefault().Id;
                 report.CompanyId = GetLoginUserCompanyId();
                 //report.ReportTypeId = id;
@@ -195,7 +177,7 @@ namespace HSE.Controllers
                 db.SaveChanges();
 
                 Company co = db.Companies.Find(report.CompanyId);
-                Helpers.NotificationHelper.InsertNotification(co.Title, "/reports/index/" + report.ReportTypeId , "گزارشات دوره ای");
+                Helpers.NotificationHelper.InsertNotification(co.Title, "/reports/index/" + report.ReportTypeId, "گزارشات دوره ای");
 
                 return RedirectToAction("Index", new { id = id });
             }
@@ -211,23 +193,36 @@ namespace HSE.Controllers
 
             return View(report);
         }
+        public void SetCookie(string cookievalue)
+        { 
+
+            HttpContext.Response.Cookies.Set(new HttpCookie("testhse3343")
+            {
+                Name = "testhse3343",
+                Value = cookievalue,
+                Expires = DateTime.Now.AddDays(1)
+            });
+        }
+        public void Deletecookie()
+        {
+            HttpCookie currentUserCookie = Request.Cookies["testhse3343"];
+            Response.Cookies.Remove("testhse3343");
+            if (currentUserCookie != null)
+            {
+                currentUserCookie.Expires = DateTime.Now.AddDays(-10);
+                currentUserCookie.Value = null;
+                Response.SetCookie(currentUserCookie);
+            }
+        }
         public DateTime ConvertPersianToEnglish(string now)
         {
             CultureInfo MyCultureInfo = new CultureInfo("fa-IR");
-            
+
             DateTime MyDateTime = DateTime.Parse(now, MyCultureInfo);
 
             return MyDateTime;
         }
-        public DateTime GetGrDate(DateTime datetime)
-        {
-            CultureInfo MyCultureInfo = new CultureInfo("fa-IR");
-            System.Globalization.PersianCalendar c = new System.Globalization.PersianCalendar();
-
-            DateTime date = c.ToDateTime(datetime.Year, datetime.Month, datetime.Day, 0, 0, 0, 0);
-
-            return date;
-        }
+       
         // GET: Reports/Edit/5
         public ActionResult Edit(Guid? id)
         {
@@ -240,7 +235,7 @@ namespace HSE.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ReportTypeId =  report.ReportTypeId;
+            ViewBag.ReportTypeId = report.ReportTypeId;
             ViewBag.StatusId = new SelectList(db.Status, "Id", "Title", report.StatusId);
             ReportType reportType = db.ReportTypes.Find(report.ReportTypeId);
 
@@ -315,7 +310,7 @@ namespace HSE.Controllers
             report.DeletionDate = DateTime.Now;
 
             db.SaveChanges();
-            return RedirectToAction("Index",new{id=report.ReportType.ParentId});
+            return RedirectToAction("Index", new { id = report.ReportType.ParentId });
         }
 
         protected override void Dispose(bool disposing)

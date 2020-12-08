@@ -79,8 +79,8 @@ namespace HSE.Controllers
             {
                 companyId = id;
             }
-
-            List<PermitType> permitTypes = db.PermitTypes.Where(c => c.IsDeleted == false && c.IsActive).ToList();
+            Company co = db.Companies.Find(companyId);
+            List<PermitType> permitTypes = db.PermitTypes.Where(c =>c.CompanyTypeId== co.CompanyTypeId&& c.IsDeleted == false && c.IsActive).ToList();
             List<PermitTypeListViewModel> result=new List<PermitTypeListViewModel>();
 
             foreach (PermitType permitType in permitTypes)

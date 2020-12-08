@@ -32,7 +32,7 @@ namespace Helpers
                 db.Notifications.Add(notification);
                 
             }
-            db.SaveChanges();
+         db.SaveChanges();
 
         }
     }

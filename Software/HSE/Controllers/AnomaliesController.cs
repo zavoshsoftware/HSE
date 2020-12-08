@@ -110,59 +110,89 @@ namespace HSE.Controllers
             }
 
             ViewBag.rolename = roleName;
-            return View(anomaly);
+
+            AnomalyDetailViewModel result = new AnomalyDetailViewModel()
+            {
+                AnomalyAttachments = db.AnomalyAttachments.Where(c => c.AnomalyId == anomaly.Id).ToList(),
+                Code = anomaly.Code,
+                ImageUrl = anomaly.ImageUrl,
+                CompanyTitle = anomaly.Company.Title,
+                Summery = anomaly.Summery,
+                DeadlineStr = anomaly.DeadlineStr,
+                EventDateStr = anomaly.EventDateStr,
+                AnomalyHseTitle = anomaly.AnomalyHse.Title,
+                AnomalyLevelTitle = anomaly.AnomalyLevel.Title,
+                AnomalyResultTitle = anomaly.AnomalyResult.Title,
+                CompanyNotes = anomaly.CompanyNotes,
+                CreatorUserFullName = anomaly.CreatorUser.FullName,
+                EffectivnessDateStr = anomaly.EffectivnessDateStr,
+                Notes = anomaly.Notes,
+                Place = anomaly.Place,
+                ResponseUserFullName = anomaly.ResponseUser.FullName,
+                StatusTitle = anomaly.Status.Title,
+                CreationDateStr = anomaly.CreationDateStr,
+                StatusCode = anomaly.Status.Order,
+                Id = anomaly.Id,
+                EffectivnessDate = anomaly.EffectivnessDate
+            };
+            return View(result);
         }
 
         [HttpPost]
-        public ActionResult Details(Anomaly anomaly, List<HttpPostedFileBase> fileUploadResultAttachment)
+        public ActionResult Details(AnomalyDetailViewModel result, List<HttpPostedFileBase> fileUploadResultAttachment)
         {
 
             if (ModelState.IsValid)
             {
-                if (anomaly.EffectivnessDate != null)
-                    anomaly.EffectivnessDate = GetGrDate(anomaly.EffectivnessDate.Value);
-
+                Anomaly anomaly = db.Anomalies.Find(result.Id);
 
                 anomaly.IsDeleted = false;
                 anomaly.StatusId = db.Status.OrderBy(c => c.Order).Skip(1).FirstOrDefault().Id;
                 anomaly.LastModifiedDate = DateTime.Now;
-                db.Entry(anomaly).State = EntityState.Modified;
-
+                anomaly.AnomalyResultId = result.AnomalyResultId;
+                anomaly.EffectivnessDate = result.EffectivnessDate;
+                anomaly.CompanyNotes = result.CompanyNotes;
 
                 #region Upload and resize image if needed
+
                 if (fileUploadResultAttachment != null)
                 {
                     foreach (HttpPostedFileBase t in fileUploadResultAttachment)
                     {
-                        string filename = Path.GetFileName(t.FileName);
-                        string newFilename = Guid.NewGuid().ToString().Replace("-", string.Empty)
-                                             + Path.GetExtension(filename);
-
-                        string newFilenameUrl = "/Uploads/anomaly/" + newFilename;
-                        string physicalFilename = Server.MapPath(newFilenameUrl);
-
-                        t.SaveAs(physicalFilename);
-
-                        AnomalyAttachment anomalyAttachment = new AnomalyAttachment()
+                        if (t != null)
                         {
-                            Id = Guid.NewGuid(),
-                            ImageUrl = newFilenameUrl,
-                            CreationDate = DateTime.Now,
-                            AnomalyId = anomaly.Id,
-                            IsActive = true,
-                            IsDeleted = false,
-                            IsResultAttachment = true
-                        };
-                        db.AnomalyAttachments.Add(anomalyAttachment);
+                            string filename = Path.GetFileName(t.FileName);
+                            string newFilename = Guid.NewGuid().ToString().Replace("-", string.Empty)
+                                                 + Path.GetExtension(filename);
+
+                            string newFilenameUrl = "/Uploads/anomaly/" + newFilename;
+                            string physicalFilename = Server.MapPath(newFilenameUrl);
+
+                            t.SaveAs(physicalFilename);
+
+                            AnomalyAttachment anomalyAttachment = new AnomalyAttachment()
+                            {
+                                Id = Guid.NewGuid(),
+                                ImageUrl = newFilenameUrl,
+                                CreationDate = DateTime.Now,
+                                AnomalyId = anomaly.Id,
+                                IsActive = true,
+                                IsDeleted = false,
+                                IsResultAttachment = true
+                            };
+                            db.AnomalyAttachments.Add(anomalyAttachment);
+                        }
                     }
                 }
+
                 #endregion
 
 
+                db.Entry(anomaly).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(anomaly);
+            return View(result);
         }
 
 
@@ -260,12 +290,11 @@ namespace HSE.Controllers
 
             if (ModelState.IsValid)
             {
-                 
+
                 if (roleName == "company" && user.CompanyId != null)
                     anomaly.CompanyId = user.CompanyId.Value;
 
-                anomaly.EventDate = GetGrDate(anomaly.EventDate);
-                anomaly.Deadline = GetGrDate(anomaly.Deadline);
+
                 anomaly.CreatorUserId = userId;
                 anomaly.AnomalyResultId = new Guid("0EDEBF8C-622B-4816-8F0B-FF06C676F37B");
                 anomaly.StatusId = db.Status.OrderBy(c => c.Order).FirstOrDefault().Id;
@@ -280,26 +309,29 @@ namespace HSE.Controllers
                 {
                     foreach (HttpPostedFileBase t in fileupload)
                     {
-                        string filename = Path.GetFileName(t.FileName);
-                        string newFilename = Guid.NewGuid().ToString().Replace("-", string.Empty)
-                                             + Path.GetExtension(filename);
-
-                        string newFilenameUrl = "/Uploads/anomaly/" + newFilename;
-                        string physicalFilename = Server.MapPath(newFilenameUrl);
-
-                        t.SaveAs(physicalFilename);
-
-                        AnomalyAttachment anomalyAttachment=new AnomalyAttachment()
+                        if (t != null)
                         {
-                            Id=Guid.NewGuid(),
-                            ImageUrl = newFilenameUrl,
-                            CreationDate = DateTime.Now,
-                            AnomalyId = anomaly.Id,
-                            IsActive = true,
-                            IsDeleted = false,
-                            IsResultAttachment = false
-                        };
-                        db.AnomalyAttachments.Add(anomalyAttachment);
+                            string filename = Path.GetFileName(t.FileName);
+                            string newFilename = Guid.NewGuid().ToString().Replace("-", string.Empty)
+                                                 + Path.GetExtension(filename);
+
+                            string newFilenameUrl = "/Uploads/anomaly/" + newFilename;
+                            string physicalFilename = Server.MapPath(newFilenameUrl);
+
+                            t.SaveAs(physicalFilename);
+
+                            AnomalyAttachment anomalyAttachment = new AnomalyAttachment()
+                            {
+                                Id = Guid.NewGuid(),
+                                ImageUrl = newFilenameUrl,
+                                CreationDate = DateTime.Now,
+                                AnomalyId = anomaly.Id,
+                                IsActive = true,
+                                IsDeleted = false,
+                                IsResultAttachment = false
+                            };
+                            db.AnomalyAttachments.Add(anomalyAttachment);
+                        }
                     }
                 }
                 #endregion
@@ -341,14 +373,6 @@ namespace HSE.Controllers
 
 
 
-        public DateTime GetGrDate(DateTime datetime)
-        {
-            System.Globalization.PersianCalendar c = new System.Globalization.PersianCalendar();
-
-            DateTime date = c.ToDateTime(datetime.Year, datetime.Month, datetime.Day, 0, 0, 0, 0);
-
-            return date;
-        }
 
         // GET: Anomalies/Edit/5
         public ActionResult Edit(Guid? id)
@@ -449,11 +473,11 @@ namespace HSE.Controllers
             if (anomalyAttachment != null)
             {
                 anomalyAttachment.IsDeleted = true;
-                anomalyAttachment.DeletionDate=DateTime.Now;
+                anomalyAttachment.DeletionDate = DateTime.Now;
 
                 db.SaveChanges();
 
-                return RedirectToAction("Details", new {id = anomalyAttachment.AnomalyId});
+                return RedirectToAction("Details", new { id = anomalyAttachment.AnomalyId });
             }
 
             return RedirectToAction("Index");

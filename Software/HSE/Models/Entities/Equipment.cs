@@ -27,6 +27,7 @@ namespace Models
         [DataType(DataType.MultilineText)]
         public string SupervisorComment { get; set; }
         [Display(Name= "تاریخ خاتمه تاييد صلاحت ")]
+        [UIHint("PersianDatePicker")]
         public DateTime FinishDate { get; set; }
         internal class configuration : EntityTypeConfiguration<Equipment>
         {

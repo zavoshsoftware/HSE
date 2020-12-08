@@ -30,6 +30,7 @@ namespace Models
         public string Experience { get; set; }
 
         [Display(Name = "تاریخ حادثه")]
+        [UIHint("PersianDatePicker")]
         public DateTime AccidentDate { get; set; }
 
         [Display(Name = "ساعت وقوع حادثه")]

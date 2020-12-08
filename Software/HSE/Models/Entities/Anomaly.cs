@@ -15,6 +15,7 @@ namespace Models
             AnomalyAttachments = new List<AnomalyAttachment>();
         }
         [Display(Name = "تاریخ")]
+        [UIHint("PersianDatePicker")]
         public DateTime EventDate { get; set; }
 
         [Display(Name = "شماره")]
@@ -53,6 +54,7 @@ namespace Models
         public Guid AnomalyLevelId { get; set; }
 
         [Display(Name = "مهلت اقدام")]
+        [UIHint("PersianDatePicker")]
         public DateTime Deadline { get; set; }
 
         [NotMapped]
@@ -90,6 +92,7 @@ namespace Models
         public Guid AnomalyResultId { get; set; }
 
         [Display(Name = "تاریخ احراز اثربخشی")]
+        [UIHint("PersianDatePicker")]
         public DateTime? EffectivnessDate { get; set; }
 
 

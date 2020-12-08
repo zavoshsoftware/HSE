@@ -11,6 +11,7 @@ namespace Models
     public class Report : BaseEntity
     {
         [Display(Name="تاریخ گزارش")]
+        [UIHint("PersianDatePicker")]
         public DateTime ReportDate { get; set; }
 
         [Display(Name = "تاریخ گزارش")]
