@@ -313,7 +313,7 @@
 												@Html.HiddenFor(model => model.Notes)
 												@Html.HiddenFor(model => model.CompanyId)
 												@Html.HiddenFor(model => model.IsActive)
-												@Html.HiddenFor(model => model.CreationDate)
+												   <div style="display:none">@Html.EditorFor(model => model.CreationDate)</div>
 												@Html.HiddenFor(model => model.LastModifiedDate)
 												@Html.HiddenFor(model => model.IsDeleted)
 												@Html.HiddenFor(model => model.Description)

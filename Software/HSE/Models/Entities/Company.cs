@@ -21,6 +21,8 @@ namespace Models
             Permits = new List<Permit>();
             PassiveDefenses = new List<PassiveDefense>();
             Relations = new List<Relation>();
+            Covids=new List<Covid>();
+            Progresses=new List<Progress>();
         }
         [Display(Name = "نام شرکت پیمانکار")]
         public string Title { get; set; }
@@ -48,6 +50,7 @@ namespace Models
         public virtual ICollection<Enviroment> Enviroments { get; set; }
         public virtual ICollection<Crisis> Crisises { get; set; }
         public virtual ICollection<PassiveDefense> PassiveDefenses { get; set; }
+        public virtual ICollection<Progress> Progresses { get; set; }
 
         [Display(Name = "فایل مفاد پیمان")]
         public string ContractItemFileUrl { get; set; }
@@ -58,6 +61,7 @@ namespace Models
         [Display(Name = "نوع شرکت")]
         public Guid? CompanyTypeId { get; set; }
         public virtual CompanyType CompanyType { get; set; }
+        public virtual ICollection<Covid> Covids { get; set; }
 
         internal class configuration : EntityTypeConfiguration<Company>
         {

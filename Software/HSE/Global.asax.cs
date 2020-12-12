@@ -21,9 +21,9 @@ namespace HSE
         }
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
-            var persianCulture = new PersianCulture();
-            Thread.CurrentThread.CurrentCulture = persianCulture;
-            Thread.CurrentThread.CurrentUICulture = persianCulture;
+            //var persianCulture = new PersianCulture();
+            //Thread.CurrentThread.CurrentCulture = persianCulture;
+            //Thread.CurrentThread.CurrentUICulture = persianCulture;
         }
     }
 }

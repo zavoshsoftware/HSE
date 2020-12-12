@@ -1,0 +1,113 @@
+﻿@model Models.Progress
+
+@{
+    ViewBag.Title = "افزودن " + Server.HtmlDecode(Html.DisplayNameFor(model => model).ToString());
+    Layout = "~/Views/Shared/BackEndLayout/_BackEndLayout.cshtml";
+}
+
+<h2>افزودن @Html.DisplayNameFor(model => model)</h2>
+
+@using (Html.BeginForm("Create", "Progresses", new { companyId = ViewBag.companyId }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">        
+        @Html.ValidationSummary(true)
+	    @Html.ValidationMessage("invalidAmount")
+        <div class="form-group">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Start, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                    @Html.EditorFor(model => model.Start)
+
+                @Html.ValidationMessageFor(model => model.Start)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Finish, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                    @Html.EditorFor(model => model.Finish)
+
+                @Html.ValidationMessageFor(model => model.Finish)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CompanyPercent, new { @class = "control-label col-md-2" })
+	        <div class="col-md-10">
+		        @if (ViewBag.roleName == "company")
+		        {
+			        @Html.EditorFor(model => model.CompanyPercent)
+		        }
+		       
+		        @Html.ValidationMessageFor(model => model.CompanyPercent)
+	        </div>
+        </div>
+					
+	 
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SupPercent, new { @class = "control-label col-md-2" })
+	        <div class="col-md-10">
+	        @if(ViewBag.roleName== "supervisor") { 
+		        @Html.EditorFor(model => model.SupPercent)
+
+		        @Html.ValidationMessageFor(model => model.SupPercent)
+	        }
+	        else
+	        {
+		        @Html.DisplayFor(c => c.SupPercent)
+		        @Html.HiddenFor(c => c.SupPercent)
+	        }
+	        </div>
+        </div>
+		 
+        <div class="form-group">
+            @Html.LabelFor(model => model.AdminPercent, new { @class = "control-label col-md-2" })
+	        <div class="col-md-10">
+		        		@if (ViewBag.roleName == "Administrator")
+				        {
+					        @Html.EditorFor(model => model.AdminPercent)
+
+					        @Html.ValidationMessageFor(model => model.AdminPercent)
+					       
+				        }
+				        else
+				        {
+					       @Html.DisplayFor(c => c.AdminPercent)
+					       @Html.HiddenFor(c => c.AdminPercent)
+				        }
+	        </div>
+        </div>
+
+       
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ImageUrl, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                    @Html.Kendo().Upload().Name("fileUpload").Multiple(false)
+                @Html.ValidationMessageFor(model => model.ImageUrl)
+            </div>
+        </div>
+					 
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                    @Html.EditorFor(model => model.Description)
+
+                @Html.ValidationMessageFor(model => model.Description)
+            </div>
+        </div>
+
+        <div class="form-group" id="buttons">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="ایجاد" class="btn btn-primary" />
+				@Html.ActionLink("بازگشت به فهرست", "Index")
+            </div>
+        </div>
+        </div>
+</div>
+}
+

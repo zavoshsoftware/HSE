@@ -24,12 +24,11 @@
 										{
 											columns.Bound(item => @item.Id).Title("دستورات").Filterable(false).Groupable(false).
 										Template(@<text>
-										          @Html.ActionLink("بارگزاری", "UploadFile", new {id = @item.Id}, new {@class = "k-button"})
 
 										@if (!string.IsNullOrEmpty(item.FileUrl))
 										{
 												<br />
-												<a href="@item.FileUrl" target="_blank">دانلود آخرین نسخه</a>
+											<a href="@item.FileUrl" target="_blank" class="btn btn-default">دانلود </a>
 
 										}
 													 </text>).Width(200);  
@@ -46,7 +45,7 @@
 										{
 											@Html.ActionLink("ثبت نظر", "SuperVisorConfirmation", new {id = @item.Id}, new {@class = "k-button"})
 												<br />
-												<a href="@item.FileUrl" target="_blank">دانلود آخرین نسخه ثبت شده</a>
+											<a href="@item.FileUrl" target="_blank" class="btn btn-default">دانلود </a>
 
 										}
 													 </text>).Width(200);  
@@ -59,14 +58,19 @@
 
 										@if (!string.IsNullOrEmpty(item.FileUrl))
 										{
-												<a href="@item.FileUrl" target="_blank">دانلود آخرین نسخه ثبت شده</a>
+												<a href="@item.FileUrl" target="_blank" class="btn btn-default">دانلود </a>
 										}
-													 </text>).Width(200);  
+													 </text>).Width(200);
 										}
-		})         
+									})
+						.ToolBar(toolbar =>
+						{
+							toolbar.Custom().Action("uploadfile","enviroments",new{id= ViewBag.companyId, enviromentTypeId= ViewBag.enviromentTypeId }).Text("بارگزاری");
+						}
+						)
 		.DataSource(dataSource => dataSource
 									.Server()
-							
+
 									.Model(model => model.Id(item => item.Id))
-					)              
+					)
 	)

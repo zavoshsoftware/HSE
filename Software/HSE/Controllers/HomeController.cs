@@ -801,9 +801,7 @@ namespace HSE.Controllers
             }
         }
 
-
-
-
+        
         public List<ChartViewModel> GetAnomalySubmitChart(string[] companyItems)
         {
             List<ChartViewModel> charts = new List<ChartViewModel>();
@@ -835,5 +833,50 @@ namespace HSE.Controllers
             return charts;
         }
 
+
+
+        public ActionResult ProgressDashboard(string[] companyId)
+        {
+            var companies = db.Companies.Where(c => c.IsDeleted == false).OrderBy(c => c.Title).ToList();
+
+            List<CompanyType> companyTypes = db.CompanyTypes.Where(c => c.IsDeleted == false)
+                .OrderBy(c => c.CreationDate).ToList();
+
+
+            List<CompanyItemInDashboard> result = new List<CompanyItemInDashboard>();
+
+            foreach (var company in companies)
+            {
+                result.Add(new CompanyItemInDashboard()
+                {
+                    Id = company.Id,
+                    Title = company.Title,
+                    IsSelected = false
+                });
+
+                if (companyId != null)
+                {
+                    if (companyId.Any(c => c == company.Id.ToString()))
+                    {
+                        result.LastOrDefault().IsSelected = true;
+                    }
+                }
+                else
+                {
+                    result.LastOrDefault().IsSelected = true;
+                }
+            }
+
+
+            CompanyListDashboardViewModel res = new CompanyListDashboardViewModel()
+            {
+                Companies = result
+            };
+
+            ViewBag.DataPointsAnomaly = JsonConvert.SerializeObject(GetAnomalyChart(companyId), _jsonSetting);
+            ViewBag.DataPointsAnomalyByCompany = JsonConvert.SerializeObject(GetAnomalySubmitChart(companyId), _jsonSetting);
+
+            return View(res);
+        }
     }
 }

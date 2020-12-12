@@ -16,7 +16,7 @@ ViewBag.Title = "فهرست شرکت های پیمانکار" ;
       
 					columns.Bound(item => @item.Id).Title("دستورات").Filterable(false).Groupable(false)
 							.Template(@<text>
-									@Html.ActionLink("محیط زیست و سلامت", "Index", new {id = @item.Id}, new {@class = "k-button"})
+									@Html.ActionLink((string)ViewBag.TypeTitle, "Index", new {id = @item.Id, enviromentTypeId =ViewBag.enviromentTypeId }, new {@class = "k-button"})
 									</text>).Width(200);  
 		})
 	    

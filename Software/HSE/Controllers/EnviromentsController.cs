@@ -16,16 +16,17 @@ namespace HSE.Controllers
     {
         private DatabaseContext db = new DatabaseContext();
 
-        public ActionResult CompanyTypeList()
+        public ActionResult CompanyTypeList(Guid enviromentTypeId)
         {
             List<CompanyType> companyTypes = db.CompanyTypes.Where(c => c.IsDeleted == false && c.IsActive).ToList();
             ViewBag.baseUrl = "Enviroments";
             ViewBag.Title = "محیط زیست و سلامت";
+            ViewBag.enviromentTypeId = enviromentTypeId;
             return View(companyTypes);
         }
 
 
-        public ActionResult List(Guid? id)
+        public ActionResult List(Guid? id, Guid enviromentTypeId)
         {
             List<Company> companies;
 
@@ -51,14 +52,17 @@ namespace HSE.Controllers
                         .ToList();
 
             }
+            EnviromentType enviromentType = db.EnviromentTypes.Find(enviromentTypeId);
+            ViewBag.TypeTitle = enviromentType.Title;
+         
+            ViewBag.enviromentTypeId = enviromentTypeId;
             return View(companies.OrderBy(c => c.Title).ToList());
         }
-        public ActionResult Index(Guid? id)
+        public ActionResult Index(Guid? id, Guid enviromentTypeId)
         {
-
             var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
             string uid = identity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
-           string roleTitle = identity.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
+            string roleTitle = identity.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
 
             ViewBag.roleTitle = roleTitle;
             Guid userId = new Guid(uid);
@@ -72,70 +76,44 @@ namespace HSE.Controllers
             }
             else
             {
-                companyId=id;
-            }
-            if (!db.Enviroments.Any(c => c.CompanyId == companyId))
-            {
-                List<EnviromentType> enviromentTypes = db.EnviromentTypes.Where(c => c.IsDeleted == false).ToList();
-
-                foreach (EnviromentType enviromentType in enviromentTypes)
-                {
-                    Enviroment enviroment = new Enviroment()
-                    {
-                        Id = Guid.NewGuid(),
-                        IsDeleted = false,
-                        IsActive = true,
-                        CreationDate = DateTime.Now,
-                        EnviromentTypeId = enviromentType.Id,
-                        PermitStatusId = db.PermitStatuses.FirstOrDefault(c => c.Code == 0).Id,
-                        CompanyId = companyId.Value
-                    };
-
-                    db.Enviroments.Add(enviroment);
-                }
-
-                db.SaveChanges();
+                companyId = id;
             }
 
             var enviroments = db.Enviroments.Include(p => p.Company).Include(c => c.EnviromentType)
-                .Where(p => p.CompanyId == companyId && p.IsDeleted == false)
+                .Where(p => p.CompanyId == companyId && p.EnviromentTypeId == enviromentTypeId && p.IsDeleted == false)
                 .OrderByDescending(p => p.PermitStatusId).Include(p => p.PermitStatus);
 
+            ViewBag.companyId = companyId;
+            ViewBag.enviromentTypeId = enviromentTypeId;
             return View(enviroments.ToList());
         }
 
-     
-         
-        public ActionResult UploadFile(Guid? id)
+
+
+        public ActionResult UploadFile(Guid id, Guid enviromentTypeId)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Enviroment enviroment = db.Enviroments.Find(id);
-            if (enviroment == null)
-            {
-                return HttpNotFound();
-            }
-            
-            return View(enviroment);
+           
+            ViewBag.companyId = id;
+            ViewBag.enviromentTypeId = enviromentTypeId;
+            return View();
         }
- 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UploadFile( Enviroment enviroment, HttpPostedFileBase fileupload)
+        public ActionResult UploadFile(Enviroment enviroment, HttpPostedFileBase fileupload, Guid id, Guid enviromentTypeId)
         {
 
             if (ModelState.IsValid)
             {
                 #region Upload and resize image if needed
+
                 if (fileupload != null)
                 {
                     string filename = Path.GetFileName(fileupload.FileName);
                     string newFilename = Guid.NewGuid().ToString().Replace("-", string.Empty)
                                          + Path.GetExtension(filename);
 
-                    string newFilenameUrl = "/Uploads/permit/" + newFilename;
+                    string newFilenameUrl = "/Uploads/enviroment/" + newFilename;
                     string physicalFilename = Server.MapPath(newFilenameUrl);
 
                     fileupload.SaveAs(physicalFilename);
@@ -143,18 +121,30 @@ namespace HSE.Controllers
                     enviroment.FileUrl = newFilenameUrl;
                     enviroment.PermitStatusId = db.PermitStatuses.FirstOrDefault(c => c.Code == 1).Id;
                 }
+                else
+                {
+                    ModelState.AddModelError("noUpload","فایل مورد نظر را بارگزاری کنید");
+                    ViewBag.companyId = id;
+                    ViewBag.enviromentTypeId = enviromentTypeId;
+                    return View();
+                }
                 #endregion
 
+                enviroment.EnviromentTypeId = enviromentTypeId;
+                enviroment.CompanyId = id;
+                enviroment.IsActive = true;
                 enviroment.IsDeleted = false;
-                enviroment.LastModifiedDate = DateTime.Now;
-                db.Entry(enviroment).State = EntityState.Modified;
+                enviroment.CreationDate = DateTime.Now;
+                enviroment.Id = Guid.NewGuid();
+                db.Enviroments.Add(enviroment);
                 db.SaveChanges();
-                Company co = db.Companies.Find(enviroment.CompanyId);
-                Helpers.NotificationHelper.InsertNotification(co.Title, "/Enviroments/Index/" + enviroment.CompanyId , "محیط زیست");
 
-                return RedirectToAction("Index");
+                Company co = db.Companies.Find(enviroment.CompanyId);
+                Helpers.NotificationHelper.InsertNotification(co.Title, "/Enviroments/Index/" + enviroment.CompanyId + "?enviromentTypeId=" + enviromentTypeId, "محیط زیست");
+
+                return RedirectToAction("Index", new { id = id, enviromentTypeId = enviromentTypeId });
             }
-          
+
             return View(enviroment);
         }
 
@@ -171,7 +161,8 @@ namespace HSE.Controllers
             }
 
             ViewBag.PermitStatusId = new SelectList(db.PermitStatuses, "Id", "Title", enviroment.PermitStatusId);
-
+            ViewBag.companyId = enviroment.CompanyId;
+            ViewBag.enviromentTypeId = enviroment.EnviromentTypeId;
             return View(enviroment);
         }
 
@@ -186,7 +177,7 @@ namespace HSE.Controllers
                 enviroment.LastModifiedDate = DateTime.Now;
                 db.Entry(enviroment).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index",new{id= enviroment.CompanyId});
+                return RedirectToAction("Index", new { id = enviroment.CompanyId, enviromentTypeId = enviroment.EnviromentTypeId });
             }
 
             return View(enviroment);

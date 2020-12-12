@@ -19,7 +19,7 @@
 			@Html.HiddenFor(model => model.IsAcceptBySup)
 			@Html.HiddenFor(model => model.SupComment)
 			@Html.HiddenFor(model => model.IsActive)
-			@Html.HiddenFor(model => model.CreationDate)
+			   <div style="display:none">@Html.EditorFor(model => model.CreationDate)</div>
 			@Html.HiddenFor(model => model.CompanyId)
 
 			<div class="form-group">

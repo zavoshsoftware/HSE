@@ -909,6 +909,9 @@
     <Compile Include="Controllers\CompanyTypesController.cs" />
     <Compile Include="Controllers\ContractRquirmentsController.cs" />
     <Compile Include="Controllers\ConvertorController.cs" />
+    <Compile Include="Controllers\CovidsController.cs" />
+    <Compile Include="Controllers\CovidStatusController.cs" />
+    <Compile Include="Controllers\CovidTypesController.cs" />
     <Compile Include="Controllers\CrisisTypesController.cs" />
     <Compile Include="Controllers\DocumentsController.cs" />
     <Compile Include="Controllers\DocumentTypesController.cs" />
@@ -927,6 +930,8 @@
     <Compile Include="Controllers\PermitsController.cs" />
     <Compile Include="Controllers\PermitStatusesController.cs" />
     <Compile Include="Controllers\PermitTypesController.cs" />
+    <Compile Include="Controllers\ProgressesController.cs" />
+    <Compile Include="Controllers\ProgressGroupsController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\RelationsController.cs" />
     <Compile Include="Controllers\RelationTypesController.cs" />
@@ -1213,16 +1218,37 @@
     <Compile Include="Migrations\202012080926487_V63.designer.cs">
       <DependentUpon>202012080926487_V63.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202012090842222_64.cs" />
+    <Compile Include="Migrations\202012090842222_64.designer.cs">
+      <DependentUpon>202012090842222_64.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012091056477_65.cs" />
+    <Compile Include="Migrations\202012091056477_65.designer.cs">
+      <DependentUpon>202012091056477_65.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012121233433_V66.cs" />
+    <Compile Include="Migrations\202012121233433_V66.designer.cs">
+      <DependentUpon>202012121233433_V66.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012121538413_V67.cs" />
+    <Compile Include="Migrations\202012121538413_V67.designer.cs">
+      <DependentUpon>202012121538413_V67.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Entities\Covid.cs" />
+    <Compile Include="Models\Entities\CovidStatus.cs" />
     <Compile Include="Models\DatabaseContext.cs" />
     <Compile Include="Models\DatabaseContextInitializer.cs" />
     <Compile Include="Models\DatabaseContextInitializerBeforeTheFirstRelease.cs" />
     <Compile Include="Models\Entities\AnomalyAttachment.cs" />
     <Compile Include="Models\Entities\CompanyType.cs" />
+    <Compile Include="Models\Entities\CovidType.cs" />
     <Compile Include="Models\Entities\Crisis.cs" />
     <Compile Include="Models\Entities\HseDocumentType.cs" />
     <Compile Include="Models\Entities\PassiveDefense.cs" />
     <Compile Include="Models\Entities\PassiveDefenseType.cs" />
+    <Compile Include="Models\Entities\Progress.cs" />
+    <Compile Include="Models\Entities\ProgressGroup.cs" />
     <Compile Include="Models\Entities\RelationImage.cs" />
     <Compile Include="Models\Entities\Relation.cs" />
     <Compile Include="Models\Entities\RelationType.cs" />
@@ -1295,10 +1321,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AnomalyDetailViewModel.cs" />
+    <Compile Include="ViewModels\ProgressDashboardViewModel.cs" />
     <Compile Include="ViewModels\MdlDashboardViewModel.cs" />
     <Compile Include="ViewModels\CompanyListDashboardViewModel.cs" />
     <Compile Include="ViewModels\ChartViewModel.cs" />
     <Compile Include="ViewModels\PermitTypeListViewModel.cs" />
+    <Compile Include="ViewModels\ProgressGroupViewModel.cs" />
     <Compile Include="ViewModels\relationDetailViewModel.cs" />
     <Compile Include="ViewModels\ReportIndexViewModel.cs" />
     <Compile Include="ViewModels\ChangePasswordViewModel.cs" />
@@ -1728,6 +1756,38 @@
     <Content Include="Views\Home\MdlDashboard.cshtml" />
     <Content Include="Views\Home\AnomalyDashboard.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\PersianDatePicker.cshtml" />
+    <Content Include="Views\ProgressGroups\Create.cshtml" />
+    <Content Include="Views\ProgressGroups\Delete.cshtml" />
+    <Content Include="Views\ProgressGroups\Details.cshtml" />
+    <Content Include="Views\ProgressGroups\Edit.cshtml" />
+    <Content Include="Views\ProgressGroups\Index.cshtml" />
+    <Content Include="Views\Progresses\Create.cshtml" />
+    <Content Include="Views\Progresses\Delete.cshtml" />
+    <Content Include="Views\Progresses\Details.cshtml" />
+    <Content Include="Views\Progresses\Edit.cshtml" />
+    <Content Include="Views\Progresses\Index.cshtml" />
+    <Content Include="Views\ProgressGroups\ProgressGroupList.cshtml" />
+    <Content Include="Views\ProgressGroups\List.cshtml" />
+    <Content Include="Views\ProgressGroups\CompanyTypeList.cshtml" />
+    <Content Include="Views\Home\ProgressDashboard.cshtml" />
+    <Content Include="Views\CovidStatus\Create.cshtml" />
+    <Content Include="Views\CovidStatus\Delete.cshtml" />
+    <Content Include="Views\CovidStatus\Details.cshtml" />
+    <Content Include="Views\CovidStatus\Edit.cshtml" />
+    <Content Include="Views\CovidStatus\Index.cshtml" />
+    <Content Include="Views\CovidTypes\Create.cshtml" />
+    <Content Include="Views\CovidTypes\Delete.cshtml" />
+    <Content Include="Views\CovidTypes\Details.cshtml" />
+    <Content Include="Views\CovidTypes\Edit.cshtml" />
+    <Content Include="Views\CovidTypes\Index.cshtml" />
+    <Content Include="Views\Covids\Create.cshtml" />
+    <Content Include="Views\Covids\Delete.cshtml" />
+    <Content Include="Views\Covids\Details.cshtml" />
+    <Content Include="Views\Covids\Edit.cshtml" />
+    <Content Include="Views\Covids\Index.cshtml" />
+    <Content Include="Views\Covids\IndexAdmin.cshtml" />
+    <Content Include="Views\Covids\List.cshtml" />
+    <Content Include="Views\Covids\CompanyTypeList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1741,12 +1801,15 @@
     <Folder Include="Uploads\companyContract\" />
     <Folder Include="Uploads\companyHumanResource\" />
     <Folder Include="Uploads\companyStatusReport\" />
+    <Folder Include="Uploads\covid\" />
     <Folder Include="Uploads\doc\" />
     <Folder Include="Uploads\Editor\" />
+    <Folder Include="Uploads\enviroment\" />
     <Folder Include="Uploads\equipment\" />
     <Folder Include="Uploads\hsePlans\" />
     <Folder Include="Uploads\pd\" />
     <Folder Include="Uploads\permit\" />
+    <Folder Include="Uploads\progress\" />
     <Folder Include="Uploads\relation\" />
     <Folder Include="Uploads\reports\" />
     <Folder Include="Uploads\safety\" />
@@ -1948,6 +2011,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202012080926487_V63.resx">
       <DependentUpon>202012080926487_V63.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012090842222_64.resx">
+      <DependentUpon>202012090842222_64.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012091056477_65.resx">
+      <DependentUpon>202012091056477_65.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012121233433_V66.resx">
+      <DependentUpon>202012121233433_V66.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012121538413_V67.resx">
+      <DependentUpon>202012121538413_V67.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

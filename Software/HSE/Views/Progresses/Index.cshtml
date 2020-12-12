@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Models.Progress>
+
+@{
+    
+    Layout = "~/Views/Shared/BackEndLayout/_BackEndLayout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+        @(Html.Kendo().Grid(Model)
+              .Name("Grid")
+              .Columns(columns =>
+                  {
+        columns.Bound(model => model.Start);
+        columns.Bound(model => model.Finish);
+        columns.Bound(model => model.CompanyPercent);
+        columns.Bound(model => model.SupPercent);
+        columns.Bound(model => model.AdminPercent);
+        columns.Bound(model => model.Total);
+        columns.Bound(model => model.CreationDateStr);
+					columns.Bound(item => @item.Id).Title("دستورات").Filterable(false).Groupable(false)
+							.Template(@<text>
+									@Html.ActionLink("ویرایش", "Edit", new {id = @item.Id}, new {@class = "k-button"})
+								          @if (ViewBag.roleName == "company")
+								          {
+									          @Html.ActionLink("حذف", "Delete", new {id = @item.Id}, new {@class = "k-button"})
+								          }
+									</text>).Width(200);
+									})
+		.ToolBar(toolbar =>
+		{
+			if (ViewBag.roleName == "company")
+			{
+				toolbar.Custom().Action("Create", "Progresses").Text("افزودن");
+			}
+		}
+	          )
+		.DataSource(dataSource => dataSource
+									.Server()
+
+									.Model(model => model.Id(item => item.Id))
+					)
+	)

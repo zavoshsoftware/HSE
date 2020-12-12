@@ -106,5 +106,11 @@ namespace Models
         public DbSet<AnomalyAttachment> AnomalyAttachments { get; set; }
         public DbSet<RelationImage> RelationImages { get; set; }
         public DbSet<Notification> Notifications { get; set; }
+        public DbSet<ProgressGroup> ProgressGroups { get; set; }
+        public DbSet<Progress> Progresses { get; set; }
+
+        public System.Data.Entity.DbSet<Models.CovidStatus> CovidStatus { get; set; }
+        public System.Data.Entity.DbSet<Models.CovidType> CovidTypes { get; set; }
+        public System.Data.Entity.DbSet<Models.Covid> Covids { get; set; }
     }
 }

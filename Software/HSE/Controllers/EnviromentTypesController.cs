@@ -11,7 +11,7 @@ using Models;
 
 namespace HSE.Controllers
 {
-    public class EnviromentTypesController : Controller
+    public class EnviromentTypesController : Infrastructure.BaseController
     {
         private DatabaseContext db = new DatabaseContext();
 

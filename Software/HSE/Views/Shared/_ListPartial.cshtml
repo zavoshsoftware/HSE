@@ -5,12 +5,19 @@
 <div class="row" style="margin-top: 100px;">
 	@foreach (var companyType in Model)
 	{
-		 
-			 
+
+
 		<div class="col-md-3" style="margin-top: 80px">
-			<div  style="border: 1px solid cornflowerblue; text-align: center; padding: 20px ">
-			<a style="" href="/@ViewBag.baseUrl/list/@companyType.Id">@companyType.Title</a>
-		</div>
+			<div style="border: 1px solid cornflowerblue; text-align: center; padding: 20px">
+				@if (ViewBag.enviromentTypeId == null)
+				{
+					<a style="" href="/@ViewBag.baseUrl/list/@companyType.Id">@companyType.Title</a>
+				}
+				else
+				{
+						<a style="" href="/@ViewBag.baseUrl/list/@companyType.Id?enviromentTypeId=@ViewBag.enviromentTypeId">@companyType.Title</a>
+				}
+			</div>
 		</div>
 		
 	}
