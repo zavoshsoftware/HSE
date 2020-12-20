@@ -6,6 +6,11 @@
 
 		<div class="panel  panel-primary">
 			<div class="panel-heading">لیست شرکت های پیمانکار</div>
+			<div class="row">
+				<div class="col-md-6">
+					@Html.DropDownListFor(m => m.SelectedCompanyTypeId, Model.CompanyTypes,new{@class="form-control"})
+				</div>
+			</div>
 			<div class="panel-body">
 				<div class="row" id="list_company">
 					@foreach (var company in Model.Companies)
@@ -72,6 +77,11 @@
 	<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
 	<script type="text/javascript">
+		$("#SelectedCompanyTypeId").change(function () {
+			var companyTypeId = this.value;
+			window.location.href = "/Home/anomalydashboard?companyTypeId=" + companyTypeId;
+		});
+
 		$(document).ready(function () {
 
 
@@ -93,7 +103,8 @@
 				var url = window.location.href;
 				var baseUrl = url.split('?')[0];
 
-				window.location.href = baseUrl + qs;
+				var typeid = $('#SelectedCompanyTypeId').val();
+				window.location.href = baseUrl + qs + "&companyTypeId=" + typeid;
 
 			});
 		});

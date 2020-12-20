@@ -37,9 +37,13 @@ namespace HSE.Controllers
         }
 
         [Authorize]
-        public ActionResult AccidentDashboard(string[] companyId)
+        public ActionResult AccidentDashboard(string[] companyId, string companyTypeId)
         {
-            var companies = db.Companies.Where(c => c.IsDeleted == false).OrderBy(c => c.Title).ToList();
+            List<Company> companies=new List<Company>();
+
+            Guid coTypeId = new Guid(companyTypeId);
+            companies = db.Companies.Where(c => c.CompanyTypeId == coTypeId && c.IsDeleted == false)
+                .OrderBy(c => c.Title).ToList();
 
             List<CompanyItemInDashboard> result = new List<CompanyItemInDashboard>();
 
@@ -65,10 +69,17 @@ namespace HSE.Controllers
                 }
             }
 
+            List<CompanyType> companyTypes = db.CompanyTypes.Where(c => c.IsDeleted == false && c.IsActive).ToList();
+            Guid selected = companyTypes.FirstOrDefault().Id;
+
+            if (companyTypeId != null)
+                selected = coTypeId;
 
             CompanyListDashboardViewModel res = new CompanyListDashboardViewModel()
             {
-                Companies = result
+                Companies = result,
+                CompanyTypes = new SelectList(companyTypes, "Id", "Title", selected),
+                SelectedCompanyTypeId = selected
             };
 
             ViewBag.DataPointsAccident = JsonConvert.SerializeObject(GetAccidentChartByType(companyId), _jsonSetting);
@@ -604,9 +615,15 @@ namespace HSE.Controllers
         }
 
 
-        public ActionResult AnomalyDashboard(string[] companyId)
+        public ActionResult AnomalyDashboard(string[] companyId, string companyTypeId)
         {
-            var companies = db.Companies.Where(c => c.IsDeleted == false).OrderBy(c => c.Title).ToList();
+            List<Company> companies = new List<Company>();
+
+           
+                Guid coTypeId = new Guid(companyTypeId);
+                companies = db.Companies.Where(c => c.CompanyTypeId == coTypeId && c.IsDeleted == false)
+                    .OrderBy(c => c.Title).ToList();
+           
 
             List<CompanyItemInDashboard> result = new List<CompanyItemInDashboard>();
 
@@ -632,10 +649,17 @@ namespace HSE.Controllers
                 }
             }
 
+            List<CompanyType> companyTypes = db.CompanyTypes.Where(c => c.IsDeleted == false && c.IsActive).ToList();
+            Guid selected = companyTypes.FirstOrDefault().Id;
+
+            if (companyTypeId != null)
+                selected = coTypeId;
 
             CompanyListDashboardViewModel res = new CompanyListDashboardViewModel()
             {
-                Companies = result
+                Companies = result,
+                CompanyTypes = new SelectList(companyTypes, "Id", "Title", selected),
+                SelectedCompanyTypeId = selected
             };
 
             ViewBag.DataPointsAnomaly = JsonConvert.SerializeObject(GetAnomalyChart(companyId), _jsonSetting);
@@ -801,7 +825,7 @@ namespace HSE.Controllers
             }
         }
 
-        
+
         public List<ChartViewModel> GetAnomalySubmitChart(string[] companyItems)
         {
             List<ChartViewModel> charts = new List<ChartViewModel>();
@@ -827,7 +851,7 @@ namespace HSE.Controllers
                 charts.Add(new ChartViewModel()
                 {
                     Label = company.Title,
-                    Y = db.Anomalies.Count(c=>c.CompanyId==company.Id&&c.IsDeleted==false)
+                    Y = db.Anomalies.Count(c => c.CompanyId == company.Id && c.IsDeleted == false)
                 });
             }
             return charts;
@@ -877,6 +901,47 @@ namespace HSE.Controllers
             ViewBag.DataPointsAnomalyByCompany = JsonConvert.SerializeObject(GetAnomalySubmitChart(companyId), _jsonSetting);
 
             return View(res);
+        }
+
+
+        public ActionResult CovidDashboard(Guid companyTypeId)
+        {
+            List<Company> companies = db.Companies.Where(c => c.CompanyTypeId == companyTypeId && c.IsDeleted == false).OrderBy(c => c.Title).ToList();
+
+            List<CompanyType> companyTypes = db.CompanyTypes.Where(c => c.IsDeleted == false && c.IsActive).ToList();
+
+            Guid selected = companyTypes.FirstOrDefault().Id;
+
+            if (companyTypeId != null)
+                selected = companyTypeId;
+
+            MdlDashboardViewModel result = new MdlDashboardViewModel()
+            {
+                CompanyTypes = new SelectList(companyTypes, "Id", "Title", selected),
+                MdrItems = GetMdlItems(selected),
+                SelectedCompanyTypeId = selected
+            };
+
+            ViewBag.DataPointsCovidByCompany = JsonConvert.SerializeObject(GetCovidSubmitChart(companies), _jsonSetting);
+
+            return View(result);
+        }
+
+
+        public List<ChartViewModel> GetCovidSubmitChart(List<Company> companies)
+        {
+            List<ChartViewModel> charts = new List<ChartViewModel>();
+
+
+            foreach (Company company in companies)
+            {
+                charts.Add(new ChartViewModel()
+                {
+                    Label = company.Title,
+                    Y = db.Covids.Count(c => c.CompanyId == company.Id && c.IsDeleted == false)
+                });
+            }
+            return charts;
         }
     }
 }

@@ -21,11 +21,7 @@
 				            @Html.ActionLink("مشاهده ارزیابی ریسک", "IndexForSupervisor", new { companyId = @item.Id}, new {@class = "k-button"})
 			             </text>).Width(200);  
 	  })
-	  .ToolBar(toolbar =>
-	  {				
-		  toolbar.Custom().Action("Create","Companies").Text("افزودن");                          
-	  }
-	  )         
+	          
 	  .DataSource(dataSource => dataSource
 		  .Server()
 							

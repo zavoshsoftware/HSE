@@ -79,6 +79,12 @@ namespace HSE.Controllers
             var covids = db.Covids.Include(c => c.Company)
                 .Where(c => c.CompanyId == id && c.IsDeleted == false).OrderByDescending(c => c.CreationDate);
 
+            var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
+            string uid = identity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
+            string roleName = identity.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
+
+
+            ViewBag.roleName = roleName;
 
 
             Company company = db.Companies.Find(id);
@@ -113,7 +119,7 @@ namespace HSE.Controllers
         }
 
         // GET: Covids/Create
-        public ActionResult Create()
+        public ActionResult Create(Guid? id)
         {
             ViewBag.CovidStatusId = new SelectList(db.CovidStatus, "Id", "Title");
             ViewBag.CovidTypeId = new SelectList(db.CovidTypes, "Id", "Title");
@@ -132,28 +138,39 @@ namespace HSE.Controllers
                 User user = db.Users.Find(userId);
 
                 companyId = user.CompanyId;
+                ViewBag.CompanyId = companyId.Value;
+
             }
 
-            ViewBag.CompanyId = companyId.Value;
+            if (id!=null)
+                ViewBag.CompanyId = id;
+
             return View();
         }
 
        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create( Covid covid, HttpPostedFileBase fileupload)
+        public ActionResult Create( Covid covid, HttpPostedFileBase fileupload, Guid? id)
         {
-            var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
+            Guid companyId;
+            if (id != null)
+                companyId = id.Value;
+            else
+            {
+                var identity = (System.Security.Claims.ClaimsIdentity) User.Identity;
 
+                string roleName = identity.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
+                
+                    string uId = identity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
 
-            string uId = identity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
+                    Guid userId = new Guid(uId);
 
-            Guid userId = new Guid(uId);
+                    User user = db.Users.Find(userId);
 
-            User user = db.Users.Find(userId);
-
-            Guid companyId = user.CompanyId.Value;
-
+                    companyId = user.CompanyId.Value;
+                
+            }
             if (ModelState.IsValid)
             {
                 #region Upload and resize image if needed
@@ -179,6 +196,8 @@ namespace HSE.Controllers
                 covid.Id = Guid.NewGuid();
                 db.Covids.Add(covid);
                 db.SaveChanges();
+                if(id!=null)
+                return RedirectToAction("IndexAdmin",new{id=id});
                 return RedirectToAction("Index");
             }
 

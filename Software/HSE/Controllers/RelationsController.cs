@@ -29,7 +29,7 @@ namespace HSE.Controllers
             Guid userId = new Guid(uid);
 
             ViewBag.role = roleName;
-            List<Relation> relations;
+            List<Relation> relations=new List<Relation>();
 
             User user = db.Users.Find(userId);
 
@@ -38,7 +38,22 @@ namespace HSE.Controllers
                     .Where(r => r.CompanyId == user.CompanyId && r.RelationTypeId == id && r.IsDeleted == false)
                     .OrderByDescending(r => r.CreationDate)
                     .ToList();
+            else if (roleName == "supervisor")
+            {
+                List<User> users = Helpers.GetUserInfo.GetCompanyUsersBySupervisor(userId);
+                foreach (User user1 in users)
+                {
+                    List<Relation> companyRelations = db.Relations.Include(r => r.RelationType)
+                        .Where(r => r.CompanyId == user1.CompanyId && r.RelationTypeId == id && r.IsDeleted == false)
+                        .OrderByDescending(r => r.CreationDate)
+                        .ToList();
 
+                    foreach (Relation companyRelation in companyRelations)
+                    {
+                        relations.Add(companyRelation);
+                    }
+                }
+            }
             else
                 relations = db.Relations.Include(r => r.RelationType)
                     .Where(r => r.RelationTypeId == id && r.IsDeleted == false)

@@ -9,22 +9,28 @@
 		<div class="panel  panel-primary">
 			<div class="panel-heading">لیست شرکت های پیمانکار</div>
 			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-6">
+						@Html.DropDownListFor(m => m.SelectedCompanyTypeId, Model.CompanyTypes,new{@class="form-control"})
+					</div>
+				</div>
+
 				<div class="row" id="list_company">
 					@foreach (var company in Model.Companies)
 					{
-							<div class="col-md-3">
+						<div class="col-md-3">
 
-								<input type="checkbox" value="@company.Id" name="@company.Id" checked="@company.IsSelected" />
+							<input type="checkbox" value="@company.Id" name="@company.Id" checked="@company.IsSelected"/>
 
-								<label>@company.Title</label>
-							</div>
+							<label>@company.Title</label>
+						</div>
 					}
 
 				</div>
 				<div class="row">
 					<div class="col-md-12">
 
-						<input type="button" class="btn btn-success" value="فیلتر" id="btnfilter" />
+						<input type="button" class="btn btn-success" value="فیلتر" id="btnfilter"/>
 					</div>
 				</div>
 			</div>
@@ -84,6 +90,11 @@
 	<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
 	<script type="text/javascript">
+		$("#SelectedCompanyTypeId").change(function () {
+			var companyTypeId = this.value;
+			window.location.href = "/Home/accidentdashboard?companyTypeId=" + companyTypeId;
+		});
+
 		$(document).ready(function () {
 
 
@@ -104,8 +115,9 @@
 
 				var url = window.location.href;
 				var baseUrl = url.split('?')[0];
+				var typeid = $('#SelectedCompanyTypeId').val();
 
-				window.location.href = baseUrl + qs;
+				window.location.href = baseUrl + qs + "&companyTypeId=" + typeid;
 
 			});
 		});
@@ -154,7 +166,7 @@
 					]
 				});
 
-				chartAccident.render();
+			chartAccident.render();
 
 			if (tot === 0) {
 				$('#typeEmpty').css('display', 'block');
@@ -202,18 +214,18 @@
 
 
 
-	var resultAccidentReasonAction = @Html.Raw(ViewBag.DataPointsAccidentReasonAction);
-		var dataPointsAccidentReasonAction = [];
+			var resultAccidentReasonAction = @Html.Raw(ViewBag.DataPointsAccidentReasonAction);
+			var dataPointsAccidentReasonAction = [];
 
-		for (var k = 0; k < resultAccidentReasonAction.length; k++) {
-			dataPointsAccidentReasonAction.push({
-				label: resultAccidentReasonAction[k].Label,
-				y: resultAccidentReasonAction[k].Y,
-				legendText: resultAccidentReasonAction[k].Label
+			for (var k = 0; k < resultAccidentReasonAction.length; k++) {
+				dataPointsAccidentReasonAction.push({
+					label: resultAccidentReasonAction[k].Label,
+					y: resultAccidentReasonAction[k].Y,
+					legendText: resultAccidentReasonAction[k].Label
 				});
 			}
 
-		var chartAccidentReasonAction = new CanvasJS.Chart("accidentReasonActionChartContainer",
+			var chartAccidentReasonAction = new CanvasJS.Chart("accidentReasonActionChartContainer",
 				{
 					title: {
 						text: "علت وقوع - اعمال ناایمن"
@@ -239,21 +251,21 @@
 						}
 					]
 				});
-		chartAccidentReasonAction.render();
+			chartAccidentReasonAction.render();
 
 
-	var resultAccidentReasonCondition = @Html.Raw(ViewBag.DataPointsAccidentReasonCondition);
-		var dataPointsAccidentReasonCondition = [];
+			var resultAccidentReasonCondition = @Html.Raw(ViewBag.DataPointsAccidentReasonCondition);
+			var dataPointsAccidentReasonCondition = [];
 
-		for (var k = 0; k < resultAccidentReasonCondition.length; k++) {
-			dataPointsAccidentReasonCondition.push({
-				label: resultAccidentReasonCondition[k].Label,
-				y: resultAccidentReasonCondition[k].Y,
-				legendText: resultAccidentReasonCondition[k].Label
+			for (var k = 0; k < resultAccidentReasonCondition.length; k++) {
+				dataPointsAccidentReasonCondition.push({
+					label: resultAccidentReasonCondition[k].Label,
+					y: resultAccidentReasonCondition[k].Y,
+					legendText: resultAccidentReasonCondition[k].Label
 				});
 			}
 
-		var chartAccidentReasonCondition = new CanvasJS.Chart("accidentReasonConditionChartContainer",
+			var chartAccidentReasonCondition = new CanvasJS.Chart("accidentReasonConditionChartContainer",
 				{
 					title: {
 						text: "علت وقوع - شرایط ناایمن"
@@ -279,7 +291,7 @@
 						}
 					]
 				});
-		chartAccidentReasonCondition.render();
+			chartAccidentReasonCondition.render();
 
 
 		};

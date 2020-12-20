@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Helpers;
 using Models;
 using ViewModels;
 
@@ -50,8 +51,21 @@ namespace HSE.Controllers
             else if (roleName == "supervisor")
             {
 
-                accidents = db.Accidents.Where(a => a.IsDeleted == false)
-                    .OrderByDescending(a => a.CreationDate).ToList();
+                List<User> users = GetUserInfo.GetCompanyUsersBySupervisor(userId);
+
+                
+                foreach (User user in users)
+                {
+                    List<Accident> acc = db.Accidents.Where(a =>a.UserId==user.Id&& a.IsDeleted == false)
+                        .OrderByDescending(a => a.CreationDate).ToList();
+
+                    foreach (var accident in acc)
+                    {
+                        accidents.Add(accident);
+                    }
+                }
+                    //accidents = db.Accidents.Where(a => a.IsDeleted == false)
+                    //.OrderByDescending(a => a.CreationDate).ToList();
 
                 return View(accidents);
 

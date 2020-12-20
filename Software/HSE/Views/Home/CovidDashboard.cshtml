@@ -1,0 +1,102 @@
+﻿@model ViewModels.MdlDashboardViewModel
+ 
+		<div class="panel  panel-primary">
+			<div class="panel-heading">انتخاب نوع پیمانکار</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-6">
+						@Html.DropDownListFor(m => m.SelectedCompanyTypeId, Model.CompanyTypes,new{@class="form-control"})
+					</div>
+				</div>
+		</div>
+
+
+		<div class="row">
+	 
+			<div class="col-md-12">
+				<div class="panel  panel-primary">
+					<div class="panel-heading">گزارش 2</div>
+					<div class="panel-body">
+						<p class="alert alert-danger" id="typeEmpty">دیتایی برای فیلترهای انتخابی موجود نمی باشد.</p>
+						<div id="CovidListChartContainer">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		@*<div class="row">
+			<div class="col-md-6">
+				<div class="panel  panel-primary">
+					<div class="panel-heading">گزارش 3</div>
+					<div class="panel-body">
+				<div id="accidentReasonActionChartContainer"></div>
+			</div>
+			</div>
+			</div>
+			<div class="col-md-6">
+				<div class="panel  panel-primary">
+					<div class="panel-heading">گزارش 4</div>
+					<div class="panel-body">
+				<div id="accidentReasonConditionChartContainer"></div>
+			</div>
+		</div>	</div>
+		</div>*@
+
+	</div>
+ 
+
+@section scripts{
+	<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$("#SelectedCompanyTypeId").change(function () {
+				var companyTypeId = this.value;
+				window.location.href = "/Home/CovidDashboard?companyTypeId=" + companyTypeId;
+			});
+			 
+		});
+	</script>
+
+	<script type="text/javascript">
+		window.onload = function () {
+
+	  
+
+			var resultCovidList = @Html.Raw(ViewBag.DataPointsCovidByCompany);
+			var dataPointsCovidList = [];
+			var tot = 0;
+			for (var j = 0; j < resultCovidList.length; j++) {
+				dataPointsCovidList.push({
+					label: resultCovidList[j].Label,
+					y: resultCovidList[j].Y,
+					legendText: resultCovidList[j].Label
+				});
+				tot += resultCovidList[j].Y;
+			}
+
+			var chart = new CanvasJS.Chart("CovidListChartContainer", {
+				animationEnabled: true,
+				title:{
+					text: "گزارش ابتلا به کرونا"
+				},
+				axisY: {
+					title: "تعداد"
+				},
+				 
+				data: [{
+					type: "column",
+					showInLegend: true, 
+					legendMarkerColor: "grey",
+					legendText: "گزارش ابتلا به کرونا",
+					dataPoints: dataPointsCovidList
+				}]
+			});
+			chart.render();
+ 
+		}
+	</script>
+}
+
+ 

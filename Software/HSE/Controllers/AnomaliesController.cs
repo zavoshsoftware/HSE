@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Helpers;
 using Models;
 using ViewModels;
 
@@ -42,20 +43,20 @@ namespace HSE.Controllers
             }
             if (roleName == "supervisor")
             {
-                User user = db.Users.FirstOrDefault(current => current.Id == userId);
+                List<User> users = GetUserInfo.GetCompanyUsersBySupervisor(userId);
 
-
-
-                if (user != null)
+                foreach (User user in users)
                 {
-                    Company company = db.Companies.FirstOrDefault(c => c.SupervisorUserId == userId);
+                    List<Anomaly> companyAnomalies = db.Anomalies
+                        .Where(a => a.IsDeleted == false && a.CompanyId == user.Company.Id)
+                        .OrderByDescending(a => a.CreationDate).ToList();
 
-                    if (company != null)
+                    foreach (Anomaly companyAnomaly in companyAnomalies)
                     {
-                        anomalies = db.Anomalies.Where(a => a.IsDeleted == false && a.CompanyId == company.Id)
-                            .OrderByDescending(a => a.CreationDate).ToList();
+                        anomalies.Add(companyAnomaly);
                     }
                 }
+
             }
             return View(anomalies);
         }

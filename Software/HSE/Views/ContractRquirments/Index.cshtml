@@ -24,11 +24,7 @@ ViewBag.Title = "فهرست قراردادها" ;
 		@Html.ActionLink("ویرایش", "Edit", new {id = @item.Id}, new {@class = "k-button"})
 		@Html.ActionLink("حذف", "Delete", new {id = @item.Id}, new {@class = "k-button"})
 	}
-							          @if (ViewBag.roleName == "company")
-							          {
-								          @Html.ActionLink("ثبت گزارش WBS", "Index","RequirmentDetails", new {id = @item.Id}, new {@class = "k-button"})
-								         
-							          }
+							         
 						           </text>).Width(200);  
 		})
 		.ToolBar(toolbar =>

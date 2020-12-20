@@ -1788,6 +1788,7 @@
     <Content Include="Views\Covids\IndexAdmin.cshtml" />
     <Content Include="Views\Covids\List.cshtml" />
     <Content Include="Views\Covids\CompanyTypeList.cshtml" />
+    <Content Include="Views\Home\CovidDashboard.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

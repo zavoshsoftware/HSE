@@ -14,8 +14,8 @@
 										columns.Bound(model => model.CovidStatus.Title);
 										columns.Bound(model => model.CovidType.Title);
 										columns.Bound(model => model.FullName);
-										columns.Bound(model => model.SickDate);
-										columns.Bound(model => model.SafeDate);
+										columns.Bound(model => model.SickDateStr);
+										columns.Bound(model => model.SafeDateStr);
 										columns.Bound(model => model.QuarantineDays);
 										columns.Bound(model => model.CreationDate);
 										columns.Bound(item => @item.Id).Title("ضمیمه").Filterable(false).Groupable(false)
@@ -29,17 +29,19 @@
 										<span>ضمیمه ندارد</span>
 									}
 									</text>).Width(200);
-								 
-		})
+
+									})
 		.ToolBar(toolbar =>
-					{				
-					     
-						
-					}
-		)         
+		{
+			if (ViewBag.roleName == "supervisor")
+			{
+				toolbar.Custom().Action("Create", "Covids").Text("افزودن");
+			}
+		}
+		)
 		.DataSource(dataSource => dataSource
 									.Server()
-							
+
 									.Model(model => model.Id(item => item.Id))
-					)              
+					)
 	)

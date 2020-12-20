@@ -133,17 +133,20 @@ namespace HSE.Controllers
     [Authorize(Roles = "supervisor")]
         public ActionResult IndexForSupervisor(Guid companyId)
         {
-            var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
+            //var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
 
-            string id = identity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
+            //string id = identity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
 
-            Guid userId = new Guid(id);
+            //Guid userId = new Guid(id);
 
-          
+            //Company company = db.Companies.Find(companyId);
 
-        
+            User companyUser = db.Users.FirstOrDefault(c => c.CompanyId == companyId);
+            ViewBag.CompanyTitle = companyUser.Company.Title;
+
+
             List<UserStage> userStages = db.UserStages.Include(u => u.RiskStatus)
-                .Where(u =>  u.IsDeleted == false).OrderByDescending(u => u.CreationDate)
+                .Where(u => u.UserId== companyUser.Id&& u.IsDeleted == false).OrderByDescending(u => u.CreationDate)
                 .Include(u => u.Stage).Include(u => u.User).ToList();
 
             List<UserStageListViewModel> stages = new List<UserStageListViewModel>();
@@ -159,7 +162,6 @@ namespace HSE.Controllers
 
                 if (user != null)
                 {
-                    ViewBag.CompanyTitle = user.Company.Title;
                     stages.Add(new UserStageListViewModel()
                     {
                         StageTitle = userStage.Stage.Title,

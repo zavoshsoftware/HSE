@@ -27,5 +27,26 @@ namespace Helpers
 
             return new User();
         }
+
+
+        public static List<User> GetCompanyUsersBySupervisor(Guid supUserId)
+        {
+            DatabaseContext db = new DatabaseContext();
+            var companies = db.Companies.Where(c => c.SupervisorUserId == supUserId);
+
+            List<User> users = new List<User>();
+
+            foreach (var company in companies)
+            {
+                var us = db.Users.Where(c => c.CompanyId == company.Id).ToList();
+
+                foreach (var user in us)
+                {
+                    users.Add(user);
+                }
+            }
+
+            return users;
+        }
     }
 }

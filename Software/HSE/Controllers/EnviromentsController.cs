@@ -20,11 +20,24 @@ namespace HSE.Controllers
         {
             List<CompanyType> companyTypes = db.CompanyTypes.Where(c => c.IsDeleted == false && c.IsActive).ToList();
             ViewBag.baseUrl = "Enviroments";
-            ViewBag.Title = "محیط زیست و سلامت";
+            ViewBag.Title = GetTitle(enviromentTypeId.ToString());
             ViewBag.enviromentTypeId = enviromentTypeId;
             return View(companyTypes);
         }
 
+        public string GetTitle(string enviromentTypeId)
+        {
+            if (enviromentTypeId == "5fe6b043-e89e-4e6c-9d08-63b8f53dacf4" ||
+                enviromentTypeId == "e0fc1ce2-cb91-4790-91cb-4665169ecb6d" ||
+                enviromentTypeId == "04cad662-c587-4439-bb00-42a6b6971110" ||
+                enviromentTypeId == "d666e68e-1112-40e0-bc0a-1e5a3789d045" ||
+                enviromentTypeId == "ba6c1d7d-5388-463e-9af6-9dfbe9e59963" ||
+                enviromentTypeId == "cce19caf-6e0e-4ead-8b3d-9f72d4986451" ||
+                enviromentTypeId == "4cf9a83c-e9c0-433f-8b6e-bb75b8268de7" ||
+                enviromentTypeId == "570458bc-a2f4-41b0-95f1-a55b5b65824d")
+                return "فهرست بهداشت";
+                return "فهرست محیط زیست";
+        }
 
         public ActionResult List(Guid? id, Guid enviromentTypeId)
         {
@@ -85,6 +98,8 @@ namespace HSE.Controllers
 
             ViewBag.companyId = companyId;
             ViewBag.enviromentTypeId = enviromentTypeId;
+            ViewBag.Title = GetTitle(enviromentTypeId.ToString());
+
             return View(enviroments.ToList());
         }
 
