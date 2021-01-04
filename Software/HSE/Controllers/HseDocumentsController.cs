@@ -27,7 +27,7 @@ namespace HSE.Controllers
         }
         public ActionResult List(Guid? id)
         {
-            List<Company> companies = db.Companies.Where(c =>c.CompanyTypeId==id&& c.IsDeleted == false && c.IsActive).OrderBy(c => c.Title).ToList();
+            List<Company> companies = db.Companies.Where(c => c.CompanyTypeId == id && c.IsDeleted == false && c.IsActive).OrderBy(c => c.Title).ToList();
 
             return View(companies);
         }
@@ -136,12 +136,14 @@ namespace HSE.Controllers
                 hseDocument.CompanyId = id;
                 hseDocument.IsActive = true;
                 hseDocument.UserId = new Guid(uid);
-                hseDocument.IsDeleted=false;
-				hseDocument.CreationDate= DateTime.Now; 
+                hseDocument.IsDeleted = false;
+                hseDocument.CreationDate = DateTime.Now;
                 hseDocument.Id = Guid.NewGuid();
                 db.HseDocuments.Add(hseDocument);
                 db.SaveChanges();
-                return RedirectToAction("Index",new{id=hseDocument.CompanyId});
+
+                Helpers.NotificationHelper.InsertNotificationForCompany(id, "راهبر", "/hsedocuments/IndexCompany/", "مدارک مهندسی HSE", "create");
+                return RedirectToAction("Index", new { id = hseDocument.CompanyId });
             }
 
             ViewBag.CompanyId = id;
@@ -161,13 +163,13 @@ namespace HSE.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CompanyId =   hseDocument.CompanyId ;
+            ViewBag.CompanyId = hseDocument.CompanyId;
             ViewBag.HseDocumentTypeId = new SelectList(db.HseDocumentTypes, "Id", "Title", hseDocument.HseDocumentTypeId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "Password", hseDocument.UserId);
             return View(hseDocument);
         }
 
-  
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(HseDocument hseDocument, HttpPostedFileBase fileupload)
@@ -191,17 +193,17 @@ namespace HSE.Controllers
                 #endregion
 
                 hseDocument.IsDeleted = false;
-				hseDocument.LastModifiedDate = DateTime.Now;
+                hseDocument.LastModifiedDate = DateTime.Now;
                 db.Entry(hseDocument).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index", new { id = hseDocument.CompanyId });
             }
-            ViewBag.CompanyId =   hseDocument.CompanyId ;
+            ViewBag.CompanyId = hseDocument.CompanyId;
             ViewBag.HseDocumentTypeId = new SelectList(db.HseDocumentTypes, "Id", "Title", hseDocument.HseDocumentTypeId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "Password", hseDocument.UserId);
             return View(hseDocument);
         }
- 
+
         public ActionResult Delete(Guid? id)
         {
             if (id == null)
@@ -217,17 +219,17 @@ namespace HSE.Controllers
 
             return View(hseDocument);
         }
-         
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
             HseDocument hseDocument = db.HseDocuments.Find(id);
-			hseDocument.IsDeleted=true;
-			hseDocument.DeletionDate=DateTime.Now;
- 
+            hseDocument.IsDeleted = true;
+            hseDocument.DeletionDate = DateTime.Now;
+
             db.SaveChanges();
-            return RedirectToAction("Index",new{id=hseDocument.CompanyId});
+            return RedirectToAction("Index", new { id = hseDocument.CompanyId });
         }
 
         protected override void Dispose(bool disposing)

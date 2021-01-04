@@ -15,7 +15,7 @@ ViewBag.Title = "فهرست شرکت های پیمانکار";
 									columns.Bound(model => model.CompanyType.Title).Title("نوع پیمانکار");
 									columns.Bound(model => model.SupervisorUser.FullName).Title("نام ناظر");
 									columns.Bound(model => model.IsActive);
-									columns.Bound(model => model.CreationDate);
+									columns.Bound(model => model.CreationDateStr);
 									columns.Bound(item => @item.Id).Title("دستورات").Filterable(false).Groupable(false)
 									.Template(@<text>
 									@Html.ActionLink("ویرایش", "Edit", new {id = @item.Id}, new {@class = "k-button"})

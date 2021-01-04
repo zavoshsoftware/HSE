@@ -180,6 +180,7 @@ namespace HSE.Controllers
                 db.SaveChanges();
                 Company co = db.Companies.Find(relation.CompanyId);
                 Helpers.NotificationHelper.InsertNotification(co.Title, "/relations/Index/" + relation.RelationTypeId, "ارتباطات");
+                Helpers.NotificationHelper.InsertNotificationForSup(co.Id,co.Title, "/relations/Index/" + relation.RelationTypeId, "ارتباطات");
 
                 return RedirectToAction("Index", new { id = id });
             }

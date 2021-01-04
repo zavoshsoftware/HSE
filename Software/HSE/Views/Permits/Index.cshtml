@@ -16,7 +16,7 @@
 				columns.Bound(model => model.PermitStatus.Title);
 				columns.Bound(model => model.PermitType.Title);
 				columns.Bound(model => model.SuperVisorComment);
-				columns.Bound(model => model.CreationDate);
+				columns.Bound(model => model.CreationDateStr);
 				columns.Bound(item => @item.Id).Title("دستورات").Filterable(false).Groupable(false)
 									.Template(@<text>
 											@if (!string.IsNullOrEmpty(item.FileUrl))

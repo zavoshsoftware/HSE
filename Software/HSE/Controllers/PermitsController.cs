@@ -203,6 +203,7 @@ namespace HSE.Controllers
                 db.SaveChanges();
 
                 Helpers.NotificationHelper.InsertNotification(user.Company.Title, "/permits/Index/" + companyId+ "?permitTypeId="+ id, "پرمیت");
+                Helpers.NotificationHelper.InsertNotificationForSup(user.CompanyId,user.Company.Title, "/permits/Index/" + companyId+ "?permitTypeId="+ id, "پرمیت");
 
                 return RedirectToAction("Index",new{ permitTypeId =id});
             }
@@ -332,6 +333,9 @@ namespace HSE.Controllers
                 permit.LastModifiedDate = DateTime.Now;
                 db.Entry(permit).State = EntityState.Modified;
                 db.SaveChanges();
+
+                Helpers.NotificationHelper.InsertNotificationForCompany(permit.CompanyId, "ناظر", "/permits?permitTypeId=" + permit.PermitTypeId, "پرمیت", "edit");
+
                 return RedirectToAction("Index", new { id = permit.CompanyId,permittypeid=permit.PermitTypeId });
             }
 

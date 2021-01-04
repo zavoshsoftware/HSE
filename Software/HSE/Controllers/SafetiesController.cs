@@ -144,6 +144,7 @@ namespace HSE.Controllers
                 Company co = db.Companies.Find(user.CompanyId);
 
                 Helpers.NotificationHelper.InsertNotification(co.Title, "/safety/adminindex/" + safety.SafetyTypeId+"/" + co.Id, "ایمنی");
+                Helpers.NotificationHelper.InsertNotificationForSup(co.Id,co.Title, "/safety/adminindex/" + safety.SafetyTypeId+"/" + co.Id, "ایمنی");
 
                 return RedirectToAction("Index", new { id = id });
             }

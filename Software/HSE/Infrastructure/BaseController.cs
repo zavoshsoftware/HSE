@@ -29,7 +29,7 @@ namespace HSE.Infrastructure
                 ViewBag.Name = user.FullName;
 
                 List<Notification> notifications = db.Notifications.Where(c =>c.UserId==user.Id&& c.IsVisited == false && c.IsDeleted == false).ToList();
-                ViewBag.notif = notifications;
+                ViewBag.notif = notifications.Take(6).ToList();
                 ViewBag.notifCount = notifications.Count();
             }
           

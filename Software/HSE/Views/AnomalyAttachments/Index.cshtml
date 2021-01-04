@@ -13,7 +13,7 @@ ViewBag.Title = "فهرست ";
               .Columns(columns =>
                   {
                         columns.Bound(model => model.Anomaly.Code);
-        columns.Bound(model => model.CreationDate);
+        columns.Bound(model => model.CreationDateStr);
 					columns.Bound(item => @item.Id).Title("دستورات").Filterable(false).Groupable(false)
 						.Template(@<text>
 							          <a href="@item.ImageUrl" target="_blank" class = "k-button">دانلود</a>

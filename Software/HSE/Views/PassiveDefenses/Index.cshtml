@@ -27,7 +27,7 @@
 
 													columns.Bound(model => model.IsAcceptBySup);
 													columns.Bound(model => model.SupComment);
-													columns.Bound(model => model.CreationDate);
+													columns.Bound(model => model.CreationDateStr);
 													columns.Bound(item => @item.Id).Title("دستورات").Filterable(false).Groupable(false).Template(@<text>
 															@if (ViewBag.roleName == "company")
 															{

@@ -14,7 +14,7 @@ ViewBag.Title = "فهرست صورت وضعیت های HSE" ;
                   {
                           columns.Bound(model => model.Company.Title);
         columns.Bound(model => model.Title);
-        columns.Bound(model => model.CreationDate);
+        columns.Bound(model => model.CreationDateStr);
 					columns.Bound(item => @item.Id).Title("دستورات").Filterable(false).Groupable(false)
 						.Template(@<text>
 							          <a target="_blank" href="../../@item.FileUrl" class = "k-button">دانلود</a>

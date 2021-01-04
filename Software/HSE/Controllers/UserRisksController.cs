@@ -456,6 +456,7 @@ namespace HSE.Controllers
                     User user = db.Users.Find(userId);
                    
                     Helpers.NotificationHelper.InsertNotification(user.Company.Title, "/userrisks/UserRiskList/" + user.CompanyId, "ارزیابی ریسک");
+                    Helpers.NotificationHelper.InsertNotificationForSup(user.CompanyId,user.Company.Title, "/UserStages/IndexForSupervisor?companyId=" + user.CompanyId, "ارزیابی ریسک");
 
                     return Json("true", JsonRequestBehavior.AllowGet);
 

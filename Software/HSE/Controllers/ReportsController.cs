@@ -18,6 +18,16 @@ namespace HSE.Controllers
     {
         private DatabaseContext db = new DatabaseContext();
 
+        public ActionResult CompanyTypeList(Guid reportTypeId)
+        {
+            List<CompanyType> companyTypes = db.CompanyTypes.Where(c => c.IsDeleted == false && c.IsActive).ToList();
+            ViewBag.baseUrl = "reports";
+            ViewBag.Title = "فهرست گزارشات دوره ای";
+            ViewBag.reportTypeId = reportTypeId;
+            return View(companyTypes);
+        }
+
+
         public ActionResult Index(Guid id)
         {
             ReportIndexViewModel reportIndex = new ReportIndexViewModel();
@@ -59,6 +69,48 @@ namespace HSE.Controllers
                         .ToList();
                 }
             }
+
+
+            ReportType reportType = db.ReportTypes.Find(id);
+
+            if (reportType != null)
+            {
+                if (reportType.Name == "daily")
+                    ViewBag.Title = "فهرست گزارش روزانه";
+
+                if (reportType.Name == "weekly")
+                    ViewBag.Title = "فهرست گزارش هفتگی";
+
+                if (reportType.Name == "monthly")
+                    ViewBag.Title = "فهرست گزارش ماهانه";
+
+
+                //ViewBag.sampleFile = reportType.SampleFile;
+            }
+
+            reportIndex.Reports = reports;
+            reportIndex.ReportTypes = db.ReportTypes.Where(c => c.ParentId == id && c.IsDeleted == false && c.IsActive)
+                .ToList();
+
+            return View(reportIndex);
+        }
+
+        public ActionResult List(Guid id,Guid reportTypeId)
+        {
+            ReportIndexViewModel reportIndex = new ReportIndexViewModel();
+
+            var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
+            string roleName = identity.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
+            List<Report> reports = new List<Report>();
+            Guid userId = new Guid(identity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value);
+            ViewBag.roleName = roleName;
+
+
+            reports = db.Reports.Include(r => r.Company).Where(r =>
+                    r.IsDeleted == false && r.ReportType.ParentId == reportTypeId &&
+                    r.CompanyId == id)
+                .OrderByDescending(r => r.CreationDate).Include(r => r.ReportType).Include(r => r.Status).ToList();
+       
 
 
             ReportType reportType = db.ReportTypes.Find(id);
@@ -178,6 +230,7 @@ namespace HSE.Controllers
 
                 Company co = db.Companies.Find(report.CompanyId);
                 Helpers.NotificationHelper.InsertNotification(co.Title, "/reports/index/" + report.ReportTypeId, "گزارشات دوره ای");
+                Helpers.NotificationHelper.InsertNotificationForSup(co.Id,co.Title, "/reports/index/" + report.ReportTypeId, "گزارشات دوره ای");
 
                 return RedirectToAction("Index", new { id = id });
             }

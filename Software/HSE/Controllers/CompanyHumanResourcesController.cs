@@ -205,6 +205,7 @@ namespace HSE.Controllers
                     db.SaveChanges();
 
                     NotificationHelper.InsertNotification(user.Company.Title, "/CompanyHumanResources/IndexAdmin/"+user.CompanyId.Value,"منابع انسانی");
+                    NotificationHelper.InsertNotificationForSup(user.CompanyId.Value,user.Company.Title, "/CompanyHumanResources/IndexAdmin/"+user.CompanyId.Value,"منابع انسانی");
                     return RedirectToAction("Index");
 
                 }

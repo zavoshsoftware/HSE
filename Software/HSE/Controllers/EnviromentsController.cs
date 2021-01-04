@@ -156,6 +156,7 @@ namespace HSE.Controllers
 
                 Company co = db.Companies.Find(enviroment.CompanyId);
                 Helpers.NotificationHelper.InsertNotification(co.Title, "/Enviroments/Index/" + enviroment.CompanyId + "?enviromentTypeId=" + enviromentTypeId, "محیط زیست");
+                Helpers.NotificationHelper.InsertNotificationForSup(co.Id,co.Title, "/Enviroments/Index/" + enviroment.CompanyId + "?enviromentTypeId=" + enviromentTypeId, "محیط زیست");
 
                 return RedirectToAction("Index", new { id = id, enviromentTypeId = enviromentTypeId });
             }
@@ -192,6 +193,9 @@ namespace HSE.Controllers
                 enviroment.LastModifiedDate = DateTime.Now;
                 db.Entry(enviroment).State = EntityState.Modified;
                 db.SaveChanges();
+
+                Helpers.NotificationHelper.InsertNotificationForCompany(enviroment.CompanyId, "ناظر", "/enviroments/index?enviromentTypeId=" + enviroment.EnviromentTypeId, "محیط زیست و بهداشت", "edit");
+
                 return RedirectToAction("Index", new { id = enviroment.CompanyId, enviromentTypeId = enviroment.EnviromentTypeId });
             }
 
@@ -206,5 +210,79 @@ namespace HSE.Controllers
             }
             base.Dispose(disposing);
         }
+
+
+
+        public ActionResult Edit(Guid? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Enviroment enviroment = db.Enviroments.Find(id);
+            if (enviroment == null)
+            {
+                return HttpNotFound();
+            }
+            return View(enviroment);
+        }
+
+      
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Enviroment enviroment, HttpPostedFileBase fileupload)
+        {
+            if (ModelState.IsValid)
+            {
+                if (fileupload != null)
+                {
+                    string filename = Path.GetFileName(fileupload.FileName);
+                    string newFilename = Guid.NewGuid().ToString().Replace("-", string.Empty)
+                                         + Path.GetExtension(filename);
+
+                    string newFilenameUrl = "/Uploads/enviroment/" + newFilename;
+                    string physicalFilename = Server.MapPath(newFilenameUrl);
+
+                    fileupload.SaveAs(physicalFilename);
+
+                    enviroment.FileUrl = newFilenameUrl;
+                    enviroment.PermitStatusId = db.PermitStatuses.FirstOrDefault(c => c.Code == 1).Id;
+                }
+
+                enviroment.IsDeleted = false;
+                enviroment.LastModifiedDate = DateTime.Now;
+                db.Entry(enviroment).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index", new { id = enviroment.CompanyId, enviromentTypeId = enviroment.EnviromentTypeId });
+            }
+            return View(enviroment);
+        }
+
+        public ActionResult Delete(Guid? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Enviroment enviroment = db.Enviroments.Find(id);
+            if (enviroment == null)
+            {
+                return HttpNotFound();
+            }
+            return View(enviroment);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(Guid id)
+        {
+            Enviroment enviroment = db.Enviroments.Find(id);
+            enviroment.IsDeleted = true;
+            enviroment.DeletionDate = DateTime.Now;
+
+            db.SaveChanges();
+            return RedirectToAction("Index", new { id = enviroment.CompanyId, enviromentTypeId = enviroment.EnviromentTypeId });
+        }
+
     }
 }

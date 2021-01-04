@@ -9,13 +9,23 @@
 
 		<div class="col-md-3" style="margin-top: 80px">
 			<div style="border: 1px solid cornflowerblue; text-align: center; padding: 20px">
-				@if (ViewBag.enviromentTypeId == null)
-				{
-					<a style="" href="/@ViewBag.baseUrl/list/@companyType.Id">@companyType.Title</a>
-				}
-				else
+			 
+				@if (ViewBag.enviromentTypeId != null)
 				{
 						<a style="" href="/@ViewBag.baseUrl/list/@companyType.Id?enviromentTypeId=@ViewBag.enviromentTypeId">@companyType.Title</a>
+				}
+			
+				else if (ViewBag.reportTypeId != null)
+				{
+						<a style="" href="/@ViewBag.baseUrl/list/@companyType.Id?reportTypeId=@ViewBag.reportTypeId">@companyType.Title</a>
+				}
+				else if (ViewBag.passiveDefenseTypeId != null)
+				{
+						<a style="" href="/@ViewBag.baseUrl/list/@companyType.Id?passiveDefenseTypeId=@ViewBag.passiveDefenseTypeId">@companyType.Title</a>
+				}
+				else 
+				{
+					<a style="" href="/@ViewBag.baseUrl/list/@companyType.Id">@companyType.Title</a>
 				}
 			</div>
 		</div>

@@ -151,6 +151,7 @@ namespace HSE.Controllers
 
                 Company co = db.Companies.Find(companyId);
                 Helpers.NotificationHelper.InsertNotification(co.Title, "/Equipments/IndexAdmin/" + companyId, "ماشین آلات و تجهیزات");
+                Helpers.NotificationHelper.InsertNotificationForSup(companyId, co.Title, "/Equipments/IndexAdmin/" + companyId, "ماشین آلات و تجهیزات");
 
                 return RedirectToAction("Index");
             }

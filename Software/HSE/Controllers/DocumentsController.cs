@@ -58,6 +58,14 @@ namespace HSE.Controllers
                 document.Id = Guid.NewGuid();
                 db.Documents.Add(document);
                 db.SaveChanges();
+
+               var companies = db.Companies.Where(c => c.IsDeleted == false&&c.IsActive).Select(c=>c.Id).ToList();
+                foreach (var company in companies)
+                {
+                    
+                Helpers.NotificationHelper.InsertNotificationForCompany(company, "راهبر", "/documents/index/"+id, "مستندات","create");
+                }
+
                 return RedirectToAction("Index",new{id=id});
             }
 

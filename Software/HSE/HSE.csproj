@@ -1234,6 +1234,10 @@
     <Compile Include="Migrations\202012121538413_V67.designer.cs">
       <DependentUpon>202012121538413_V67.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202101041216264_V68.cs" />
+    <Compile Include="Migrations\202101041216264_V68.designer.cs">
+      <DependentUpon>202101041216264_V68.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Entities\Covid.cs" />
     <Compile Include="Models\Entities\CovidStatus.cs" />
@@ -1789,6 +1793,18 @@
     <Content Include="Views\Covids\List.cshtml" />
     <Content Include="Views\Covids\CompanyTypeList.cshtml" />
     <Content Include="Views\Home\CovidDashboard.cshtml" />
+    <Content Include="Views\Home\AccidentDashboardForCompany.cshtml" />
+    <Content Include="Views\Home\AnomalyDashboardForCompany.cshtml" />
+    <Content Include="Views\Home\AccidentDashboardForSupervisor.cshtml" />
+    <Content Include="Views\Home\AnomalyDashboardForSupervisor.cshtml" />
+    <Content Include="Views\Home\CovidDashboardForSupervisor.cshtml" />
+    <Content Include="Views\Reports\CompanyTypeList.cshtml" />
+    <Content Include="Views\Reports\List.cshtml" />
+    <Content Include="Views\PassiveDefenses\CompanyTypeList.cshtml" />
+    <Content Include="Views\PassiveDefenses\List.cshtml" />
+    <Content Include="Views\Enviroments\Edit.cshtml" />
+    <Content Include="Views\Enviroments\Delete.cshtml" />
+    <Content Include="Views\Notifications\List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1802,6 +1818,7 @@
     <Folder Include="Uploads\companyContract\" />
     <Folder Include="Uploads\companyHumanResource\" />
     <Folder Include="Uploads\companyStatusReport\" />
+    <Folder Include="Uploads\contractRquirment\" />
     <Folder Include="Uploads\covid\" />
     <Folder Include="Uploads\doc\" />
     <Folder Include="Uploads\Editor\" />
@@ -1815,7 +1832,6 @@
     <Folder Include="Uploads\reports\" />
     <Folder Include="Uploads\safety\" />
     <Folder Include="Views\Convertor\" />
-    <Folder Include="Views\Notifications\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Resources\Resources.csproj">
@@ -2024,6 +2040,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202012121538413_V67.resx">
       <DependentUpon>202012121538413_V67.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101041216264_V68.resx">
+      <DependentUpon>202101041216264_V68.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

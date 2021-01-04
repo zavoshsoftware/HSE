@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Models.Notification>
+
+@{
+ViewBag.Title = "فهرست اعلان ها";
+    
+    Layout = "~/Views/Shared/BackEndLayout/_BackEndLayout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+        @(Html.Kendo().Grid(Model)
+              .Name("Grid")
+              .Columns(columns =>
+                  {
+                      columns.Bound(model => model.Title);
+                      columns.Bound(model => model.CreationDateStr);
+					columns.Bound(item => @item.Id).Title("دستورات").Filterable(false).Groupable(false)
+							.Template(@<text>
+							<a href="@item.Url"  class = "k-button">مشاهده</a>
+									</text>).Width(200);  
+		})
+	          
+		.DataSource(dataSource => dataSource
+									.Server()
+							
+									.Model(model => model.Id(item => item.Id))
+					)              
+	)

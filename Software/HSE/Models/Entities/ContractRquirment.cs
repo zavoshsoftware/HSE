@@ -65,6 +65,8 @@ namespace Models
             get { return TotalAmount.ToString("N0"); }
         }
 
+        [Display(Name="ضمیمه")]
+        public string FileUrl { get; set; }
         public virtual ICollection<RequirmentDetail> RequirmentDetails { get; set; }
     }
 }

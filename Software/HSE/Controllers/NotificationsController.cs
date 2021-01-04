@@ -7,7 +7,7 @@ using Models;
 
 namespace HSE.Controllers
 {
-    public class NotificationsController : Controller
+    public class NotificationsController : Infrastructure.BaseController
     {
         private DatabaseContext db = new DatabaseContext();
         public ActionResult Index(Guid id)
@@ -22,6 +22,20 @@ namespace HSE.Controllers
                 return Redirect(notification.Url);
             }
             return View();
+        }
+
+    [Authorize(Roles = "Administrator,company,supervisor")]
+        public ActionResult List()
+        {
+            var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
+            string uId = identity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
+
+            Guid userId = new Guid(uId);
+
+            var notifications = db.Notifications
+                .Where(c => c.UserId == userId && c.IsDeleted == false && c.IsVisited == false).ToList();
+           
+            return View(notifications);
         }
     }
 }

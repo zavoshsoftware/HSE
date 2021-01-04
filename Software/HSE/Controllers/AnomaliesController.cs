@@ -215,6 +215,9 @@ namespace HSE.Controllers
             {
                 ViewBag.StatusId = new SelectList(db.Status.Where(c => c.Order == 3 || c.Order == 4), "Id", "Title", anomaly.AnomalyResultId);
             }
+
+            Status st = db.Status.Find(anomaly.StatusId);
+            ViewBag.statuscode = st.Order;
             return View(anomaly);
         }
 
@@ -340,6 +343,10 @@ namespace HSE.Controllers
                 db.SaveChanges();
                 Company co = db.Companies.Find(anomaly.CompanyId);
                 Helpers.NotificationHelper.InsertNotification(co.Title, "/Anomalies/Indexadmin/" + co.Id, "عدم انطباق");
+                if(roleName == "company")
+                Helpers.NotificationHelper.InsertNotificationForSup(co.Id,co.Title, "/anomalies/index/", "عدم انطباق");
+                else
+                    Helpers.NotificationHelper.InsertNotificationForCompany(co.Id, co.Title, "/anomalies/index/", "عدم انطباق","create");
 
                 return RedirectToAction("Index");
             }

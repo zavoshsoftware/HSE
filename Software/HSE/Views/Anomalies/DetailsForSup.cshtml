@@ -264,7 +264,7 @@
 				string roleName = identity.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
 				if (roleName == "supervisor")
 				{
-					if (Model.Status.Order <= 2)
+					if (ViewBag.statuscode <= 2)
 					{
 								<div class="panel panel-primary">
 									<div class="panel-heading">

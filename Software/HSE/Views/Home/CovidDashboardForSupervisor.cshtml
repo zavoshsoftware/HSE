@@ -1,0 +1,209 @@
+﻿@model ViewModels.MdlDashboardViewModel
+
+<div class="panel  panel-primary">
+	<div class="panel-heading">انتخاب نوع پیمانکار</div>
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-md-6">
+				@Html.DropDownListFor(m => m.SelectedCompanyTypeId, Model.CompanyTypes, new { @class = "form-control" })
+			</div>
+		</div>
+	</div>
+
+
+	<div class="row">
+
+		<div class="col-md-6">
+			<div class="panel  panel-primary">
+				<div class="panel-heading">گزارش 2</div>
+				<div class="panel-body">
+					<div id="CovidListChartContainer">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="panel  panel-primary">
+				<div class="panel-heading">گزارش 2</div>
+				<div class="panel-body">
+					<div id="CovidListChartContainer2">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	@*<div class="row">
+			<div class="col-md-6">
+				<div class="panel  panel-primary">
+					<div class="panel-heading">گزارش 3</div>
+					<div class="panel-body">
+				<div id="accidentReasonActionChartContainer"></div>
+			</div>
+			</div>
+			</div>
+			<div class="col-md-6">
+				<div class="panel  panel-primary">
+					<div class="panel-heading">گزارش 4</div>
+					<div class="panel-body">
+				<div id="accidentReasonConditionChartContainer"></div>
+			</div>
+		</div>	</div>
+		</div>*@
+
+</div>
+
+
+@section scripts{
+	<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$("#SelectedCompanyTypeId").change(function () {
+				var companyTypeId = this.value;
+				window.location.href = "/Home/CovidDashboard?companyTypeId=" + companyTypeId;
+			});
+
+		});
+	</script>
+
+	<script type="text/javascript">
+		window.onload = function () {
+
+
+
+			var resultCovidList_Mobtala = @Html.Raw(ViewBag.DataPointsCovidByCompany_Mobtala);
+			var dataPointsCovidList_Mobtala = [];
+
+			var resultCovidList_Mashkook = @Html.Raw(ViewBag.DataPointsCovidByCompany_Mashkook);
+			var dataPointsCovidList_Mashkook = [];
+
+
+			var tot_Mashkook = 0;
+			for (var j = 0; j < resultCovidList_Mashkook.length; j++) {
+				dataPointsCovidList_Mashkook.push({
+					label: resultCovidList_Mashkook[j].Label,
+					y: resultCovidList_Mashkook[j].Y,
+					legendText: resultCovidList_Mashkook[j].Label
+				});
+				tot_Mashkook += resultCovidList_Mashkook[j].Y;
+			}
+
+			var tot = 0;
+			for (var j = 0; j < resultCovidList_Mobtala.length; j++) {
+				dataPointsCovidList_Mobtala.push({
+					label: resultCovidList_Mobtala[j].Label,
+					y: resultCovidList_Mobtala[j].Y,
+					legendText: resultCovidList_Mobtala[j].Label
+				});
+				tot += resultCovidList_Mobtala[j].Y;
+			}
+
+			var chart = new CanvasJS.Chart("CovidListChartContainer", {
+				animationEnabled: true,
+				title:{
+					text: "گزارش ابتلا به کرونا"
+				},
+				axisY: {
+					title: "تعداد مبتلا",
+					titleFontColor: "#4F81BC",
+					lineColor: "#4F81BC",
+					labelFontColor: "#4F81BC",
+					tickColor: "#4F81BC"
+				},
+				axisY2: {
+					title: "تعداد مشکوک",
+					titleFontColor: "#C0504E",
+					lineColor: "#C0504E",
+					labelFontColor: "#C0504E",
+					tickColor: "#C0504E"
+				},
+
+				data: [{
+					type: "column",
+					showInLegend: true,
+					legendMarkerColor: "#4F81BC",
+					legendText: "مبتلا",
+					dataPoints: dataPointsCovidList_Mobtala
+				},{
+					type: "column",
+					showInLegend: true,
+					legendMarkerColor: "#C0504E",
+					legendText: "مشکوک",
+					dataPoints: dataPointsCovidList_Mashkook
+				}]
+			});
+			chart.render();
+
+
+
+
+
+
+			var resultCovidList_Bimar = @Html.Raw(ViewBag.DataPointsCovidByCompany_Bimar);
+			var dataPointsCovidList_Bimar = [];
+
+			var resultCovidList_Behbod = @Html.Raw(ViewBag.DataPointsCovidByCompany_Behbod);
+			var dataPointsCovidList_Behbod = [];
+
+
+			var tot_Behbod = 0;
+			for (var j = 0; j < resultCovidList_Behbod.length; j++) {
+				dataPointsCovidList_Behbod.push({
+					label: resultCovidList_Behbod[j].Label,
+					y: resultCovidList_Behbod[j].Y,
+					legendText: resultCovidList_Behbod[j].Label
+				});
+				tot_Behbod += resultCovidList_Behbod[j].Y;
+			}
+
+			var tot2 = 0;
+			for (var j = 0; j < resultCovidList_Bimar.length; j++) {
+				dataPointsCovidList_Bimar.push({
+					label: resultCovidList_Bimar[j].Label,
+					y: resultCovidList_Bimar[j].Y,
+					legendText: resultCovidList_Bimar[j].Label
+				});
+				tot2 += resultCovidList_Bimar[j].Y;
+			}
+
+			var chart2 = new CanvasJS.Chart("CovidListChartContainer2", {
+				animationEnabled: true,
+				title:{
+					text: "گزارش وضعیت مبتلایان به کرونا"
+				},
+				axisY: {
+					title: "تعداد بیمار",
+					titleFontColor: "#4F81BC",
+					lineColor: "#4F81BC",
+					labelFontColor: "#4F81BC",
+					tickColor: "#4F81BC"
+				},
+				axisY2: {
+					title: "تعداد بهبودیافته",
+					titleFontColor: "#C0504E",
+					lineColor: "#C0504E",
+					labelFontColor: "#C0504E",
+					tickColor: "#C0504E"
+				},
+
+				data: [{
+					type: "column",
+					showInLegend: true,
+					legendMarkerColor: "#4F81BC",
+					legendText: "بیمار",
+					dataPoints: dataPointsCovidList_Bimar
+				},{
+					type: "column",
+					showInLegend: true,
+					legendMarkerColor: "#C0504E",
+					legendText: "بهبود یافته",
+					dataPoints: dataPointsCovidList_Behbod
+				}]
+			});
+			chart2.render();
+
+		}
+	</script>
+}
+

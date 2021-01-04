@@ -23,7 +23,12 @@ ViewBag.Title = "فهرست قراردادها" ;
 	{
 		@Html.ActionLink("ویرایش", "Edit", new {id = @item.Id}, new {@class = "k-button"})
 		@Html.ActionLink("حذف", "Delete", new {id = @item.Id}, new {@class = "k-button"})
+	
 	}
+							          @if (!string.IsNullOrEmpty(item.FileUrl))
+							          {
+							          <a href="@item.FileUrl" target="_blank" class="k-button">دانلود ضمیمه</a>
+							          }
 							         
 						           </text>).Width(200);  
 		})

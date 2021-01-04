@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -70,16 +71,30 @@ namespace HSE.Controllers
             return View();
         }
 
-        // POST: ContractRquirments/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+ 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,ProjectTitle,Code,ContractDate,StartDate,CompanyId,TotalAmount,IsActive,CreationDate,LastModifiedDate,IsDeleted,DeletionDate,Description")] ContractRquirment contractRquirment)
+        public ActionResult Create(ContractRquirment contractRquirment, HttpPostedFileBase fileupload)
         {
             if (ModelState.IsValid)
             {
-				contractRquirment.IsDeleted=false;
+                #region Upload and resize image if needed
+                if (fileupload != null)
+                {
+                    string filename = Path.GetFileName(fileupload.FileName);
+                    string newFilename = Guid.NewGuid().ToString().Replace("-", string.Empty)
+                                         + Path.GetExtension(filename);
+
+                    string newFilenameUrl = "/Uploads/contractRquirment/" + newFilename;
+                    string physicalFilename = Server.MapPath(newFilenameUrl);
+
+                    fileupload.SaveAs(physicalFilename);
+
+                    contractRquirment.FileUrl = newFilenameUrl;
+                }
+                #endregion
+
+                contractRquirment.IsDeleted=false;
 				contractRquirment.CreationDate= DateTime.Now; 
                 contractRquirment.Id = Guid.NewGuid();
                 db.ContractRquirments.Add(contractRquirment);
@@ -107,16 +122,29 @@ namespace HSE.Controllers
             return View(contractRquirment);
         }
 
-        // POST: ContractRquirments/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,ProjectTitle,Code,ContractDate,StartDate,CompanyId,TotalAmount,IsActive,CreationDate,LastModifiedDate,IsDeleted,DeletionDate,Description")] ContractRquirment contractRquirment)
+        public ActionResult Edit(ContractRquirment contractRquirment, HttpPostedFileBase fileupload)
         {
             if (ModelState.IsValid)
             {
-				contractRquirment.IsDeleted = false;
+                #region Upload and resize image if needed
+                if (fileupload != null)
+                {
+                    string filename = Path.GetFileName(fileupload.FileName);
+                    string newFilename = Guid.NewGuid().ToString().Replace("-", string.Empty)
+                                         + Path.GetExtension(filename);
+
+                    string newFilenameUrl = "/Uploads/contractRquirment/" + newFilename;
+                    string physicalFilename = Server.MapPath(newFilenameUrl);
+
+                    fileupload.SaveAs(physicalFilename);
+
+                    contractRquirment.FileUrl = newFilenameUrl;
+                }
+                #endregion
+
+                contractRquirment.IsDeleted = false;
 				contractRquirment.LastModifiedDate = DateTime.Now;
                 db.Entry(contractRquirment).State = EntityState.Modified;
                 db.SaveChanges();

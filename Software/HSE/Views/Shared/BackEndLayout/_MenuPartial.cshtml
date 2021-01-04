@@ -339,31 +339,31 @@
 								</a>
 								<ul class="nav lt">
 									<li>
-										<a href="/reports/index/A3BB9AAD-AC29-4576-83D9-189DFD63169A">
+										<a href="/reports/companyTypelist?reportTypeId=A3BB9AAD-AC29-4576-83D9-189DFD63169A">
 											<i class="fa fa-angle-left"></i><span>مشاهده گزارش روزانه</span>
 										</a>
 									</li>
 
 									<li>
-										<a href="/reports/index/B8DED980-DCA3-4FEF-8080-41DD6770CC75">
+										<a href="/reports/companyTypelist?reportTypeId=B8DED980-DCA3-4FEF-8080-41DD6770CC75">
 											<i class="fa fa-angle-left"></i><span>مشاهده گزارش هفتگی</span>
 										</a>
 									</li>
 
 									<li>
-										<a href="/reports/index/8A7FA15D-15EF-4C33-85ED-C24024D51C1E">
+										<a href="/reports/companyTypelist?reportTypeId=8A7FA15D-15EF-4C33-85ED-C24024D51C1E">
 											<i class="fa fa-angle-left"></i><span>مشاهده گزارش ماهانه</span>
 										</a>
 									</li>
 
 									<li>
-										<a href="/reports/index/ef72e5ab-4637-4ff5-beaa-dd9bf2908140">
+										<a href="/reports/companyTypelist?reportTypeId=ef72e5ab-4637-4ff5-beaa-dd9bf2908140">
 											<i class="fa fa-angle-left"></i><span>مشاهده گزارش سه ماه</span>
 										</a>
 									</li>
 
 									<li>
-										<a href="/reports/index/a66c8850-7bfa-469d-9c34-049ca836e79a">
+										<a href="/reports/companyTypelist?reportTypeId=a66c8850-7bfa-469d-9c34-049ca836e79a">
 											<i class="fa fa-angle-left"></i><span>مشاهده گزارش سالانه</span>
 										</a>
 									</li>
@@ -377,19 +377,19 @@
 								</a>
 								<ul class="nav lt">
 									<li>
-										<a href="/PassiveDefenses/index/679ea9ec-e580-41d8-a831-82eecb127519">
+										<a href="/PassiveDefenses/companyTypelist?passiveDefenseTypeId=679ea9ec-e580-41d8-a831-82eecb127519">
 											<i class="fa fa-angle-left"></i><span>جدول زمان بندی مانورها</span>
 										</a>
 									</li>
 
 									<li>
-										<a href="/PassiveDefenses/index/034aca75-5eeb-4801-a8a7-54ac51dfe962">
+										<a href="/PassiveDefenses/companyTypelist?passiveDefenseTypeId=034aca75-5eeb-4801-a8a7-54ac51dfe962">
 											<i class="fa fa-angle-left"></i><span>مدارک مربوط به مانورها</span>
 										</a>
 									</li>
 
 									<li>
-										<a href="/PassiveDefenses/index/54c6b6bd-7c26-4ec6-856c-5de0034810ca">
+										<a href="/PassiveDefenses/companyTypelist?passiveDefenseTypeId=54c6b6bd-7c26-4ec6-856c-5de0034810ca">
 											<i class="fa fa-angle-left"></i><span>Muster Point</span>
 										</a>
 									</li>
@@ -428,6 +428,42 @@
 
 						if (roleName == "supervisor")
 						{
+							<li id="blogLi" class="menuitem">
+								<a href="#">
+									<i class="fa fa-sitemap icon"><b class="bg-primary"></b></i><span class="pull-right"><i class="fa fa-angle-down text"></i><i class="fa fa-angle-up text-active"></i></span><span>داشبورد</span>
+								</a>
+								<ul class="nav lt">
+									<li>
+										<a href="/home/AccidentDashboardForSupervisor?companyTypeId=7ad2584a-913a-4d72-8bdd-99969c0f5ece">
+											<i class="fa fa-angle-left"></i><span>داشبورد ثبت حوادث</span>
+										</a>
+									</li>
+
+									<li>
+										<a href="/home/AnomalyDashboardForSupervisor?companyTypeId=7ad2584a-913a-4d72-8bdd-99969c0f5ece">
+											<i class="fa fa-angle-left"></i><span>داشبود عدم انطباق ها</span>
+										</a>
+									</li>
+									<li>
+										<a href="/Home/CovidDashboardForSupervisor?companyTypeId=7ad2584a-913a-4d72-8bdd-99969c0f5ece">
+											<i class="fa fa-angle-left"></i><span>داشبود مبتلایان کرونا</span>
+										</a>
+									</li>
+									@*	<li>
+										<a href="/projects">
+											<i class="fa fa-angle-left"></i><span>مدیریت پروژه ها</span>
+										</a>
+									</li>
+
+									<li>
+										<a href="/operations">
+											<i class="fa fa-angle-left"></i><span>مدیریت عملیات ها</span>
+										</a>
+									</li>*@
+
+								</ul>
+							</li>
+
 							<li class="menuitem"><a href="/hsedocuments/ListSupervisor"><i class="fa fa-cogs icon"><b class="bg-info"></b></i><span>مدارک مهندسی HSE</span></a></li>
 							<li id="blogLi" class="menuitem">
 								<a href="#">
@@ -689,8 +725,6 @@
 										</a>
 									</li>
 
-						 
-
 								</ul>
 							</li>
 							<li id="blogLi" class="menuitem">
@@ -762,6 +796,27 @@
 
 							if (roleName == "company")
 							{
+								<li id="blogLi" class="menuitem">
+									<a href="#">
+										<i class="fa fa-sitemap icon"><b class="bg-primary"></b></i><span class="pull-right"><i class="fa fa-angle-down text"></i><i class="fa fa-angle-up text-active"></i></span><span>داشبورد</span>
+									</a>
+									<ul class="nav lt">
+										<li>
+											<a href="/home/AccidentDashboardForCompany">
+												<i class="fa fa-angle-left"></i><span>داشبورد حوادث</span>
+											</a>
+										</li> 
+
+										<li>
+											<a href="/home/AnomalyDashboardForCompany">
+												<i class="fa fa-angle-left"></i><span>داشبود انطباق ها</span>
+											</a>
+										</li>
+						 
+
+									</ul>
+								</li>
+
 									<li class="menuitem"><a href="/hsedocuments/IndexCompany"><i class="fa fa-cogs icon"><b class="bg-info"></b></i><span>مدارک مهندسی HSE</span></a></li>
 								<li id="blogLi" class="menuitem">
 									<a href="#">
@@ -1124,7 +1179,7 @@
 								<li class="menuitem"><a href="/progressgroups/ProgressGroupList"><i class="fa fa-cogs icon"><b class="bg-info"></b></i><span>گزارشات پیشرفت WBS</span></a></li>
 								<li class="menuitem"><a href="/covids"><i class="fa fa-cogs icon"><b class="bg-info"></b></i><span>ثبت آمار کرونا</span></a></li>
 
-								<li class="menuitem"><a href="/ContractRquirments"><i class="fa fa-cogs icon"><b class="bg-info"></b></i><span>ثبت گزارش WBS</span></a></li>
+								<li class="menuitem"><a href="/ContractRquirments"><i class="fa fa-cogs icon"><b class="bg-info"></b></i><span>مشاهده قرارداد</span></a></li>
 
 							@*<li class="menuitem"><a href="/WbsRequirments/Details"><i class="fa fa-cogs icon"><b class="bg-info"></b></i><span>الزامات پشتیبان WBS HSE & PD </span></a></li>*@
 						}

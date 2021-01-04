@@ -16,10 +16,22 @@ namespace HSE.Controllers
     {
         private DatabaseContext db = new DatabaseContext();
 
-        public ActionResult Index(Guid id)
+
+        public ActionResult CompanyTypeList(Guid passiveDefenseTypeId)
+        {
+            List<CompanyType> companyTypes = db.CompanyTypes.Where(c => c.IsDeleted == false && c.IsActive).ToList();
+            ViewBag.baseUrl = "PassiveDefenses";
+            ViewBag.Title = "فهرست مدیریت بحران و پدافند غیرعامل";
+            ViewBag.passiveDefenseTypeId = passiveDefenseTypeId;
+            return View(companyTypes);
+        }
+
+
+
+        public ActionResult List(Guid id, Guid passiveDefenseTypeId)
         {
             var passiveDefenses = db.PassiveDefenses.Include(p => p.Company)
-                .Where(p => p.PassiveDefenseTypeId == id && p.IsDeleted == false).OrderByDescending(p => p.CreationDate)
+                .Where(p => p.PassiveDefenseTypeId == passiveDefenseTypeId&&p.Company.CompanyTypeId==id && p.IsDeleted == false).OrderByDescending(p => p.CreationDate)
                 .Include(p => p.PassiveDefenseType);
 
             PassiveDefenseType passiveDefenseType = db.PassiveDefenseTypes.Find(id);
@@ -31,6 +43,38 @@ namespace HSE.Controllers
             if (passiveDefenseType != null)
                 ViewBag.typeTitle = passiveDefenseType.Title;
 
+            return View(passiveDefenses.ToList());
+        }
+
+        public ActionResult Index(Guid id)
+        {
+            var passiveDefenses = db.PassiveDefenses.Include(p => p.Company)
+                .Where(p => p.PassiveDefenseTypeId == id && p.IsDeleted == false).OrderByDescending(p => p.CreationDate)
+                .Include(p => p.PassiveDefenseType);
+
+            PassiveDefenseType passiveDefenseType = db.PassiveDefenseTypes.Find(id);
+
+            var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
+            string roleName = identity.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
+            ViewBag.roleName = roleName;
+            Guid userId = new Guid(identity.FindFirst(System.Security.Claims.ClaimTypes.Name).Value);
+
+            if (passiveDefenseType != null)
+                ViewBag.typeTitle = passiveDefenseType.Title;
+
+
+ 
+            if (roleName == "supervisor")
+            {
+                User user = db.Users.FirstOrDefault(current => current.Id == userId);
+
+                if (user != null)
+                {
+                    passiveDefenses = db.PassiveDefenses.Include(r => r.Company).Where(r =>
+                            r.IsDeleted == false && r.PassiveDefenseTypeId == id && r.Company.SupervisorUserId == user.Id)
+                        .OrderByDescending(r => r.CreationDate).Include(r => r.PassiveDefenseType);
+                }
+            }
             return View(passiveDefenses.ToList());
         }
 
@@ -100,6 +144,7 @@ namespace HSE.Controllers
 
                 Company co = db.Companies.Find(passiveDefense.CompanyId);
                 Helpers.NotificationHelper.InsertNotification(co.Title, "/PassiveDefenses/index/" + passiveDefense.PassiveDefenseTypeId, "پدافند غیرعامل");
+                Helpers.NotificationHelper.InsertNotificationForSup(co.Id,co.Title, "/PassiveDefenses/index/" + passiveDefense.PassiveDefenseTypeId, "پدافند غیرعامل");
 
                 return RedirectToAction("Index", new { id = id });
             }
